@@ -53,8 +53,8 @@ dir_2_eRO_sat = os.path.join(root_dir, "cat_AGN_sat")
 
 dir_2_SMPT = os.path.join(root_dir, "cat_AGN_SIMPUT")
 
-if os.path.isdir(dir_2_SMPT)==False:
-	os.system('mkdir -p '+dir_2_SMPT)
+if not os.path.isdir(dir_2_SMPT):
+	os.makedirs(dir_2_SMPT)
 
 N_pixels = healpy.nside2npix(8)
 for HEALPIX_id in n.arange(N_pixels):
@@ -152,7 +152,7 @@ for HEALPIX_id in n.arange(N_pixels):
 
 	outf = fits.HDUList([fits.PrimaryHDU(), hdu ])  # ,  ])    
 	if os.path.isfile(path_2_SMPT_catalog):
-		os.system("rm "+path_2_SMPT_catalog)
+		os.unlink(path_2_SMPT_catalog)
 	outf.writeto(path_2_SMPT_catalog, overwrite=True)
 	print(path_2_SMPT_catalog, 'written', time.time()-t0)
 
@@ -164,9 +164,9 @@ for HEALPIX_id in n.arange(N_pixels):
 		c2=""" cmd='select "n_energy_bins=={}"' """.format(neb)
 		c3=" omode=out ofmt=fits out={}".format(path_2_SMPT_catalog_slice)
 		print(c1 + c2 + c3)
-		os.system(c1 + c2 + c3)
+		subprocess.check_call(c1 + c2 + c3)
 
-	os.system('rm '+ path_2_SMPT_catalog)
+	os.unlink(path_2_SMPT_catalog)
 
 	#print('check for missing templates')
 	## check that all spectra are there
