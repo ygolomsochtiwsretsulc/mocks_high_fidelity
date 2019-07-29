@@ -118,9 +118,8 @@ path_2_sat_galaxy_files = sorted(
                 test_dir,
                 '*_galaxy.h5'))))
 
-baseNames = n.array([os.path.basename(path_2_sat_galaxy_file)[:-10]
-                     for path_2_sat_galaxy_file in path_2_sat_galaxy_files])
-baseNames.sort()
+baseNames = sorted(n.array([os.path.basename(path_2_sat_galaxy_file)[
+                   :-10] for path_2_sat_galaxy_file in path_2_sat_galaxy_files]))
 
 # loop over all these files to create fit catalogs of galaxies around
 # clusters in 2 rvir angular
