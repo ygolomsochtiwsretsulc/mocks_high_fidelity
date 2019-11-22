@@ -48,8 +48,7 @@ $GIT_AGN_MOCK/figures/$environmentVAR/galaxy/
 It makes relevant histograms and scatter plots for all columns present in the new file.
 
 """
-import sys
-import os
+import sys, os, scipy
 from scipy.special import erf
 from scipy.stats import norm
 from scipy.interpolate import interp1d
@@ -75,6 +74,19 @@ test_dir = os.path.join(os.environ[env], 'hlists', 'fits')
 path_2_light_cone = os.path.join(test_dir, baseName + '.fits')
 path_2_coordinate_file = os.path.join(test_dir, baseName + '_coordinates.h5')
 path_2_galaxy_file = os.path.join(test_dir, baseName + '_galaxy.h5')
+
+
+def get_a(baseName):
+    alp = baseName.split('_')[1]
+    print('a=', alp)
+    return float(alp)
+
+a_snap = get_a(baseName)
+
+if a_snap < 0.40:
+    fraction = 0.3
+else:
+    fraction = 1.0
 
 # simulation setup
 if env == "MD10" or env == "MD04":
@@ -199,7 +211,7 @@ ngal, M, phi, Err = n.loadtxt(os.path.join(
     os.environ['GIT_AGN_MOCK'], 'data', 'LF_loveday_2015', 'lf.txt'), unpack=True)
 Schechter_M_z = interp1d(M, phi * 0.7**3.)
 mrange = n.arange(-24.6, -12.2, 0.01)
-total_number = n.cumsum(Schechter_M_z(mrange)) * volume
+total_number = n.cumsum(Schechter_M_z(mrange)) * volume * fraction
 print('total_number', total_number)
 
 rds = norm.rvs(loc=0, scale=0.15, size=N_galaxies)

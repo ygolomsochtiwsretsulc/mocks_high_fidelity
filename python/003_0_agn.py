@@ -140,7 +140,7 @@ f3.close()
 print('computes duty cycle ', time.time() - t0)
 # duty cycle measured from Georgakakis 2017
 f_duty = interp1d(
-    n.array([0., 0.75, 2., 3.5, 6.1]),
+    n.array([0., 0.75, 2., 3.5, 10.1]),
     ##n.array([0.1, 0.2, 0.25, 0.25, 0.25])
     n.array([0.1, 0.2, 0.3, 0.3, 0.3])
 )

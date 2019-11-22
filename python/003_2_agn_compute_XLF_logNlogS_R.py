@@ -87,13 +87,14 @@ agn_catalog_list = sorted(
                 'cat_AGN_' +
                 ftyp,
                 '*.fit'))))
-galaxy_catalog_list = sorted(n.array(
+galaxy_catalog_list = n.array(
     glob.glob(
         os.path.join(
             os.environ[env],
             'cat_GALAXY_' +
             ftyp,
-            '*.fit'))))
+            '*.fit')))
+galaxy_catalog_list.sort()
 
 fig_dir = os.path.join(root_dir, 'figures')
 logNlogS_dir = os.path.join(root_dir, 'logNlogS')

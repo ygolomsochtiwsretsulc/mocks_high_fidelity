@@ -127,7 +127,7 @@ XS.AllModels(1).setPars(pars)
 
 for nH in n.arange(20, 26.2, 0.2):
     XS.AllModels(1).plcabs.nH = 10**(nH - 22)
-    for z in n.arange(0, 6.1, 0.1):
+    for z in n.arange(6.0, 6.2, 0.1):
         XS.AllModels(1).plcabs.Redshift = z
         for nb in 2**n.arange(2, 11):
             filename = 'NH' + str(n.round(nH, 1)) + '_Z' + \

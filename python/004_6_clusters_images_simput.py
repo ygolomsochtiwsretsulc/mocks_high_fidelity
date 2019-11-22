@@ -100,84 +100,83 @@ fig_dir = os.path.join(
 if os.path.isdir(fig_dir) == False:
     os.system('mkdir -p ' + fig_dir)
 
-# Ghirardini et al. 2019
-# equation 7 f^2(x) = ne^2(x)
-# x = R/R500c
+## Ghirardini et al. 2019
+## equation 7 f^2(x) = ne^2(x)
+## x = R/R500c
+
+#def ne2(x, n0, rc, alpha, beta, rs, epsilon, gamma=3.): return n0**2. * ((x / rc)**(- alpha) / (1 +
+                                                                                                #x**2. / rc**2.)**(3. * beta - alpha / 2.)) * (1. / (1. + x**gamma / rs**gamma) ** (epsilon / gamma))
 
 
-def ne2(x, n0, rc, alpha, beta, rs, epsilon, gamma=3.): return n0**2. * ((x / rc)**(- alpha) / (1 +
-                                                                                                x**2. / rc**2.)**(3. * beta - alpha / 2.)) * (1. / (1. + x**gamma / rs**gamma) ** (epsilon / gamma))
+## cool core profile
+#n0_cc = n.e**-3.9
+#rc_cc = n.e**-3.2
+#rs_cc = n.e**0.17
+#alpha_cc = 0.80
+#beta_cc = 0.49
+#epsilon_cc = 4.67
 
 
-# cool core profile
-n0_cc = 10**-3.9
-rc_cc = 10**-3.2
-rs_cc = 10**0.17
-alpha_cc = 0.80
-beta_cc = 0.49
-epsilon_cc = 4.67
+#def ne2_cc(x): return ne2(
+    #x,
+    #n0_cc,
+    #rc_cc,
+    #alpha_cc,
+    #beta_cc,
+    #rs_cc,
+    #epsilon_cc)
 
 
-def ne2_cc(x): return ne2(
-    x,
-    n0_cc,
-    rc_cc,
-    alpha_cc,
-    beta_cc,
-    rs_cc,
-    epsilon_cc)
+## Non cool core profile
+#n0_ncc = n.e**-4.9
+#rc_ncc = n.e**-2.7
+#rs_ncc = n.e**-0.51
+#alpha_ncc = 0.70
+#beta_ncc = 0.39
+#epsilon_ncc = 2.6
 
 
-# Non cool core profile
-n0_ncc = 10**-4.9
-rc_ncc = 10**-2.7
-rs_ncc = 10**-0.51
-alpha_ncc = 0.70
-beta_ncc = 0.39
-epsilon_ncc = 2.6
+#def ne2_ncc(x): return ne2(
+    #x,
+    #n0_ncc,
+    #rc_ncc,
+    #alpha_ncc,
+    #beta_ncc,
+    #rs_ncc,
+    #epsilon_ncc)
 
 
-def ne2_ncc(x): return ne2(
-    x,
-    n0_ncc,
-    rc_ncc,
-    alpha_ncc,
-    beta_ncc,
-    rs_ncc,
-    epsilon_ncc)
+## surface brightness integration
+#def fun_cc(x, xi=0.1): return x * ne2_cc(x) * (x**2. - xi**2.)**(-0.5)
 
 
-# surface brightness integration
-def fun_cc(x, xi=0.1): return x * ne2_cc(x) * (x**2. - xi**2.)**(-0.5)
+#def fun_ncc(x, xi=0.1): return x * ne2_ncc(x) * (x**2. - xi**2.)**(-0.5)
 
 
-def fun_ncc(x, xi=0.1): return x * ne2_ncc(x) * (x**2. - xi**2.)**(-0.5)
+#def itg_cc(xi): return xi * quad(fun_cc, xi, 2, args=(xi))[0]
 
 
-def itg_cc(xi): return xi * quad(fun_cc, xi, 2, args=(xi))[0]
+#def itg_ncc(xi): return xi * quad(fun_ncc, xi, 2, args=(xi))[0]
 
 
-def itg_ncc(xi): return xi * quad(fun_ncc, xi, 2, args=(xi))[0]
-
-
-# angular bins, in fraction of theta_500c
-# n.array([0.001, 0.01, 0.07, 0.13, 0.21, 0.31, 0.46, 0.72, 1.15])
-xis = 10**n.arange(-3, 0.3, 0.1)
-#delta_xis = xis[1:]-xis[:-1]
-F_cc_xi = n.array([itg_cc(xi_i) for xi_i in xis])
-F_ncc_xi = n.array([itg_ncc(xi_i) for xi_i in xis])
-# interpolation, x axis: 1 rvir = 40 pixels
-#                               = 40 * 5.5e-04 # degrees
-rc_pixels = 40.
-rc_arcseconds = rc_pixels * 5.5e-04 * 3600  # arc seconds
-F_cc_xi_itp = interp1d(
-    n.hstack((0., xis, 10.)) * 40,
-    n.hstack((F_cc_xi[0], F_cc_xi, 0.))
-)
-F_ncc_xi_itp = interp1d(
-    n.hstack((0., xis, 10.)) * 40,
-    n.hstack((F_ncc_xi[0], F_ncc_xi, 0.))
-)
+## angular bins, in fraction of theta_500c
+## n.array([0.001, 0.01, 0.07, 0.13, 0.21, 0.31, 0.46, 0.72, 1.15])
+#xis = 10**n.arange(-3, 0.3, 0.1)
+##delta_xis = xis[1:]-xis[:-1]
+#F_cc_xi = n.array([itg_cc(xi_i) for xi_i in xis])
+#F_ncc_xi = n.array([itg_ncc(xi_i) for xi_i in xis])
+## interpolation, x axis: 1 rvir = 40 pixels
+##                               = 40 * 5.5e-04 # degrees
+#rc_pixels = 40.
+#rc_arcseconds = rc_pixels * 5.5e-04 * 3600  # arc seconds
+#F_cc_xi_itp = interp1d(
+    #n.hstack((0., xis, 10.)) * 40,
+    #n.hstack((F_cc_xi[0], F_cc_xi, 0.))
+#)
+#F_ncc_xi_itp = interp1d(
+    #n.hstack((0., xis, 10.)) * 40,
+    #n.hstack((F_ncc_xi[0], F_ncc_xi, 0.))
+#)
 
 
 #fig_out = os.path.join(fig_dir, 'SB_profiles.png')
@@ -200,6 +199,11 @@ F_ncc_xi_itp = interp1d(
 # normalize the flux to the catalogs
 # truncate to 2xr500c
 #
+
+# read the profiles from the matrix and creates a set of images with ellipticities. 
+
+F_cc_xi_itp = 
+F_ncc_xi_itp = 
 
 n_pixel = 120
 matrix = n.zeros((n_pixel, n_pixel))
@@ -314,7 +318,10 @@ for HEALPIX_id in n.arange(N_pixels):
     orientation = n.random.rand(N_clu_all) * 180.  # IMGROTA
 
     arcsec_p_kpc = cosmo.arcsec_per_kpc_comoving(redshift).value
-    pixel_rescaling = rc_arcseconds / (arcsec_p_kpc * HALO_rvir)  # IMGSCALE
+    # verify the conversion from V. profile to virial radius
+    core_to_virial_conversion = 0.25
+    pixel_rescaling = rc_arcseconds / \
+        (arcsec_p_kpc * HALO_rvir * core_to_virial_conversion)  # IMGSCALE
     #print('pixel_rescaling', pixel_rescaling, pixel_rescaling.min(), pixel_rescaling.max())
     pixel_rescaling[pixel_rescaling < 0.001] = 0.001
     # NOW ASSIGNS TEMPLATES BASED ON THE HALO PROPERTIES
@@ -367,7 +374,7 @@ for HEALPIX_id in n.arange(N_pixels):
     hdu_cols = fits.ColDefs([
         # ,fits.Column(name="SRC_NAME" , format='10A', unit='', array =  n.arange(len(hd_all[1].data['ra'])).astype('str') )
         fits.Column(name="SRC_ID", format='K', unit='', array=(n.arange(N_clu_all) + 4e8).astype('int')), fits.Column(name="RA", format='D', unit='deg', array=ra_array), fits.Column(name="DEC", format='D', unit='deg', array=dec_array), fits.Column(name="E_MIN", format='D', unit='keV', array=n.ones(N_clu_all) * 0.5), fits.Column(name="E_MAX", format='D', unit='keV', array=n.ones(N_clu_all) * 2.0), fits.Column(name="FLUX", format='D', unit='erg/s/cm**2', array=FX_soft_attenuated), fits.Column(name="IMAGE", format='100A', unit='', array=template), fits.Column(name="SPECTRUM", format='100A', unit='', array=spec_names)        # ,fits.Column(name= "n_energy_bins"  , format='K', unit='', array = data_n_e_b)
-        , fits.Column(name="IMGROTA", format='K', unit='deg', array=orientation), fits.Column(name="IMGSCAL", format='K', unit='', array=pixel_rescaling)
+        , fits.Column(name="IMGROTA", format='D', unit='deg', array=orientation), fits.Column(name="IMGSCAL", format='D', unit='', array=pixel_rescaling)
     ])
 
     hdu = fits.BinTableHDU.from_columns(hdu_cols)

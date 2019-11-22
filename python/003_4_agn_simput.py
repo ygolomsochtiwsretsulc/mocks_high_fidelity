@@ -39,13 +39,10 @@ t0 = time.time()
 
 env = sys.argv[1]  # 'MD04'
 f_sat = float(sys.argv[2])  # 0.2
-laptop = sys.argv[3]
-print(env, f_sat, laptop)
+#laptop = sys.argv[3]
+print(env, f_sat) #, laptop)
 
-if laptop == "True":
-    stilts_cmd = 'java -jar /home/comparat/software/stilts.jar'
-else:
-    stilts_cmd = 'stilts'
+stilts_cmd = 'stilts'
 
 root_dir = os.path.join(os.environ[env])
 
@@ -54,8 +51,21 @@ dir_2_eRO_sat = os.path.join(root_dir, "cat_AGN_sat")
 
 dir_2_SMPT = os.path.join(root_dir, "cat_AGN_SIMPUT")
 
-if not os.path.isdir(dir_2_SMPT):
-    os.makedirs(dir_2_SMPT)
+if os.path.isdir(dir_2_SMPT) == False:
+    os.system('mkdir -p ' + dir_2_SMPT)
+
+# eRosita flux limits
+path_2_flux_limits = os.path.join(
+    os.environ['GIT_AGN_MOCK'],
+    "data",
+    "erosita",
+    "flux_limits.fits")
+
+flux_lim_data = fits.open(path_2_flux_limits) 
+#flux_limit_eRASS3, flux_limit_eRASS8, flux_limit_SNR3
+FX_LIM = flux_lim_data[1].data['flux_limit_SNR3']
+NSIDE512 = 512
+print('flux limit file opened', time.time() - t0)
 
 N_pixels = healpy.nside2npix(8)
 for HEALPIX_id in n.arange(N_pixels):
@@ -65,6 +75,9 @@ for HEALPIX_id in n.arange(N_pixels):
         dir_2_eRO_sat, str(HEALPIX_id).zfill(6) + '.fit')
     path_2_SMPT_catalog = os.path.join(
         dir_2_SMPT, 'SIMPUT_' + str(HEALPIX_id).zfill(6) + '.fit')
+    print('=================================================================')
+    print(path_2_eRO_all_catalog, path_2_eRO_sat_catalog, path_2_SMPT_catalog)
+
 
     hd_all = fits.open(path_2_eRO_all_catalog)
     hd_sat = fits.open(path_2_eRO_sat_catalog)
@@ -72,13 +85,45 @@ for HEALPIX_id in n.arange(N_pixels):
     N_agn_sat = len(hd_sat[1].data['ra'])
     N_sat = int(N_agn_all * f_sat)
     N_all = int(N_agn_all * (1 - f_sat))
+    
+    indexes_all = (n.arange(N_agn_all) + 1e9 ).astype('int')
+    indexes_sat = (n.arange(N_agn_sat) + 2e9 ).astype('int')
 
     rd_all = n.random.rand(N_agn_all)
     rd_sat = n.random.rand(N_agn_sat)
 
-    sel_all = (rd_all < 1 - f_sat)
-    sel_sat = (rd_sat < N_sat * 1. / N_agn_sat)
+    # FLUX limit in the X-ray
+    # cen
+    hp512cen = healpy.ang2pix(
+        NSIDE512,
+        hd_all[1].data['ra'],
+        hd_all[1].data['dec'],
+        nest=True,
+        lonlat=True)
+    FX_LIM_value_cen = 10**(FX_LIM[hp512cen]-2)
+    detected_all = (hd_all[1].data['AGN_FX_soft'] > FX_LIM_value_cen)
+    # sat
+    hp512sat = healpy.ang2pix(
+        NSIDE512,
+        hd_sat[1].data['ra'],
+        hd_sat[1].data['dec'],
+        nest=True,
+        lonlat=True)
+    FX_LIM_value_sat = 10**FX_LIM[hp512sat]
+    detected_sat = (hd_sat[1].data['AGN_FX_soft'] > FX_LIM_value_sat)
 
+    # overall selection of central and satellites
+    sel_all = (rd_all < 1 - f_sat) & (detected_all)
+    sel_sat = (rd_sat < N_sat * 1. / N_agn_sat) & (detected_sat)
+    
+    # stacking dara arrays 
+    # indexes
+    data_indexes = n.hstack(
+        (indexes_all[sel_all],
+         indexes_sat[sel_sat]))
+   
+    # indexes_all
+    # NH
     data_nh = n.hstack(
         (hd_all[1].data['AGN_Nh'][sel_all],
          hd_sat[1].data['AGN_Nh'][sel_sat]))
@@ -100,7 +145,7 @@ for HEALPIX_id in n.arange(N_pixels):
 
     n_e_bins = 2**n.arange(2, 11)
 
-    n_total = int(512e6 / (1.1 * N_pixels))
+    n_total = int(512e6)  # /(1.1*N_pixels))
     n_allowed = (n_total / n_e_bins).astype('int')[::-1] - 100
 
     FX_array = n.hstack(
@@ -136,17 +181,18 @@ for HEALPIX_id in n.arange(N_pixels):
               512e6 / n_e_val,
               data_n_e_b[selection])
 
-    # str(np.round(nH,1))+'_Z_'+str(np.round(z,1))+'_N_'+str(int(nb))+'.fits
-    s1 = 'agn/spectra/AGN_NH_'
+    # NH24.2_Z3.9_1024.fits
+    # 'NH'+str(n.round(nH,1))+'_Z'+str(n.round(z,1))+'_N'+str(int(nb))+'.fits'
+    s1 = 'agn_Xspectra/NH'
     str_nh = n.array(data_nh.astype('str'), dtype=n.object)
-    s2 = '_Z_'
+    s2 = '_Z'
     str_z = n.array(data_z.astype('str'), dtype=n.object)
-    s3 = '_N_'
+    s3 = '_N'
     str_n_e_b = n.array(data_n_e_b.astype('str'), dtype=n.object)
     s4 = '.fits' + """[SPECTRUM][#row==1]"""
 
     tpl = s1 + str_nh + s2 + str_z + s3 + str_n_e_b + s4
-
+    print(tpl)
     # /afs/mpe/www/people/comparat/eROSITA_AGN_mock/spectra/Xray/spectra/
     # 'agn/spectra/agn_nH_21.6_z_4.1_nEbins_539.fits[SPECTRUM][#row==1]'
 
@@ -154,7 +200,7 @@ for HEALPIX_id in n.arange(N_pixels):
 
     hdu_cols = fits.ColDefs([
         # ,fits.Column(name="SRC_NAME" , format='10A', unit='', array =  n.arange(len(hd_all[1].data['ra'])).astype('str') )
-        fits.Column(name="SRC_ID", format='K', unit='', array=n.arange(N_agn_out)), fits.Column(name="RA", format='D', unit='deg', array=ra_array), fits.Column(name="DEC", format='D', unit='deg', array=dec_array), fits.Column(name="E_MIN", format='D', unit='keV', array=n.ones(N_agn_out) * 0.5), fits.Column(name="E_MAX", format='D', unit='keV', array=n.ones(N_agn_out) * 2.0), fits.Column(name="FLUX", format='D', unit='erg/s/cm**2', array=FX_array), fits.Column(name="SPECTRUM", format='100A', unit='', array=tpl), fits.Column(name="n_energy_bins", format='K', unit='', array=data_n_e_b)
+        fits.Column(name="SRC_ID", format='K', unit='', array=data_indexes), fits.Column(name="RA", format='D', unit='deg', array=ra_array), fits.Column(name="DEC", format='D', unit='deg', array=dec_array), fits.Column(name="E_MIN", format='D', unit='keV', array=n.ones(N_agn_out) * 0.5), fits.Column(name="E_MAX", format='D', unit='keV', array=n.ones(N_agn_out) * 2.0), fits.Column(name="FLUX", format='D', unit='erg/s/cm**2', array=FX_array), fits.Column(name="SPECTRUM", format='100A', unit='', array=tpl), fits.Column(name="n_energy_bins", format='K', unit='', array=data_n_e_b)
     ])
 
     hdu = fits.BinTableHDU.from_columns(hdu_cols)
@@ -168,7 +214,7 @@ for HEALPIX_id in n.arange(N_pixels):
 
     outf = fits.HDUList([fits.PrimaryHDU(), hdu])  # ,  ])
     if os.path.isfile(path_2_SMPT_catalog):
-        os.unlink(path_2_SMPT_catalog)
+        os.system("rm " + path_2_SMPT_catalog)
     outf.writeto(path_2_SMPT_catalog, overwrite=True)
     print(path_2_SMPT_catalog, 'written', time.time() - t0)
 
@@ -184,9 +230,9 @@ for HEALPIX_id in n.arange(N_pixels):
         c2 = """ cmd='select "n_energy_bins=={}"' """.format(neb)
         c3 = " omode=out ofmt=fits out={}".format(path_2_SMPT_catalog_slice)
         print(c1 + c2 + c3)
-        subprocess.check_call(c1 + c2 + c3)
+        os.system(c1 + c2 + c3)
 
-    os.unlink(path_2_SMPT_catalog)
+    os.system('rm ' + path_2_SMPT_catalog)
 
     #print('check for missing templates')
     # check that all spectra are there

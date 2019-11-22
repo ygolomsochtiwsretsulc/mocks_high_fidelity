@@ -21,14 +21,16 @@ import time, os, sys, numpy, scipy, astropy, h5py, astropy_healpix, matplotlib
 
 
 """
-from astropy_healpix import healpy
-import sys
-import os
-import time
+import sys, os, time, astropy, h5py
+
+if sys.version[0]=='2':
+    import healpy
+if sys.version[0]=='3':
+    from astropy_healpix import healpy
+
 import astropy.units as u
 from astropy.cosmology import FlatLambdaCDM
 import astropy.io.fits as fits
-import h5py
 import numpy as n
 print('CREATES GALAXY FITS FILES')
 print('------------------------------------------------')
@@ -127,7 +129,7 @@ for HEALPIX_32_id in n.arange(healpy.nside2npix(8)):
                         name="ecl_lon", format='D', unit='degree', array=ecl_lon[sf])            # distances
             # extinction maps
             # Galaxy properties
-            , fits.Column(name="redshift_R", format='D', unit='real space', array=zzr[sf]), fits.Column(name="redshift_S", format='D', unit='redshift space', array=zzs[sf]), fits.Column(name="dL_cm", format='D', unit='cm', array=dL_cm[sf]), fits.Column(name="galactic_NH", format='D', unit='cm-2', array=galactic_NH[sf]), fits.Column(name="galactic_ebv", format='D', unit='mag', array=galactic_ebv[sf]), fits.Column(name="galaxy_stellar_mass", format='D', unit='log10(M/[M_sun])', array=galaxy_stellar_mass[sf]), fits.Column(name="galaxy_star_formation_rate", format='D', unit='log10(SFR/[M_sun/year])', array=galaxy_star_formation_rate[sf]), fits.Column(name="galaxy_LX_hard", format='D', unit='log10(LX (2-10keV)/[erg/s])', array=galaxy_LX_hard[sf])            # Dark matter halo
+            , fits.Column(name="redshift_R", format='D', unit='real space', array=zzr[sf]), fits.Column(name="redshift_S", format='D', unit='redshift space', array=zzs[sf]), fits.Column(name="dL_cm", format='D', unit='cm', array=dL_cm[sf]), fits.Column(name="galactic_NH", format='D', unit='cm-2', array=galactic_NH[sf]), fits.Column(name="galactic_ebv", format='D', unit='mag', array=galactic_ebv[sf]), fits.Column(name="galaxy_stellar_mass", format='D', unit='log10(M/[M_sun])', array=galaxy_stellar_mass[sf]), fits.Column(name="galaxy_star_formation_rate", format='D', unit='log10(SFR/[M_sun/year])', array=galaxy_star_formation_rate[sf]), fits.Column(name="galaxy_LX_hard", format='D', unit='log10(LX (2-10keV)/[erg/s])', array=galaxy_LX_hard[sf]), fits.Column(name="galaxy_mag_r", format='D', unit='mag', array=galaxy_mag_r[sf])            # Dark matter halo
             ##
             , fits.Column(name="HALO_M500c", format='D', unit='log10(M/[M_sun])', array=n.log10(M500c[sf])), fits.Column(name="HALO_Mvir", format='D', unit='log10(M/[M_sun])', array=n.log10(Mvir[sf])), fits.Column(name="HALO_halo_id", format='K', unit='', array=halo_id[sf]), fits.Column(name="HALO_pid", format='K', unit='', array=halo_host_id[sf])
 

@@ -48,13 +48,16 @@ It makes relevant histograms and scatter plots for all columns present in the ne
 Dependencies
 ------------
 
-import time, os, sys, numpy, scipy, astropy, h5py, extinction, dustmaps, matplotlib
+import time, os, sys, numpy, scipy, astropy, h5py, dustmaps, matplotlib
 
 
 """
-from astropy_healpix import healpy
-import sys
-import os
+import sys, os
+print(int(sys.version[0]))
+if int(sys.version[0])==2:
+    import healpy
+if sys.version[0]=='3':
+    from astropy_healpix import healpy
 from dustmaps.planck import PlanckQuery
 from dustmaps.config import config
 from astropy.coordinates import SkyCoord

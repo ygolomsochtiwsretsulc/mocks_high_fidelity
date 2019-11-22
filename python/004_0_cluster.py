@@ -29,6 +29,45 @@ Dependencies
 
 import time, os, sys, numpy, scipy, astropy, h5py, extinction, matplotlib
 
+
+244 objects : 
+
+182 XXL, 
+49 HIFLUGS
+12 XCOP
+
+
+# correlated random variables 
+# https://scipy-cookbook.readthedocs.io/items/CorrelatedRandomSamples.html
+# import numpy as np
+from scipy.linalg import eigh, cholesky
+from scipy.stats import norm
+# Choice of cholesky or eigenvector method.
+method = 'cholesky'
+#method = 'eigenvectors'
+# The desired covariance matrix.
+r = np.array([
+        [  0.36, 0.49],
+        [  0.49,  0.19],
+    ])
+
+# Generate samples from three independent normally distributed random
+# variables (with mean 0 and std. dev. 1).
+x = norm.rvs(size=(3, N_clu))
+
+# We need a matrix `c` for which `c*c^T = r`.  We can use, for example,
+# the Cholesky decomposition, or the we can construct `c` from the
+# eigenvectors and eigenvalues.
+
+if method == 'cholesky':
+    # Compute the Cholesky decomposition.
+    c = cholesky(r, lower=True)
+
+# Convert the data to correlated random variables. 
+y = np.dot(c, x)
+
+
+
 """
 from astropy_healpix import healpy
 import sys
@@ -172,7 +211,6 @@ def SR_3(m500, z): return 4.12 * 1e44 * (m500 / M_pivot) ** 1.89 * \
 def SR_4(m500, z): return 2.84 * 1e44 * (m500 / M_pivot) ** 1.60 * \
     (cosmo.efunc(z) / E_pivot)**2.0 * ((1 + z) / (1 + z_pivot))**(-0.1)
 
-
 #
 TX_BB_18_cin = SR_0(M500c[cluster], zz)
 TX_BB_18_cex = SR_1(M500c[cluster], zz)
@@ -221,6 +259,9 @@ delta_t_values_itp = interp1d(delta_t_hist[1], delta_t_fraction)
 # if coolness is long, then it is relaxed
 coolness = delta_t_values_itp(delta_t_MM)
 
+
+# implement correlated scatter for quantities
+# as of now it is 100% correlated (false)
 
 # writes the results
 print('writes results', time.time() - t0)

@@ -96,41 +96,65 @@ if os.path.isdir(fig_dir) == False:
 # READ red sequence DATA
 # ==============================
 red_seq_dir = os.path.join(os.environ['GIT_AGN_MOCK'], 'data', 'redSequence')
-path_2_f1 = os.path.join(red_seq_dir, 'sdss_cal_iter1_pars.fit')
-path_2_f2 = os.path.join(red_seq_dir, 'sdss_cal_zspec_redgals_model.fit')
+#path_2_f1 = os.path.join(red_seq_dir, 'sdss_cal_iter1_pars.fit')
+#path_2_f2 = os.path.join(red_seq_dir, 'sdss_cal_zspec_redgals_model.fit')
+path_2_f1 = os.path.join(red_seq_dir, 'sdss_cal_iter1_pars_2019.08.27.fit')
+path_2_f2 = os.path.join(red_seq_dir, 'sdss_cal_zspec_redgals_model.2019.08.27.fit')
 
 f1 = fits.open(path_2_f1)
 f2 = fits.open(path_2_f2)
 
 redshift_RS = f2[1].data['nodes'][0]
 ug_RS = f2[1].data['meancol'].T[0].T[0]
-gr_RS = f2[1].data['meancol'].T[1].T[0]
-ri_RS = f2[1].data['meancol'].T[2].T[0]
-iz_RS = f2[1].data['meancol'].T[3].T[0]
+gr_RS = f2[1].data['meancol'].T[1].T[0][:7]
+ri_RS = f2[1].data['meancol'].T[2].T[0][:10]
+iz_RS = f2[1].data['meancol'].T[3].T[0][:12]
 
 ug_sigma_RS = f2[1].data['meancol_scatter'].T[0].T[0]
-gr_sigma_RS = f2[1].data['meancol_scatter'].T[1].T[0]
-ri_sigma_RS = f2[1].data['meancol_scatter'].T[2].T[0]
-iz_sigma_RS = f2[1].data['meancol_scatter'].T[3].T[0]
+gr_sigma_RS = f2[1].data['meancol_scatter'].T[1].T[0][:7]
+ri_sigma_RS = f2[1].data['meancol_scatter'].T[2].T[0][:10]
+iz_sigma_RS = f2[1].data['meancol_scatter'].T[3].T[0][:12]
 
 ug_RS_itp = interp1d(n.hstack((0., redshift_RS, 2.0)),
                      n.hstack((ug_RS[0], ug_RS, ug_RS[-1])))
-gr_RS_itp = interp1d(n.hstack((0., redshift_RS, 2.0)),
+gr_RS_itp = interp1d(n.hstack((0., redshift_RS[:7], 2.0)),
                      n.hstack((gr_RS[0], gr_RS, gr_RS[-1])))
-ri_RS_itp = interp1d(n.hstack((0., redshift_RS, 2.0)),
+ri_RS_itp = interp1d(n.hstack((0., redshift_RS[:10], 2.0)),
                      n.hstack((ri_RS[0], ri_RS, ri_RS[-1])))
-iz_RS_itp = interp1d(n.hstack((0., redshift_RS, 2.0)),
+iz_RS_itp = interp1d(n.hstack((0., redshift_RS[:12], 2.0)),
                      n.hstack((iz_RS[0], iz_RS, iz_RS[-1])))
 
 ug_sigma_RS_itp = interp1d(n.hstack((0., redshift_RS, 2.0)), n.hstack(
     (ug_sigma_RS[0], ug_sigma_RS, ug_sigma_RS[-1])))
-gr_sigma_RS_itp = interp1d(n.hstack((0., redshift_RS, 2.0)), n.hstack(
+gr_sigma_RS_itp = interp1d(n.hstack((0., redshift_RS[:7], 2.0)), n.hstack(
     (gr_sigma_RS[0], gr_sigma_RS, gr_sigma_RS[-1])))
-ri_sigma_RS_itp = interp1d(n.hstack((0., redshift_RS, 2.0)), n.hstack(
+ri_sigma_RS_itp = interp1d(n.hstack((0., redshift_RS[:10], 2.0)), n.hstack(
     (ri_sigma_RS[0], ri_sigma_RS, ri_sigma_RS[-1])))
-iz_sigma_RS_itp = interp1d(n.hstack((0., redshift_RS, 2.0)), n.hstack(
+iz_sigma_RS_itp = interp1d(n.hstack((0., redshift_RS[:12], 2.0)), n.hstack(
     (iz_sigma_RS[0], iz_sigma_RS, iz_sigma_RS[-1])))
 
+"""
+import matplotlib.pyplot as p
+
+fig_out = os.path.join(red_seq_dir, 'red_sequence_2019_08_27.png')
+
+p.figure(1, (6., 6.))
+
+p.errorbar(redshift_RS[:7], gr_RS, xerr=0.05, yerr=gr_sigma_RS, label='g-r')
+p.errorbar(redshift_RS[:10], ri_RS, xerr=0.05, yerr=ri_sigma_RS, label='r-i')
+p.errorbar(redshift_RS[:12], iz_RS, xerr=0.05, yerr=iz_sigma_RS, label='i-z')
+
+p.legend(frameon=False)
+# p.title('z='+str(z_cluster))
+p.xlabel('redshift')
+p.ylabel('color')
+p.grid()
+# p.ylim((0,1.1))
+# p.yscale('log')
+# p.xscale('log')
+p.savefig(fig_out)
+p.clf()
+"""
 # ==============================
 # Luminosity function model
 # ==============================
@@ -407,11 +431,17 @@ sdss_g_temp = mag_abs_r_HAM + DM2 + gr_all
 sdss_r_temp = mag_abs_r_HAM + DM2
 sdss_i_temp = mag_abs_r_HAM + DM2 - ri_all
 sdss_z_temp = mag_abs_r_HAM + DM2 - ri_all - iz_all
+# conver to flux
+def get_sigma_m(depth_10_sigma, sdss_temp):
+	limiting_flux = 2.5 * 10**(-0.4 * (depth_10_sigma)) / n.log(10)/10.
+	observed_flux = 2.5 * 10**(-0.4 * (sdss_temp)) / n.log(10)
+	return 2.5 * limiting_flux / observed_flux / n.log(10)
+
 # their uncertainty
-sdss_g_err = 2.5 * 10**(-0.4 * (depth_10_sigma_g - sdss_g_temp)) / n.log(10)
-sdss_r_err = 2.5 * 10**(-0.4 * (depth_10_sigma_r - sdss_r_temp)) / n.log(10)
-sdss_i_err = 2.5 * 10**(-0.4 * (depth_10_sigma_i - sdss_i_temp)) / n.log(10)
-sdss_z_err = 2.5 * 10**(-0.4 * (depth_10_sigma_z - sdss_z_temp)) / n.log(10)
+sdss_g_err = get_sigma_m(depth_10_sigma_g, sdss_g_temp)
+sdss_r_err = get_sigma_m(depth_10_sigma_r, sdss_r_temp)
+sdss_i_err = get_sigma_m(depth_10_sigma_i, sdss_i_temp)
+sdss_z_err = get_sigma_m(depth_10_sigma_z, sdss_z_temp)
 # assign uncertainty=0 outside of the SDSS footprint
 sdss_g_err[sdss_g_err == n.inf] = 0
 sdss_r_err[sdss_r_err == n.inf] = 0
@@ -423,6 +453,9 @@ print('SDSS magnitude errors computed',
       sdss_i_err[:10],
       sdss_z_err[:10],
       time.time() - t0)
+
+#s1 = (sdss_i_temp>21.3)&(sdss_i_temp<21.4)&(sdss_i_err>0)
+#print(n.median(sdss_i_err[s1]) )
 
 # random variable in a norm distribution with sigma = 1
 
