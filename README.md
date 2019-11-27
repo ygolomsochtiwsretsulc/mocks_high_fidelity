@@ -30,3 +30,36 @@ MultiDark :
 
 UNIT :
  - http://www.unitsims.org/
+
+### Mock catalogs
+
+The generated mock catalogs are available here :
+
+http://www.mpe.mpg.de/~comparat/MultiDark/MD10/
+
+Two figures illustrate the multiple tracers in the redshift vs stellar mass or fiber magnitude:
+
+figures/fibermagnitude-redshift.png  
+
+figures/stellarMass-redshift.png
+
+The MASK_BIT column is defined as follows :
+
+ 'des': 0,
+ 'kidss': 1,
+ 'kidsn': 2,
+ 'atlassgcnotdes': 3,
+ 'atlasngc': 4,
+ 'kabs': 5,
+ 'vhsb10': 6,
+ 'vhsb15': 7,
+ 'vhsb20': 8,
+ 'vhsb20clean': 9,
+ 'desi': 10,
+ 'erosita': 11,
+ 'waveswide': 12,
+ 'euclid': 13,
+ 's8elg': 14,
+ 's8': 15
+
+
