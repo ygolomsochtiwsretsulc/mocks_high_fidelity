@@ -65,8 +65,8 @@ if laptop == "True":
 else:
     stilts_cmd = 'stilts'
 
-test_dir = os.path.join(os.environ[env], 'hlists', 'fits')
-tmp_dir = os.path.join(os.environ[env], 'hlists', 'fits', 'tmp')
+test_dir = os.path.join(os.environ[env], 'fits')
+tmp_dir = os.path.join(os.environ[env], 'fits', 'tmp')
 if os.path.isdir(tmp_dir) == False:
     os.system('mkdir -p ' + tmp_dir)
 
@@ -116,7 +116,7 @@ path_2_sat_galaxy_files = sorted(
         glob.glob(
             os.path.join(
                 test_dir,
-                '*_galaxy.h5'))))
+                '*_galaxy.fits'))))
 
 baseNames = n.array([os.path.basename(path_2_sat_galaxy_file)[:-10]
                      for path_2_sat_galaxy_file in path_2_sat_galaxy_files])
@@ -151,24 +151,24 @@ def get_data(
     f1 = h5py.File(path_2_galaxy_file, 'r')
     galaxy_stellar_mass = f1['galaxy/SMHMR_mass'][:]
     galaxy_star_formation_rate = f1['galaxy/star_formation_rate'][:]
-    galaxy_LX_hard = f1['galaxy/LX_hard'][:]
-    galaxy_mag_r = f1['galaxy/mag_r'][:]
-    galaxy_mag_abs_r = f1['galaxy/mag_abs_r'][:]
-    is_quiescent = f1['galaxy/is_quiescent'][:]
+    galaxy_LX_hard = f1['galaxy/LX_hard']
+    galaxy_mag_r = f1['galaxy/mag_r']
+    galaxy_mag_abs_r = f1['galaxy/mag_abs_r']
+    is_quiescent = f1['galaxy/is_quiescent']
     f1.close()
 
     f2 = h5py.File(path_2_coordinate_file, 'r')
-    ra = f2['/coordinates/ra'][:]
-    dec = f2['/coordinates/dec'][:]
-    zzr = f2['/coordinates/redshift_R'][:]
-    zzs = f2['/coordinates/redshift_S'][:]
-    dL_cm = f2['/coordinates/dL'][:]
-    galactic_NH = f2['/coordinates/NH'][:]
-    galactic_ebv = f2['/coordinates/ebv'][:]
-    g_lat = f2['/coordinates/g_lat'][:]
-    g_lon = f2['/coordinates/g_lon'][:]
-    ecl_lat = f2['/coordinates/ecl_lat'][:]
-    ecl_lon = f2['/coordinates/ecl_lon'][:]
+    ra = f2[1].data['ra']
+    dec = f2[1].data['dec']
+    zzr = f2[1].data['redshift_R']
+    zzs = f2[1].data['redshift_S']
+    dL_cm = f2[1].data['dL']
+    galactic_NH = f2['nH']
+    galactic_ebv = f2[1].data['ebv']
+    g_lat = f2[1].data['g_lat']
+    g_lon = f2[1].data['g_lon']
+    ecl_lat = f2[1].data['ecl_lat']
+    ecl_lon = f2[1].data['ecl_lon']
     N_galaxies = len(zzr)
     f2.close()
 
@@ -230,8 +230,8 @@ hdu_col_array = []
 for baseName in baseNames[::-1]:
     path_2_light_cone = os.path.join(test_dir, baseName + '.fits')
     path_2_coordinate_file = os.path.join(
-        test_dir, baseName + '_coordinates.h5')
-    path_2_galaxy_file = os.path.join(test_dir, baseName + '_galaxy.h5')
+        test_dir, baseName + '_coordinates.fits')
+    path_2_galaxy_file = os.path.join(test_dir, baseName + '_galaxy.fits')
     path_2_out_file = os.path.join(
         tmp_dir, baseName + '_galaxiesAroundClusters.fit')
 

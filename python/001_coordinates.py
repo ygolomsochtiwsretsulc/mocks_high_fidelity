@@ -38,7 +38,7 @@ It will find the input file :
 $environmentVAR/hlists/fits/${fileBasename}.fits
 
 And will write outputs in h5 format:
-$environmentVAR/hlists/fits/${fileBasename}_coordinates.h5
+$environmentVAR/hlists/fits/${fileBasename}_coordinates.fits
 
 Figures (Optional)
 if the variable 'make_figure' is set to True, then figures will be created in the git repo here :
@@ -52,6 +52,8 @@ import time, os, sys, numpy, scipy, astropy, h5py, dustmaps, matplotlib
 
 
 """
+# import python packages
+
 import sys, os
 print(int(sys.version[0]))
 if int(sys.version[0])==2:
@@ -65,6 +67,7 @@ from astropy import wcs
 from scipy.interpolate import interp1d
 import h5py
 import astropy.io.fits as fits
+from astropy.table import Table, Column
 import numpy as n
 import time
 print('Adds coordinates')
@@ -76,7 +79,7 @@ env = sys.argv[1]  # 'MD04'
 baseName = sys.argv[2]  # "sat_0.62840"
 print(env, baseName)
 make_figure = True
-make_figure = False
+#make_figure = False
 
 # Data file dependencies
 path_2_NH_map = '/data17s/darksim/observations/h1_maps/H14PI/asu.fit'
@@ -85,10 +88,10 @@ path_2_planck_EBV_map = '/data17s/darksim/observations/dust_maps/'
 # this directory must contain this file a planck directory that contains :
 # HFI_CompMap_ThermalDustModel_2048_R1.20.fits
 
-test_dir = os.path.join(os.environ[env], 'hlists', 'fits')
+test_dir = os.path.join(os.environ[env], 'fits')
 
 path_2_light_cone = os.path.join(test_dir, baseName + '.fits')
-path_2_coordinate_file = os.path.join(test_dir, baseName + '_coordinates.h5')
+path_2_coordinate_file = os.path.join(test_dir, baseName + '_coordinates.fits')
 
 # X-ray K-correction and attenuation curves
 path_2_hard_RF_obs_soft = os.path.join(
@@ -108,7 +111,7 @@ path_2_NH_attenuation = os.path.join(
     'gal_nh_ratio_relation_newg16.dat')
 
 # simulation setup
-if env == "MD10" or env == "MD04":
+if env[:2] == "MD" : # env == "MD04" or env == "MD40" or env == "MD10" or env == "MD25"
     from astropy.cosmology import FlatLambdaCDM
     import astropy.units as u
     cosmoMD = FlatLambdaCDM(
@@ -117,7 +120,7 @@ if env == "MD10" or env == "MD04":
     h = 0.6777
     L_box = 1000.0 / h
     cosmo = cosmoMD
-if env == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "UNIT_fA2_DIR":
+if env[:4] == "UNIT" : # == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "UNIT_fA2_DIR":
     from astropy.cosmology import FlatLambdaCDM
     import astropy.units as u
     cosmoUNIT = FlatLambdaCDM(H0=67.74 * u.km / u.s / u.Mpc, Om0=0.308900)
@@ -125,7 +128,6 @@ if env == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "UNIT_fA2_DIR":
     L_box = 1000.0 / h
     cosmo = cosmoUNIT
 
-# import python packages
 
 # Planck dust map setup
 config['data_dir'] = path_2_planck_EBV_map
@@ -216,40 +218,25 @@ print('E(B-V)', ebv[:10], time.time() - t0, 's')
 
 # Writes results
 print('path_2_coordinate_file', path_2_coordinate_file)
-f = h5py.File(path_2_coordinate_file, "a")
-f.attrs['file_name'] = os.path.basename(path_2_coordinate_file)
-f.attrs['creator'] = 'JC'
 
-halo_data = f.create_group('coordinates')
+t = Table()
+t.add_column(Column(name='RA', data=ra, unit='deg'))
+t.add_column(Column(name='DEC', data=dec, unit='deg'))
 
-ds = halo_data.create_dataset('ra', data=ra)
-ds.attrs['units'] = 'degrees'
-ds = halo_data.create_dataset('dec', data=dec)
-ds.attrs['units'] = 'degrees'
+t.add_column(Column(name='g_lat', data=bb_gal, unit='deg'))
+t.add_column(Column(name='g_lon', data=ll_gal, unit='deg'))
 
-ds = halo_data.create_dataset('g_lat', data=bb_gal)
-ds.attrs['units'] = 'degrees'
-ds = halo_data.create_dataset('g_lon', data=ll_gal)
-ds.attrs['units'] = 'degrees'
+t.add_column(Column(name='ecl_lat', data=bb_ecl, unit='deg'))
+t.add_column(Column(name='ecl_lon', data=ll_ecl, unit='deg'))
 
-ds = halo_data.create_dataset('ecl_lat', data=bb_ecl)
-ds.attrs['units'] = 'degrees'
-ds = halo_data.create_dataset('ecl_lon', data=ll_ecl)
-ds.attrs['units'] = 'degrees'
+t.add_column(Column(name='redshift_R', data=redshift_R, unit=''))
+t.add_column(Column(name='redshift_S', data=redshift_S, unit=''))
 
-halo_data.create_dataset('redshift_R', data=redshift_R)
-halo_data.create_dataset('redshift_S', data=redshift_S)
+t.add_column(Column(name='dL', data=dL_cm, unit='cm'))
+t.add_column(Column(name='nH', data=NH, unit='cm**(-2)'))
+t.add_column(Column(name='ebv', data=ebv, unit='mag'))
 
-ds = halo_data.create_dataset('dL', data=dL_cm)
-ds.attrs['units'] = 'cm'
-
-ds = halo_data.create_dataset('NH', data=NH)
-ds.attrs['units'] = 'cm-2'
-
-ds = halo_data.create_dataset('ebv', data=ebv)
-ds.attrs['units'] = 'E(B-V)'
-
-f.close()
+t.write(path_2_coordinate_file, overwrite=True)
 print('done', time.time() - t0, 's')
 
 

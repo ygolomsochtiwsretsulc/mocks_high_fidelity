@@ -44,11 +44,12 @@ from astropy.cosmology import FlatLambdaCDM
 import astropy.units as u
 import astropy.constants as cc
 import astropy.io.fits as fits
+from astropy.table import Table, Column
 from scipy.special import erf
 from scipy.stats import norm
 from scipy.interpolate import interp2d
 from scipy.interpolate import interp1d
-import h5py
+#import h5py
 import numpy as n
 print('Creates AGN mock catalogue ')
 print('------------------------------------------------')
@@ -71,11 +72,11 @@ def get_a(baseName):
 
 a_snap = get_a(baseName)
 
-test_dir = os.path.join(os.environ[env], 'hlists', 'fits')
+test_dir = os.path.join(os.environ[env], 'fits')
 
-path_2_coordinate_file = os.path.join(test_dir, baseName + '_coordinates.h5')
-path_2_galaxy_file = os.path.join(test_dir, baseName + '_galaxy.h5')
-path_2_agn_file = os.path.join(test_dir, baseName + '_agn.h5')
+path_2_coordinate_file = os.path.join(test_dir, baseName + '_coordinates.fits')
+path_2_galaxy_file = os.path.join(test_dir, baseName + '_galaxy.fits')
+path_2_agn_file = os.path.join(test_dir, baseName + '_agn.fits')
 
 # link to X-ray K-correction and attenuation curves
 path_2_hard_RF_obs_soft = os.path.join(
@@ -95,15 +96,18 @@ path_2_NH_attenuation = os.path.join(
     'gal_nh_ratio_relation_newg16.dat')
 
 # simulation setup
-
-if env == "MD10" or env == "MD04":
+if env[:2] == "MD" : # env == "MD04" or env == "MD40" or env == "MD10" or env == "MD25"
+    from astropy.cosmology import FlatLambdaCDM
+    import astropy.units as u
     cosmoMD = FlatLambdaCDM(
         H0=67.77 * u.km / u.s / u.Mpc,
         Om0=0.307115)  # , Ob0=0.048206)
     h = 0.6777
     L_box = 1000.0 / h
     cosmo = cosmoMD
-if env == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "UNIT_fA2_DIR":
+if env[:4] == "UNIT" : # == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "UNIT_fA2_DIR":
+    from astropy.cosmology import FlatLambdaCDM
+    import astropy.units as u
     cosmoUNIT = FlatLambdaCDM(H0=67.74 * u.km / u.s / u.Mpc, Om0=0.308900)
     h = 0.6774
     L_box = 1000.0 / h
@@ -115,11 +119,11 @@ if env == "MD04":
     scatter_0 = 1.0
 
 print('opens coordinate file ', time.time() - t0)
-f2 = h5py.File(path_2_coordinate_file, 'r')
-zz = f2['/coordinates/redshift_R'][:]
-dL_cm = f2['/coordinates/dL'][:]
-galactic_NH = f2['/coordinates/NH'][:]
-galactic_ebv = f2['/coordinates/ebv'][:]
+f2 = fits.open(path_2_coordinate_file)
+zz = f2[1].data['redshift_R']
+dL_cm = f2[1].data['dL']
+galactic_NH = f2[1].data['nH']
+galactic_ebv = f2[1].data['ebv']
 N_galaxies = len(zz)
 f2.close()
 
@@ -133,8 +137,8 @@ DL_mean_z = (cosmo.luminosity_distance(z_mean).to(u.cm)).value
 print('volume', vol, 'Mpc3')
 
 print('opens galaxy file ', time.time() - t0)
-f3 = h5py.File(path_2_galaxy_file, 'r')
-mass = f3['/galaxy/SMHMR_mass'][:]  # log of the stellar mass
+f3 = fits.open(path_2_galaxy_file)
+mass = f3[1].data['SMHMR_mass']  # log of the stellar mass
 f3.close()
 
 print('computes duty cycle ', time.time() - t0)
@@ -160,7 +164,7 @@ logm = mass[ids_active]
 z = zz[ids_active]
 dl_cm = dL_cm[ids_active]
 n_agn = len(z)
-print(f_duty_realization, N_galaxies, n_agn, n_agn * 1. / N_galaxies)
+#print(f_duty_realization, N_galaxies, n_agn, n_agn * 1. / N_galaxies)
 
 # Hard LX Abundance Matching
 # Equations 2 and 3 of Comparat et al. 2019
@@ -220,10 +224,10 @@ lsar[ids_M_scatt] = X_luminosities_sorted[-n_agn:] - logm[ids_M_scatt]
 # lx = n.log10(DL_mean_z**2 * 10**lx / dl_cm**2)
 
 t2 = time.time()
-print('HAM for LX needs N seconds/N agn= ', (t2 - t1) / n_agn)
+#print('HAM for LX needs N seconds/N agn= ', (t2 - t1) / n_agn)
 
-print('lx', lx[:10], time.time() - t0)
-print('lsar', lsar[:10], time.time() - t0)
+#print('lx', lx[:10], time.time() - t0)
+#print('lsar', lsar[:10], time.time() - t0)
 
 # ===============================
 # Obscured fractions
@@ -305,8 +309,8 @@ percent_observed_H_S = percent_observed_itp(logNH)
 lx_obs_frame_05_2 = n.log10(10**lx * percent_observed_H_S)
 fx_05_20 = 10**(lx_obs_frame_05_2) / (4 * n.pi * (dl_cm)**2.) / h**3
 lx_05_20 = lx_obs_frame_05_2
-print('fx_05_20', fx_05_20, time.time() - t0)
-print('lx_05_20', lx_05_20, time.time() - t0)
+#print('fx_05_20', fx_05_20, time.time() - t0)
+#print('lx_05_20', lx_05_20, time.time() - t0)
 
 # hard X-ray 2-10 keV rest-frame ==>> 2-10 obs frame
 obscuration_z_grid, obscuration_nh_grid, obscuration_fraction_obs_erosita = n.loadtxt(
@@ -326,8 +330,8 @@ percent_observed_H_H = percent_observed_itp(logNH)
 
 lx_obs_frame_2_10 = n.log10(10**lx * percent_observed_H_H)
 fx_2_10 = 10**(lx_obs_frame_2_10) / (4 * n.pi * (dl_cm)**2.) / h**3
-print('fx_2_10', fx_2_10, time.time() - t0)
-print('lx_obs_frame_2_10', lx_obs_frame_2_10, time.time() - t0)
+#print('fx_2_10', fx_2_10, time.time() - t0)
+#print('lx_obs_frame_2_10', lx_obs_frame_2_10, time.time() - t0)
 
 # Adds type 11, 12, 21, 22
 # Follows Merloni et al. 2014
@@ -400,7 +404,7 @@ def compute_agn_type(z, lx, logNH, fbins=fbins, n_agn=n_agn):
 
 
 opt_type = compute_agn_type(z, lx, logNH)
-print('opt_type', opt_type, time.time() - t0)
+#print('opt_type', opt_type, time.time() - t0)
 
 # observed r-band magnitude from X-ray
 
@@ -413,7 +417,7 @@ def scatter_t1(n_agn_int): return norm.rvs(loc=0.0, scale=1.0, size=n_agn_int)
 
 random_number = n.random.rand(n_agn)
 empirical_mag_r = r_mean(n.log10(fx_05_20)) + scatter_t1(int(n_agn))
-print('empirical_mag_r', empirical_mag_r, time.time() - t0)
+#print('empirical_mag_r', empirical_mag_r, time.time() - t0)
 
 
 # ===============================
@@ -429,10 +433,7 @@ nh_law = interp1d(
 
 attenuation = nh_law(galactic_NH[ids_active])
 agn_rxay_flux_05_20_observed = fx_05_20 * attenuation
-print(
-    'agn_rxay_flux_05_20_observed',
-    agn_rxay_flux_05_20_observed,
-    time.time() - t0)
+#print('agn_rxay_flux_05_20_observed',agn_rxay_flux_05_20_observed,time.time() - t0)
 
 
 # optical extinction, Fitzpatrick 99
@@ -440,57 +441,28 @@ ebv_values = n.hstack((n.arange(0., 5., 0.01), 10**n.arange(1, 4, 0.1)))
 ext_values = n.array([extinction.fitzpatrick99(
     n.array([6231.]), 3.1 * EBV, r_v=3.1, unit='aa')[0] for EBV in ebv_values])
 ext_interp = interp1d(ebv_values, ext_values)
-
 agn_rmag_observed = empirical_mag_r + ext_interp(galactic_ebv[ids_active])
-
-print('agn_rmag_observed', agn_rmag_observed, time.time() - t0)
+#print('agn_rmag_observed', agn_rmag_observed, time.time() - t0)
 
 # ===============================
 # Writing results
 # ===============================
-
 print('writes', path_2_agn_file)
-f = h5py.File(path_2_agn_file, "a")
-f.attrs['file_name'] = os.path.basename(path_2_agn_file)
-f.attrs['creator'] = 'JC'
+t = Table()
+t.add_column(Column(name='ids_active', data=ids_active, unit=''))
+t.add_column(Column(name='LX_hard', data=lx, unit='log10(L_X/[2-10keV, erg/s])'))
+t.add_column(Column(name='LX_soft', data=lx_05_20, unit='log10(L_X/[0.5-2keV, erg/s])'))
+t.add_column(Column(name='FX_soft', data=fx_05_20, unit='F_X / [0.5-2keV, erg/cm2/s]'))
+t.add_column(Column(name='FX_soft_attenuated', data=agn_rxay_flux_05_20_observed, unit='F_X / [0.5-2keV, erg/cm2/s]'))
+t.add_column(Column(name='FX_hard', data=fx_2_10, unit='F_X / [0.5-2keV, erg/cm2/s]'))
+t.add_column(Column(name='logNH', data=logNH, unit='log10(nH/[cm-2])'))
+t.add_column(Column(name='agn_type', data=opt_type, unit=''))
+t.add_column(Column(name='random', data=random_number, unit=''))
+t.add_column(Column(name='SDSS_r_AB', data=empirical_mag_r, unit='mag'))
+t.add_column(Column(name='SDSS_r_AB_attenuated', data=agn_rmag_observed, unit='mag'))
+t.write(path_2_agn_file, overwrite=True)
+print('done', time.time() - t0, 's')
 
-# writes the results
-halo_data = f.create_group('AGN')
-
-halo_data.create_dataset('ids_active', data=ids_active)
-
-ds = halo_data.create_dataset('LX_hard', data=lx)
-ds.attrs['units'] = 'log10(L_X/[2-10keV, erg/s])'
-
-halo_data.create_dataset('LX_soft', data=lx_05_20)
-ds.attrs['units'] = 'log10(L_X/[0.5-2keV, erg/s])'
-
-halo_data.create_dataset('FX_soft', data=fx_05_20)
-ds.attrs['units'] = 'F_X / [0.5-2keV, erg/cm2/s]'
-
-halo_data.create_dataset(
-    'FX_soft_attenuated',
-    data=agn_rxay_flux_05_20_observed)
-ds.attrs['units'] = 'F_X / [0.5-2keV, erg/cm2/s]'
-
-halo_data.create_dataset('FX_hard', data=fx_2_10)
-ds.attrs['units'] = 'F_X/[2-10keV, erg/cm2/s]'
-
-halo_data.create_dataset('logNH', data=logNH)
-ds.attrs['units'] = 'log10(nH/[cm-2])'
-
-halo_data.create_dataset('agn_type', data=opt_type)
-
-halo_data.create_dataset('random', data=random_number)
-
-halo_data.create_dataset('SDSS_r_AB', data=empirical_mag_r)
-ds.attrs['units'] = 'mag'
-
-halo_data.create_dataset('SDSS_r_AB_attenuated', data=agn_rmag_observed)
-ds.attrs['units'] = 'mag'
-
-f.close()
-print('results written results')
 
 ### OPTION: MAKE A SET OF FIGURES ###
 if make_figure:
@@ -507,23 +479,23 @@ if make_figure:
 
     h5_file = os.path.join(path_2_coordinate_file)
     f = h5py.File(h5_file, "r")
-    zz = f['/coordinates/redshift_R'][:]
+    zz = f['/coordinates/redshift_R']
     f.close()
 
     # AGN file
     h5_file = os.path.join(path_2_agn_file)
     f = h5py.File(h5_file, "r")
-    AGN_ids_active = f['/AGN/ids_active'][:]
-    AGN_LX_hard = f['/AGN/LX_hard'][:]
-    AGN_LX_soft = f['/AGN/LX_soft'][:]
-    AGN_FX_soft = f['/AGN/FX_soft'][:]
-    AGN_FX_soft_attenuated = f['/AGN/FX_soft_attenuated'][:]
-    AGN_FX_hard = f['/AGN/FX_hard'][:]
-    AGN_logNH = f['/AGN/logNH'][:]
-    AGN_agn_type = f['/AGN/agn_type'][:]
-    AGN_random = f['/AGN/random'][:]
-    AGN_SDSS_r_AB = f['/AGN/SDSS_r_AB'][:]
-    AGN_SDSS_r_AB_attenuated = f['/AGN/SDSS_r_AB_attenuated'][:]
+    AGN_ids_active = f['/AGN/ids_active']
+    AGN_LX_hard = f['/AGN/LX_hard']
+    AGN_LX_soft = f['/AGN/LX_soft']
+    AGN_FX_soft = f['/AGN/FX_soft']
+    AGN_FX_soft_attenuated = f['/AGN/FX_soft_attenuated']
+    AGN_FX_hard = f['/AGN/FX_hard']
+    AGN_logNH = f['/AGN/logNH']
+    AGN_agn_type = f['/AGN/agn_type']
+    AGN_random = f['/AGN/random']
+    AGN_SDSS_r_AB = f['/AGN/SDSS_r_AB']
+    AGN_SDSS_r_AB_attenuated = f['/AGN/SDSS_r_AB_attenuated']
 
     N_obj = len(AGN_ids_active)
     rds = n.random.random(N_obj)

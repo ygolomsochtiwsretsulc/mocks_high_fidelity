@@ -7,41 +7,42 @@ check rulesets and templates names are correct
 
 005_4_add_footprint.py
 
-#python 005_4_add_footprint.py S5_BCG_4MOST.fit
-#python 005_4_add_footprint.py LyA_4MOST.fits
-#python 005_4_add_footprint.py BG_4MOST.fits
-#python 005_4_add_footprint.py LRG_4MOST.fits
-#python 005_4_add_footprint.py QSO_4MOST.fits
-#python 005_4_add_footprint.py AGN_WIDE_4MOST.fits
-#python 005_4_add_footprint.py AGN_DEEP_4MOST.fits
-#python 005_4_add_footprint.py FILAMENTS5_4MOST.fits
-#python 005_4_add_footprint.py S5_CGAL_4MOST.fit
-#python 005_4_add_footprint.py AGN_IR_4MOST.fits
 
-#cd $MD10
-#gzip -k --rsyncable  $MD10/S5_BCG_4MOST.fit
-#gzip -k --rsyncable  $MD10/LyA_4MOST.fits
-#gzip -k --rsyncable  $MD10/BG_4MOST.fits
-#gzip -k --rsyncable  $MD10/S5_CGAL_4MOST.fit
-#gzip -k --rsyncable  $MD10/AGN_IR_4MOST.fits
-#gzip -k --rsyncable  $MD10/LRG_4MOST.fits
-#gzip -k --rsyncable  $MD10/QSO_4MOST.fits
-#gzip -k --rsyncable  $MD10/AGN_WIDE_4MOST.fits
-#gzip -k --rsyncable  $MD10/AGN_DEEP_4MOST.fits
-#gzip -k --rsyncable  $MD10/FILAMENTS5_4MOST.fits
-#gzip -k --rsyncable  $MD10/ELG_4MOST.fits
+python 005_4_add_footprint.py S5_BCG_4MOST.fit
+python 005_4_add_footprint.py LyA_4MOST.fits
+python 005_4_add_footprint.py BG_4MOST.fits
+python 005_4_add_footprint.py LRG_4MOST.fits
+python 005_4_add_footprint.py QSO_4MOST.fits
+python 005_4_add_footprint.py AGN_WIDE_4MOST.fits
+python 005_4_add_footprint.py AGN_DEEP_4MOST.fits
+python 005_4_add_footprint.py FILAMENTS5_4MOST.fits
+python 005_4_add_footprint.py S5_CGAL_4MOST.fit
+python 005_4_add_footprint.py AGN_IR_4MOST.fits
 
-#rsync $MD10/S5_BCG_4MOST.fit.gz      $HOME/wwwDir/MultiDark/MD10/
-#rsync $MD10/LyA_4MOST.fits.gz        $HOME/wwwDir/MultiDark/MD10/
-#rsync $MD10/BG_4MOST.fits.gz         $HOME/wwwDir/MultiDark/MD10/
-#rsync $MD10/LRG_4MOST.fits.gz        $HOME/wwwDir/MultiDark/MD10/
-#rsync $MD10/S5_CGAL_4MOST.fit.gz     $HOME/wwwDir/MultiDark/MD10/
-#rsync $MD10/AGN_IR_4MOST.fits.gz     $HOME/wwwDir/MultiDark/MD10/
-#rsync $MD10/QSO_4MOST.fits.gz        $HOME/wwwDir/MultiDark/MD10/
-#rsync $MD10/AGN_WIDE_4MOST.fits.gz   $HOME/wwwDir/MultiDark/MD10/
-#rsync $MD10/AGN_DEEP_4MOST.fits.gz   $HOME/wwwDir/MultiDark/MD10/
-#rsync $MD10/FILAMENTS5_4MOST.fits.gz $HOME/wwwDir/MultiDark/MD10/
-#rsync $MD10/ELG_4MOST.fits.gz $HOME/wwwDir/MultiDark/MD10/
+cd $MD10
+gzip -k --rsyncable  $MD10/S5_BCG_4MOST.fit
+gzip -k --rsyncable  $MD10/LyA_4MOST.fits
+gzip -k --rsyncable  $MD10/BG_4MOST.fits
+gzip -k --rsyncable  $MD10/S5_CGAL_4MOST.fit
+gzip -k --rsyncable  $MD10/AGN_IR_4MOST.fits
+gzip -k --rsyncable  $MD10/LRG_4MOST.fits
+gzip -k --rsyncable  $MD10/QSO_4MOST.fits
+gzip -k --rsyncable  $MD10/AGN_WIDE_4MOST.fits
+gzip -k --rsyncable  $MD10/AGN_DEEP_4MOST.fits
+gzip -k --rsyncable  $MD10/FILAMENTS5_4MOST.fits
+gzip -k --rsyncable  $MD10/ELG_4MOST.fits
+
+rsync $MD10/S5_BCG_4MOST.fit.gz      $HOME/wwwDir/MultiDark/MD10/
+rsync $MD10/LyA_4MOST.fits.gz        $HOME/wwwDir/MultiDark/MD10/
+rsync $MD10/BG_4MOST.fits.gz         $HOME/wwwDir/MultiDark/MD10/
+rsync $MD10/LRG_4MOST.fits.gz        $HOME/wwwDir/MultiDark/MD10/
+rsync $MD10/S5_CGAL_4MOST.fit.gz     $HOME/wwwDir/MultiDark/MD10/
+rsync $MD10/AGN_IR_4MOST.fits.gz     $HOME/wwwDir/MultiDark/MD10/
+rsync $MD10/QSO_4MOST.fits.gz        $HOME/wwwDir/MultiDark/MD10/
+rsync $MD10/AGN_WIDE_4MOST.fits.gz   $HOME/wwwDir/MultiDark/MD10/
+rsync $MD10/AGN_DEEP_4MOST.fits.gz   $HOME/wwwDir/MultiDark/MD10/
+rsync $MD10/FILAMENTS5_4MOST.fits.gz $HOME/wwwDir/MultiDark/MD10/
+rsync $MD10/ELG_4MOST.fits.gz        $HOME/wwwDir/MultiDark/MD10/
 
 
 topcat -stilts plot2plane \
@@ -212,7 +213,7 @@ def fourmost_get_survbitlist():
 	mydict['erosita']     = 11
 	mydict['waveswide']   = 12
 	mydict['euclid']      = 13
-	#mydict['s8elg']       = 14
+	mydict['s8elg']       = 14
 	mydict['s8']          = 15
 	return mydict
 
@@ -294,7 +295,7 @@ def fourmost_get_survbit_indiv(ra,dec,bname):
 			polyid = mng.polyid(l,b)
 			keepb  = (polyid!=-1)
 			##
-			keep   = (keepdec) #& (keepb)
+			keep   = (keepdec) & (keepb)
 		else:
 			mng    = pymangle.Mangle(MASKDIR+'/'+bname+'.ply')
 			polyid = mng.polyid(ra,dec)
@@ -333,6 +334,11 @@ dir_2_MOCK  = os.path.join(root_dir, file_name)
 t_survey  = Table.read(dir_2_MOCK  )
 print(dir_2_MOCK)
 mask_bit = fourmost_get_survbit(t_survey['RA'],t_survey['DEC'])
-t_survey.add_column(Column(name='MASK_BIT'  ,data=mask_bit, unit=''))
+print(t_survey.columns.keys())
+if 'MASK_BIT' in t_survey.columns.keys():
+	t_survey['MASK_BIT'] = mask_bit
+else:
+	t_survey.add_column(Column(name='MASK_BIT'  ,data=mask_bit, unit=''))
+	
 t_survey.write (dir_2_MOCK  , overwrite=True)
 

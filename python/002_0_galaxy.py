@@ -37,10 +37,10 @@ fileBasename: base name of the file e.g. all_1.00000
 
 It will find the input files :
 $environmentVAR/hlists/fits/${fileBasename}.fits
-$environmentVAR/hlists/fits/${fileBasename}_coordinates.h5
+$environmentVAR/hlists/fits/${fileBasename}_coordinates.fits
 
 And will write outputs in h5 format:
-$environmentVAR/hlists/fits/${fileBasename}_galaxy.h5
+$environmentVAR/hlists/fits/${fileBasename}_galaxy.fits
 
 Figures (Optional)
 if the variable 'make_figure' is set to True, then figures will be created in the git repo here :
@@ -54,6 +54,7 @@ from scipy.stats import norm
 from scipy.interpolate import interp1d
 import h5py
 import astropy.io.fits as fits
+from astropy.table import Table, Column
 import numpy as n
 import time
 print('Adds galaxy properties ')
@@ -66,15 +67,14 @@ env = sys.argv[1]  # 'MD04'
 baseName = sys.argv[2]  # "sat_0.62840"
 print(env, baseName)
 make_figure = True
-make_figure = False
+#make_figure = False
 
 # import all pathes
-test_dir = os.path.join(os.environ[env], 'hlists', 'fits')
+test_dir = os.path.join(os.environ[env], 'fits')
 
 path_2_light_cone = os.path.join(test_dir, baseName + '.fits')
-path_2_coordinate_file = os.path.join(test_dir, baseName + '_coordinates.h5')
-path_2_galaxy_file = os.path.join(test_dir, baseName + '_galaxy.h5')
-
+path_2_coordinate_file = os.path.join(test_dir, baseName + '_coordinates.fits')
+path_2_galaxy_file = os.path.join(test_dir, baseName + '_galaxy.fits')
 
 def get_a(baseName):
     alp = baseName.split('_')[1]
@@ -89,7 +89,7 @@ else:
     fraction = 1.0
 
 # simulation setup
-if env == "MD10" or env == "MD04":
+if env[:2] == "MD" : # env == "MD04" or env == "MD40" or env == "MD10" or env == "MD25"
     from astropy.cosmology import FlatLambdaCDM
     import astropy.units as u
     cosmoMD = FlatLambdaCDM(
@@ -98,7 +98,7 @@ if env == "MD10" or env == "MD04":
     h = 0.6777
     L_box = 1000.0 / h
     cosmo = cosmoMD
-if env == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "UNIT_fA2_DIR":
+if env[:4] == "UNIT" : # == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "UNIT_fA2_DIR":
     from astropy.cosmology import FlatLambdaCDM
     import astropy.units as u
     cosmoUNIT = FlatLambdaCDM(H0=67.74 * u.km / u.s / u.Mpc, Om0=0.308900)
@@ -114,8 +114,8 @@ N_obj = len(Mvir)
 f1.close()
 
 print('opens coordinates ')
-f2 = h5py.File(path_2_coordinate_file, 'r')
-zz = f2['/coordinates/redshift_R'][:]
+f2 = fits.open(path_2_coordinate_file) # [1].data
+zz = f2[1].data['redshift_R']
 N_halos = len(zz)
 f2.close()
 
@@ -129,7 +129,6 @@ print(volume)
 
 # STELLAR MASS
 # Equations 1 of Comparat et al. 2019
-
 
 def meanSM(Mh, z): return n.log10(Mh * 2. * (0.0351 - 0.0247 * z / (1. + z)) / ((Mh / (10**(11.79 + 1.5 * z / (1. + z))))
                                                                                 ** (- 0.9 + 0.5 * z / (1. + z)) + (Mh / (10**(11.79 + 1.5 * z / (1. + z))))**(0.67 + 0.2 * z / (1. + z))))
@@ -199,7 +198,7 @@ print('N SF, log SFR[:10]', len(log_sfr[SF]),
 
 
 def galaxy_lx(redshift, mass, sfr):
-    return 10**(28.81) * (1 + redshift)**(3.9) * mass + \
+	return 10**(28.81) * (1 + redshift)**(3.9) * mass + \
         10**(39.5) * (1 + redshift)**(0.67) * sfr**(0.86)
 
 
@@ -267,224 +266,206 @@ dm_exp = -2.5*n.log10(f_14_exp(radius))
 fiber_mag = rmag + dm_exp
 """
 
-f = h5py.File(path_2_galaxy_file, "a")
-f.attrs['file_name'] = os.path.basename(path_2_galaxy_file)
-f.attrs['creator'] = 'JC'
+t = Table()
+t.add_column(Column(name='SMHMR_mass', data=mass, unit='log10(Msun)'))
+t.add_column(Column(name='star_formation_rate', data=log_sfr, unit='log10(Msun/yr)'))
+t.add_column(Column(name='is_quiescent', data=QU, unit=''))
+t.add_column(Column(name='LX_hard', data=n.log10(gal_LX), unit='log10(erg/s)'))
+t.add_column(Column(name='mag_abs_r', data=mag_abs_r, unit='mag'))
+t.add_column(Column(name='mag_r', data=mag_r, unit='mag'))
 
-# writes the results
-halo_data = f.create_group('galaxy')
-
-ds = halo_data.create_dataset('SMHMR_mass', data=mass)
-ds.attrs['units'] = 'log10(stellar mass/[Msun])'
-
-ds = halo_data.create_dataset('star_formation_rate', data=log_sfr)
-ds.attrs['units'] = 'log10(SFR/[Msun/yr])'
-
-ds = halo_data.create_dataset('is_quiescent', data=QU)
-ds.attrs['units'] = 'boolean'
-
-ds = halo_data.create_dataset('LX_hard', data=n.log10(gal_LX))
-ds.attrs['units'] = 'log10(L_X/[2-10keV, erg/s])'
-
-ds = halo_data.create_dataset('mag_abs_r', data=mag_abs_r)
-ds = halo_data.create_dataset('mag_r', data=mag_r)
-ds.attrs['units'] = 'mag AB'
-
-f.close()
+t.write(path_2_galaxy_file, overwrite=True)
+print('done', time.time() - t0, 's')
 
 ### Option: FIGURES ###
 if make_figure:
-    import matplotlib
-    matplotlib.use('Agg')
-    matplotlib.rcParams.update({'font.size': 14})
-    import matplotlib.pyplot as p
+	import matplotlib
+	matplotlib.use('Agg')
+	matplotlib.rcParams.update({'font.size': 14})
+	import matplotlib.pyplot as p
 
-    fig_dir = os.path.join(
-        os.environ['GIT_AGN_MOCK'],
-        'figures',
-        env,
-        'galaxy',
-    )
-    if os.path.isdir(fig_dir) == False:
-        os.system('mkdir -p ' + fig_dir)
+	fig_dir = os.path.join(
+		os.environ['GIT_AGN_MOCK'],
+		'figures',
+		env,
+		'galaxy',
+	)
+	if os.path.isdir(fig_dir) == False:
+		os.system('mkdir -p ' + fig_dir)
 
-    h5_file = os.path.join(path_2_coordinate_file)
-    f = h5py.File(h5_file, "r")
-    zr = f['/coordinates/redshift_R'][:]
-    f.close()
+	f2 = fits.open(path_2_coordinate_file) # [1].data
+	zz = f2[1].data['redshift_R']
+	sel = (rds < 1e5 / N_obj)
 
-    N_obj = len(mass)
-    sel = (rds < 1e5 / N_obj)
+	# histograms
 
-    # histograms
+	fig_out = os.path.join(fig_dir, 'SMHMR_mass_hist_' + baseName + '.png')
 
-    fig_out = os.path.join(fig_dir, 'SMHMR_mass_hist_' + baseName + '.png')
+	p.figure(1, (6., 5.5))
+	p.tight_layout()
+	X = mass
+	p.hist(X, histtype='step', label='all', rasterized=True, lw=4)
+	X = mass[QU]
+	p.hist(X, histtype='step', label='QU', rasterized=True, lw=2, ls='dashed')
+	X = mass[SF]
+	p.hist(X, histtype='step', label='SF', rasterized=True, lw=2)
+	p.title(baseName)
+	p.xlabel('SMHMR_mass')
+	p.ylabel('Counts')
+	p.grid()
+	p.yscale('log')
+	p.legend(frameon=False, loc=0)
+	p.savefig(fig_out)
+	p.clf()
 
-    p.figure(1, (6., 5.5))
-    p.tight_layout()
-    X = mass
-    p.hist(X, histtype='step', label='all', rasterized=True, lw=4)
-    X = mass[QU]
-    p.hist(X, histtype='step', label='QU', rasterized=True, lw=2, ls='dashed')
-    X = mass[SF]
-    p.hist(X, histtype='step', label='SF', rasterized=True, lw=2)
-    p.title(baseName)
-    p.xlabel('SMHMR_mass')
-    p.ylabel('Counts')
-    p.grid()
-    p.yscale('log')
-    p.legend(frameon=False, loc=0)
-    p.savefig(fig_out)
-    p.clf()
+	fig_out = os.path.join(
+		fig_dir,
+		'star_formation_rate_hist_' +
+		baseName +
+		'.png')
 
-    fig_out = os.path.join(
-        fig_dir,
-        'star_formation_rate_hist_' +
-        baseName +
-        '.png')
+	p.figure(1, (6., 5.5))
+	p.tight_layout()
+	X = log_sfr
+	p.hist(X, histtype='step', label='all', rasterized=True, lw=4)
+	X = log_sfr[SF]
+	p.hist(X, histtype='step', label='SF', rasterized=True, lw=2, ls='dashed')
+	X = log_sfr[QU]
+	p.hist(X, histtype='step', label='QU', rasterized=True, lw=2)
+	p.title(baseName)
+	p.xlabel('galaxy_star_formation_rate')
+	p.ylabel('Counts')
+	p.grid()
+	p.yscale('log')
+	p.legend(frameon=False, loc=0)
+	p.savefig(fig_out)
+	p.clf()
 
-    p.figure(1, (6., 5.5))
-    p.tight_layout()
-    X = log_sfr
-    p.hist(X, histtype='step', label='all', rasterized=True, lw=4)
-    X = log_sfr[SF]
-    p.hist(X, histtype='step', label='SF', rasterized=True, lw=2, ls='dashed')
-    X = log_sfr[QU]
-    p.hist(X, histtype='step', label='QU', rasterized=True, lw=2)
-    p.title(baseName)
-    p.xlabel('galaxy_star_formation_rate')
-    p.ylabel('Counts')
-    p.grid()
-    p.yscale('log')
-    p.legend(frameon=False, loc=0)
-    p.savefig(fig_out)
-    p.clf()
+	fig_out = os.path.join(fig_dir, 'LX_hard_hist_' + baseName + '.png')
 
-    fig_out = os.path.join(fig_dir, 'LX_hard_hist_' + baseName + '.png')
+	X = n.log10(gal_LX)
 
-    X = n.log10(gal_LX)
+	p.figure(1, (6., 5.5))
+	p.tight_layout()
+	p.hist(X, histtype='step', rasterized=True, lw=4)
+	p.title(baseName)
+	p.xlabel('galaxy_LX_hard')
+	p.ylabel('Counts')
+	p.grid()
+	p.yscale('log')
+	p.savefig(fig_out)
+	p.clf()
 
-    p.figure(1, (6., 5.5))
-    p.tight_layout()
-    p.hist(X, histtype='step', rasterized=True, lw=4)
-    p.title(baseName)
-    p.xlabel('galaxy_LX_hard')
-    p.ylabel('Counts')
-    p.grid()
-    p.yscale('log')
-    p.savefig(fig_out)
-    p.clf()
+	fig_out = os.path.join(fig_dir, 'mag_abs_r_hist_' + baseName + '.png')
 
-    fig_out = os.path.join(fig_dir, 'mag_abs_r_hist_' + baseName + '.png')
+	X = mag_abs_r
 
-    X = mag_abs_r
+	p.figure(1, (6., 5.5))
+	p.tight_layout()
+	p.hist(X, histtype='step', rasterized=True, lw=4)
+	p.title(baseName)
+	p.xlabel('mag_abs_r')
+	p.ylabel('Counts')
+	p.grid()
+	p.yscale('log')
+	p.savefig(fig_out)
+	p.clf()
 
-    p.figure(1, (6., 5.5))
-    p.tight_layout()
-    p.hist(X, histtype='step', rasterized=True, lw=4)
-    p.title(baseName)
-    p.xlabel('mag_abs_r')
-    p.ylabel('Counts')
-    p.grid()
-    p.yscale('log')
-    p.savefig(fig_out)
-    p.clf()
+	fig_out = os.path.join(fig_dir, 'mag_r_hist_' + baseName + '.png')
 
-    fig_out = os.path.join(fig_dir, 'mag_r_hist_' + baseName + '.png')
+	X = mag_r
 
-    X = mag_r
+	p.figure(1, (6., 5.5))
+	p.tight_layout()
+	p.hist(X, histtype='step', rasterized=True, lw=4)
+	p.title(baseName)
+	p.xlabel('galaxy_mag_r')
+	p.ylabel('Counts')
+	p.grid()
+	p.yscale('log')
+	p.savefig(fig_out)
+	p.clf()
 
-    p.figure(1, (6., 5.5))
-    p.tight_layout()
-    p.hist(X, histtype='step', rasterized=True, lw=4)
-    p.title(baseName)
-    p.xlabel('galaxy_mag_r')
-    p.ylabel('Counts')
-    p.grid()
-    p.yscale('log')
-    p.savefig(fig_out)
-    p.clf()
+	# 2D plots
 
-    # 2D plots
+	fig_out = os.path.join(fig_dir, 'mag_r_vs_zz_' + baseName + '.png')
 
-    fig_out = os.path.join(fig_dir, 'mag_r_vs_zr_' + baseName + '.png')
+	X = zz[sel]
+	Y = mag_r[sel]
+	p.figure(1, (6., 5.5))
+	p.tight_layout()
+	p.plot(X, Y, 'k,', rasterized=True)
+	p.title(baseName)
+	p.xlabel('redshift R')
+	p.ylabel('mag_r')
+	p.grid()
+	p.savefig(fig_out)
+	p.clf()
 
-    X = zr[sel]
-    Y = mag_r[sel]
-    p.figure(1, (6., 5.5))
-    p.tight_layout()
-    p.plot(X, Y, 'k,', rasterized=True)
-    p.title(baseName)
-    p.xlabel('redshift R')
-    p.ylabel('mag_r')
-    p.grid()
-    p.savefig(fig_out)
-    p.clf()
+	fig_out = os.path.join(fig_dir, 'mag_abs_r_vs_zz_' + baseName + '.png')
 
-    fig_out = os.path.join(fig_dir, 'mag_abs_r_vs_zr_' + baseName + '.png')
+	X = zz[sel]
+	Y = mag_abs_r[sel]
+	p.figure(1, (6., 5.5))
+	p.tight_layout()
+	p.plot(X, Y, 'k,', rasterized=True)
+	p.title(baseName)
+	p.xlabel('redshift R')
+	p.ylabel('mag_abs_r')
+	p.grid()
+	p.savefig(fig_out)
+	p.clf()
 
-    X = zr[sel]
-    Y = mag_abs_r[sel]
-    p.figure(1, (6., 5.5))
-    p.tight_layout()
-    p.plot(X, Y, 'k,', rasterized=True)
-    p.title(baseName)
-    p.xlabel('redshift R')
-    p.ylabel('mag_abs_r')
-    p.grid()
-    p.savefig(fig_out)
-    p.clf()
+	fig_out = os.path.join(fig_dir, 'SMHMR_mass_vs_zz_' + baseName + '.png')
 
-    fig_out = os.path.join(fig_dir, 'SMHMR_mass_vs_zr_' + baseName + '.png')
+	X = zz[sel]
+	Y = mass[sel]
+	p.figure(1, (6., 5.5))
+	p.tight_layout()
+	p.plot(X, Y, 'k,', rasterized=True)
+	p.title(baseName)
+	p.xlabel('redshift R')
+	p.ylabel('log10 SMHMR_mass')
+	p.grid()
+	p.savefig(fig_out)
+	p.clf()
 
-    X = zr[sel]
-    Y = mass[sel]
-    p.figure(1, (6., 5.5))
-    p.tight_layout()
-    p.plot(X, Y, 'k,', rasterized=True)
-    p.title(baseName)
-    p.xlabel('redshift R')
-    p.ylabel('log10 SMHMR_mass')
-    p.grid()
-    p.savefig(fig_out)
-    p.clf()
+	fig_out = os.path.join(
+		fig_dir,
+		'star_formation_rate_vs_zz_' +
+		baseName +
+		'.png')
 
-    fig_out = os.path.join(
-        fig_dir,
-        'star_formation_rate_vs_zr_' +
-        baseName +
-        '.png')
+	X = zz[sel]
+	Y = log_sfr[sel]
+	p.figure(1, (6., 5.5))
+	p.tight_layout()
+	p.plot(X, Y, 'k+', rasterized=True)
+	p.title(baseName)
+	p.xlabel('redshift R')
+	p.ylabel('log10 star_formation_rate')
+	p.grid()
+	p.savefig(fig_out)
+	p.clf()
 
-    X = zr[sel]
-    Y = log_sfr[sel]
-    p.figure(1, (6., 5.5))
-    p.tight_layout()
-    p.plot(X, Y, 'k+', rasterized=True)
-    p.title(baseName)
-    p.xlabel('redshift R')
-    p.ylabel('log10 star_formation_rate')
-    p.grid()
-    p.savefig(fig_out)
-    p.clf()
+	fig_out = os.path.join(
+		fig_dir,
+		'star_formation_rate_vs_mass_' +
+		baseName +
+		'.png')
 
-    fig_out = os.path.join(
-        fig_dir,
-        'star_formation_rate_vs_mass_' +
-        baseName +
-        '.png')
-
-    p.figure(1, (6., 5.5))
-    p.tight_layout()
-    X = mass[sel]
-    Y = log_sfr[sel]
-    p.plot(X, Y, 'b+', rasterized=True)
-    X = mass[sel & QU]
-    Y = log_sfr[sel & QU]
-    p.plot(X, Y, 'r+', label='QU', rasterized=True)
-    p.title(baseName)
-    p.legend(frameon=False, loc=0)
-    p.xlabel('log10(mass)')
-    p.ylabel('log10 star_formation_rate')
-    p.grid()
-    p.savefig(fig_out)
-    p.clf()
+	p.figure(1, (6., 5.5))
+	p.tight_layout()
+	X = mass[sel]
+	Y = log_sfr[sel]
+	p.plot(X, Y, 'b+', rasterized=True)
+	X = mass[sel & QU]
+	Y = log_sfr[sel & QU]
+	p.plot(X, Y, 'r+', label='QU', rasterized=True)
+	p.title(baseName)
+	p.legend(frameon=False, loc=0)
+	p.xlabel('log10(mass)')
+	p.ylabel('log10 star_formation_rate')
+	p.grid()
+	p.savefig(fig_out)
+	p.clf()

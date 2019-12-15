@@ -77,8 +77,8 @@ else:
     stilts_cmd = 'stilts'
 
 # initializes pathes to files
-test_dir = os.path.join(os.environ[env], 'hlists', 'fits')
-tmp_dir = os.path.join(os.environ[env], 'hlists', 'fits', 'tmp')
+test_dir = os.path.join(os.environ[env], 'fits')
+tmp_dir = os.path.join(os.environ[env], 'fits', 'tmp')
 if os.path.isdir(tmp_dir) == False:
     os.system('mkdir -p ' + tmp_dir)
 
@@ -93,7 +93,7 @@ path_2_CLU_files = sorted(
         glob.glob(
             os.path.join(
                 test_dir,
-                '*_CLU.h5'))))
+                '*_CLU.fits'))))
 
 baseNames = n.array([os.path.basename(path_2_CLU_file)[:-7]
                      for path_2_CLU_file in path_2_CLU_files])
@@ -127,17 +127,17 @@ def get_data(
     f1.close()
 
     f2 = h5py.File(path_2_coordinate_file, 'r')
-    ra = f2['/coordinates/ra'].value[clu]
-    dec = f2['/coordinates/dec'].value[clu]
-    zzr = f2['/coordinates/redshift_R'].value[clu]
-    zzs = f2['/coordinates/redshift_S'].value[clu]
-    dL_cm = f2['/coordinates/dL'].value[clu]
-    galactic_NH = f2['/coordinates/NH'].value[clu]
-    galactic_ebv = f2['/coordinates/ebv'].value[clu]
-    g_lat = f2['/coordinates/g_lat'].value[clu]
-    g_lon = f2['/coordinates/g_lon'].value[clu]
-    ecl_lat = f2['/coordinates/ecl_lat'].value[clu]
-    ecl_lon = f2['/coordinates/ecl_lon'].value[clu]
+    ra = f2[1].data['ra'].value[clu]
+    dec = f2[1].data['dec'].value[clu]
+    zzr = f2[1].data['redshift_R'].value[clu]
+    zzs = f2[1].data['redshift_S'].value[clu]
+    dL_cm = f2[1].data['dL'].value[clu]
+    galactic_NH = f2['nH'].value[clu]
+    galactic_ebv = f2[1].data['ebv'].value[clu]
+    g_lat = f2[1].data['g_lat'].value[clu]
+    g_lon = f2[1].data['g_lon'].value[clu]
+    ecl_lat = f2[1].data['ecl_lat'].value[clu]
+    ecl_lon = f2[1].data['ecl_lon'].value[clu]
     N_galaxies = len(zzr)
     f2.close()
 
@@ -187,9 +187,9 @@ for baseName in baseNames:
     print(baseName)
     path_2_light_cone = os.path.join(test_dir, baseName + '.fits')
     path_2_coordinate_file = os.path.join(
-        test_dir, baseName + '_coordinates.h5')
-    path_2_galaxy_file = os.path.join(test_dir, baseName + '_galaxy.h5')
-    path_2_CLU_file = os.path.join(test_dir, baseName + '_CLU.h5')
+        test_dir, baseName + '_coordinates.fits')
+    path_2_galaxy_file = os.path.join(test_dir, baseName + '_galaxy.fits')
+    path_2_CLU_file = os.path.join(test_dir, baseName + '_CLU.fits')
     path_2_out_file = os.path.join(tmp_dir, baseName + '_eRo_CLU.fit')
 
     hdu_col = get_data(

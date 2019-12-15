@@ -373,8 +373,17 @@ for HEALPIX_id in n.arange(N_pixels):
 
     hdu_cols = fits.ColDefs([
         # ,fits.Column(name="SRC_NAME" , format='10A', unit='', array =  n.arange(len(hd_all[1].data['ra'])).astype('str') )
-        fits.Column(name="SRC_ID", format='K', unit='', array=(n.arange(N_clu_all) + 4e8).astype('int')), fits.Column(name="RA", format='D', unit='deg', array=ra_array), fits.Column(name="DEC", format='D', unit='deg', array=dec_array), fits.Column(name="E_MIN", format='D', unit='keV', array=n.ones(N_clu_all) * 0.5), fits.Column(name="E_MAX", format='D', unit='keV', array=n.ones(N_clu_all) * 2.0), fits.Column(name="FLUX", format='D', unit='erg/s/cm**2', array=FX_soft_attenuated), fits.Column(name="IMAGE", format='100A', unit='', array=template), fits.Column(name="SPECTRUM", format='100A', unit='', array=spec_names)        # ,fits.Column(name= "n_energy_bins"  , format='K', unit='', array = data_n_e_b)
-        , fits.Column(name="IMGROTA", format='D', unit='deg', array=orientation), fits.Column(name="IMGSCAL", format='D', unit='', array=pixel_rescaling)
+        fits.Column(name="SRC_ID", format='K', unit='', array=(n.arange(N_clu_all) + 4e8).astype('int')), 
+        fits.Column(name="RA", format='D', unit='deg', array=ra_array), 
+        fits.Column(name="DEC", format='D', unit='deg', array=dec_array), 
+        fits.Column(name="E_MIN", format='D', unit='keV', array=n.ones(N_clu_all) * 0.5), 
+        fits.Column(name="E_MAX", format='D', unit='keV', array=n.ones(N_clu_all) * 2.0), 
+        fits.Column(name="FLUX", format='D', unit='erg/s/cm**2', array=FX_soft_attenuated), 
+        fits.Column(name="IMAGE", format='100A', unit='', array=template), 
+        fits.Column(name="SPECTRUM", format='100A', unit='', array=spec_names)        
+        # ,fits.Column(name= "n_energy_bins"  , format='K', unit='', array = data_n_e_b)
+        , fits.Column(name="IMGROTA", format='D', unit='deg', array=orientation), 
+        fits.Column(name="IMGSCAL", format='D', unit='', array=pixel_rescaling)
     ])
 
     hdu = fits.BinTableHDU.from_columns(hdu_cols)

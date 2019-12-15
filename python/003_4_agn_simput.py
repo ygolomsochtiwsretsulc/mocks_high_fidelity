@@ -199,8 +199,15 @@ for HEALPIX_id in n.arange(N_pixels):
     N_agn_out = len(ra_array)
 
     hdu_cols = fits.ColDefs([
-        # ,fits.Column(name="SRC_NAME" , format='10A', unit='', array =  n.arange(len(hd_all[1].data['ra'])).astype('str') )
-        fits.Column(name="SRC_ID", format='K', unit='', array=data_indexes), fits.Column(name="RA", format='D', unit='deg', array=ra_array), fits.Column(name="DEC", format='D', unit='deg', array=dec_array), fits.Column(name="E_MIN", format='D', unit='keV', array=n.ones(N_agn_out) * 0.5), fits.Column(name="E_MAX", format='D', unit='keV', array=n.ones(N_agn_out) * 2.0), fits.Column(name="FLUX", format='D', unit='erg/s/cm**2', array=FX_array), fits.Column(name="SPECTRUM", format='100A', unit='', array=tpl), fits.Column(name="n_energy_bins", format='K', unit='', array=data_n_e_b)
+		# ,fits.Column(name="SRC_NAME" , format='10A', unit='', array =  n.arange(len(hd_all[1].data['ra'])).astype('str') )
+		fits.Column(name="SRC_ID", format='K', unit='', array=data_indexes), 
+		fits.Column(name="RA", format='D', unit='deg', array=ra_array), 
+		fits.Column(name="DEC", format='D', unit='deg', array=dec_array), 
+		fits.Column(name="E_MIN", format='D', unit='keV', array=n.ones(N_agn_out) * 0.5), 
+		fits.Column(name="E_MAX", format='D', unit='keV', array=n.ones(N_agn_out) * 2.0), 
+		fits.Column(name="FLUX", format='D', unit='erg/s/cm**2', array=FX_array), 
+		fits.Column(name="SPECTRUM", format='100A', unit='', array=tpl), 
+		fits.Column(name="n_energy_bins", format='K', unit='', array=data_n_e_b)
     ])
 
     hdu = fits.BinTableHDU.from_columns(hdu_cols)

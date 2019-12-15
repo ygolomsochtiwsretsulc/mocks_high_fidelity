@@ -38,9 +38,9 @@ from scipy.interpolate import interp1d
 import matplotlib.pyplot as p
 import matplotlib
 import astropy.io.fits as fits
-import h5py
+#import h5py
 import numpy as n
-print('PLOT XLF and logNlogS')
+print('TABULATES XLF and logNlogS')
 print('------------------------------------------------')
 print('------------------------------------------------')
 
@@ -250,11 +250,11 @@ for path_2_eRO_catalog, path_2_GAL_catalog in zip(
         baseName = str_healpix_id + '_' + \
             str(n.round(zmin, 2)) + '_z_' + str(n.round(zmax, 2))
 
-        print(zmin, '<z<', zmax)
+        #print(zmin, '<z<', zmax)
         vol = (cosmo.comoving_volume(zmax).value -
                cosmo.comoving_volume(zmin).value) * n.pi * area / 129600.
         DL_mean_z = (cosmo.luminosity_distance(z_mean).to(u.cm)).value
-        print('volume', vol, 'Mpc3')
+        #print('volume', vol, 'Mpc3')
 
         #dataDir = os.path.join(os.environ['GIT_AGN_MOCK'], 'data')
         #xlf_dir = os.path.join(dataDir, 'LF_SMF/LXFunction/aird_2015/')

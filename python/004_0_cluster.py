@@ -98,12 +98,12 @@ make_figure = True
 make_figure = False
 
 # initializes pathes to files
-test_dir = os.path.join(os.environ[env], 'hlists', 'fits')
+test_dir = os.path.join(os.environ[env], 'fits')
 
 path_2_light_cone = os.path.join(test_dir, baseName + '.fits')
-path_2_coordinate_file = os.path.join(test_dir, baseName + '_coordinates.h5')
-path_2_galaxy_file = os.path.join(test_dir, baseName + '_galaxy.h5')
-path_2_CLU_file = os.path.join(test_dir, baseName + '_CLU.h5')
+path_2_coordinate_file = os.path.join(test_dir, baseName + '_coordinates.fits')
+path_2_galaxy_file = os.path.join(test_dir, baseName + '_galaxy.fits')
+path_2_CLU_file = os.path.join(test_dir, baseName + '_CLU.fits')
 
 # x ray extinction for clusters, from A. Finoguenov
 path_2_NH_law = os.path.join(
@@ -148,6 +148,7 @@ if env == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "UNIT_fA2_DIR":
 f1 = fits.open(path_2_light_cone)
 Mvir = f1[1].data['Mvir'] / h
 M500c = f1[1].data['M500c'] / h
+logM500c = n.log10(M500c)
 log_vmax = n.log10(f1[1].data['vmax'])
 N_obj = len(Mvir)
 cluster = (M500c > 5e13)
@@ -158,17 +159,17 @@ f1.close()
 ids_cluster = n.arange(N_obj)[cluster]
 
 f2 = h5py.File(path_2_coordinate_file, 'r')
-ra = f2['/coordinates/ra'].value[cluster]
-dec = f2['/coordinates/dec'].value[cluster]
-zz = f2['/coordinates/redshift_R'].value[cluster]
-zzs = f2['/coordinates/redshift_S'].value[cluster]
-dL_cm = f2['/coordinates/dL'].value[cluster]
-galactic_NH = f2['/coordinates/NH'].value[cluster]
-galactic_ebv = f2['/coordinates/ebv'].value[cluster]
-g_lat = f2['/coordinates/g_lat'].value[cluster]
-g_lon = f2['/coordinates/g_lon'].value[cluster]
-ecl_lat = f2['/coordinates/ecl_lat'].value[cluster]
-ecl_lon = f2['/coordinates/ecl_lon'].value[cluster]
+ra = f2[1].data['ra'].value[cluster]
+dec = f2[1].data['dec'].value[cluster]
+zz = f2[1].data['redshift_R'].value[cluster]
+zzs = f2[1].data['redshift_S'].value[cluster]
+dL_cm = f2[1].data['dL'].value[cluster]
+galactic_NH = f2['nH'].value[cluster]
+galactic_ebv = f2[1].data['ebv'].value[cluster]
+g_lat = f2[1].data['g_lat'].value[cluster]
+g_lon = f2[1].data['g_lon'].value[cluster]
+ecl_lat = f2[1].data['ecl_lat'].value[cluster]
+ecl_lon = f2[1].data['ecl_lon'].value[cluster]
 f2.close()
 print('coordinate file opened', time.time() - t0)
 
@@ -186,39 +187,116 @@ mass = f3['/galaxy/SMHMR_mass'].value  # log of the stellar mass
 # f3.close()
 
 
-# Bulbul et al. 2018 scaling relations
-z_pivot = 0.45
-M_pivot = 6.35 * 10**(14)
-E_pivot = cosmo.efunc(z_pivot)
-#
-scatter_1 = norm.rvs(loc=0, scale=1., size=N_clu)
-#
-# Eq 17 T X cin
-def SR_0(m500, z): return 6.41 * (m500 / M_pivot) ** 0.799 * \
-    (cosmo.efunc(z) / E_pivot)**(2. / 3.) * ((1 + z) / (1 + z_pivot))**(-0.36)
-# Eq 18 T X cex
-def SR_1(m500, z): return 6.09 * (m500 / M_pivot) ** 0.799 * \
-    (cosmo.efunc(z) / E_pivot)**(2. / 3.) * ((1 + z) / (1 + z_pivot))**(-0.33)
-# Eq 20 M ICM cex
-def SR_2(m500, z): return 7.37 * 1e13 * (m500 / M_pivot) ** 1.259 * \
-    ((1 + z) / (1 + z_pivot))**(0.18)
-# Eq 25 L X cin
-def SR_3(m500, z): return 4.12 * 1e44 * (m500 / M_pivot) ** 1.89 * \
-    (cosmo.efunc(z) / E_pivot)**2.0 * ((1 + z) / (1 + z_pivot))**(-0.2)
-# Eq 26 L X cex
+path_2_cbp = os.path.join(os.environ['GIT_CBP'])
+
+Mpc=3.0856776e+24
+msun=1.98892e33
+nsim = 1000000
+covor=n.loadtxt(os.path.join(path_2_cbp, 'covmat_xxl_hiflugcs_xcop.txt'))
+xgrid_ext=n.loadtxt(os.path.join(path_2_cbp, 'radial_binning.txt'))
+mean_log=n.loadtxt(os.path.join(path_2_cbp, 'mean_pars.txt'))
+coolfunc=n.loadtxt(os.path.join(path_2_cbp, 'coolfunc.dat'))
+
+def calc_lx(prof,kt,m5,z):
+	"""
+	Compute the X-ray luminosity in the profile
+
+	to be exteneded to 3x r500c
+	"""
+	ez2=cosmo.efunc(z)**2
+	rhoc = cosmo.critical_density(z).value
+	r500 = n.power(m5*msun/4.*3./n.pi/500./rhoc,1./3.)
+	resfact=n.sqrt(kt/10.0)*n.power(ez2,3./2.)
+	prof_em=prof*resfact # emission integral
+	tlambda=n.interp(kt,coolfunc[:,0],coolfunc[:,1]) # cooling function
+	dx=n.empty(len(xgrid_ext))
+	dx[0]=xgrid_ext[0]
+	dx[1:len(xgrid_ext)]=(n.roll(xgrid_ext,-1)-xgrid_ext)[:len(xgrid_ext)-1]
+	#print(prof_em*xgrid_ext*r500**2*2.*n.pi*tlambda*Mpc*dx)
+	lxcum=n.cumsum(prof_em*xgrid_ext*r500**2*2.*n.pi*tlambda*Mpc*dx) # riemann integral
+	lx_500=n.interp(1.,xgrid_ext,lxcum) # evaluated at R500
+	return lx_500
+
+profs=n.exp(n.random.multivariate_normal(mean_log,covor,size=nsim))
+
+allz=profs[:,len(mean_log)-3]
+allkt=profs[:,len(mean_log)-1]
+allm5=profs[:,len(mean_log)-2]
+
+profiles=profs[:,:len(xgrid_ext)]
+
+alllx=n.empty(nsim)
+for i in range(nsim):
+	tprof=profiles[i]
+	alllx[i]=calc_lx(tprof,allkt[i],allm5[i],allz[i])
 
 
-def SR_4(m500, z): return 2.84 * 1e44 * (m500 / M_pivot) ** 1.60 * \
-    (cosmo.efunc(z) / E_pivot)**2.0 * ((1 + z) / (1 + z_pivot))**(-0.1)
 
-#
-TX_BB_18_cin = SR_0(M500c[cluster], zz)
-TX_BB_18_cex = SR_1(M500c[cluster], zz)
-MICM_BB_18_cex = SR_2(M500c[cluster], zz)
-LX_BB_18_cin = SR_3(M500c[cluster], zz)
-LX_BB_18_cex = SR_4(M500c[cluster], zz)
-print('LX_BB_18_cin', LX_BB_18_cin[:20], time.time() - t0)
-print('LX_BB_18_cex', LX_BB_18_cex[:20], time.time() - t0)
+from sklearn.neighbors import BallTree
+
+Tree_profiles = BallTree(n.transpose([allz, n.log10(allm5)]))
+DATA = n.transpose([zzs, logM500c])
+
+ids_out = Tree_profiles.query(DATA, k=1, return_distance = False)
+
+ids = n.hstack((ids_out))
+
+# LX_out 0.5-2 rest frame erg/s
+# to convert to 0.5-2 observed frame 
+LX_out = alllx[ids]
+KT_OUT = allkt[ids]
+
+
+itp_logNH, itp_z, itp_kt, itp_frac_obs = n.loadtxt( os.path.join( os.environ['GIT_AGN_MOCK'], "data", "xray_k_correction", "fraction_observed_clusters.txt"), unpack=True )
+
+nh_vals = 10**n.arange(-2,4+0.01,0.5)#0.05)
+z_vals = n.hstack(( n.arange(0.,0.7,0.05), [0.8, 0.9, 1, 1.1, 1.2, 1.4, 1.6] ))
+kT_vals = n.hstack(( n.arange(0.5,8,0.5), [10, 20, 30, 40, 50] ))
+
+XX_nh, YY_z, ZZ_kt = n.meshgrid(nh_vals, z_vals, kT_vals)
+
+shape_i = XX_nh.shape
+
+matrix = itp_frac_obs.reshape(shape_i)
+
+from scipy.interpolate import RegularGridInterpolator
+attenuation_3d = RegularGridInterpolator((z_vals, n.log10(nh_vals*1e22), kT_vals), matrix)
+
+sel = (data['galactic_NH']>1e19)
+bad_NH = (sel==False)
+data['galactic_NH'][bad_NH] = 1.000001e19
+
+k_correction_3d = attenuation_3d( n.transpose([zzs, n.ones_like(n.log10(data['galactic_NH']))*20., KT_OUT]))
+
+itp_z, itp_kt, itp_frac_obs = n.loadtxt( os.path.join( os.environ['GIT_AGN_MOCK'], "data", "xray_k_correction", "fraction_observed_clusters_no_nH.txt"), unpack=True )
+
+
+z_vals = n.hstack(( n.arange(0.,0.7,0.05), [0.8, 0.9, 1, 1.1, 1.2, 1.4, 1.6] ))
+kT_vals = n.hstack(( n.arange(0.5,8,0.5), [10, 20, 30, 40, 50] ))
+
+YY_z, ZZ_kt = n.meshgrid(z_vals, kT_vals)
+
+shape_i = YY_z.shape
+
+matrix_2d = itp_frac_obs.reshape(shape_i)
+
+from scipy.interpolate import RegularGridInterpolator
+attenuation_2d = RegularGridInterpolator((kT_vals, z_vals), matrix_2d)
+
+k_correction_2d = attenuation_2d( n.transpose([KT_OUT, zzs]))
+
+
+attenuate_X_logNH, attenuate_Y_frac_obs = n.loadtxt( os.path.join( os.environ['GIT_AGN_MOCK'], "data", "xray_k_correction", "nh_attenuation_clusters.txt"), unpack=True )
+
+#att = attenuation( n.transpose([zzs, n.log10(data['galactic_NH']), KT_OUT]))
+
+LX_obsF = LX_out / k_correction_2d 
+dL_cm = data['dL_cm']
+CLU_FX_soft_1 = LX_obsF / (4 * n.pi * dL_cm.data**2.)
+
+itp_attenuation = interp1d(attenuate_X_logNH, attenuate_Y_frac_obs)
+att = itp_attenuation(n.log10(data['galactic_NH']))
+CLU_FX_soft = CLU_FX_soft_1 * att
 
 # Flux limit for point sources
 # use the flux limit for SNR3 point sources to have all possible clusters, in particular at high redshift
@@ -238,12 +316,7 @@ flux_lim_data = fits.open(path_2_flux_limits)
 #flux_limit_eRASS3, flux_limit_eRASS8, flux_limit_SNR3
 flux_limit = flux_lim_data[1].data['flux_limit_SNR3'][pix_ids]
 print('flux limit file opened', time.time() - t0)
-
-# Flux observed and attenuated
-attenuation = nh_law(galactic_NH)
-CLU_FX_soft = LX_BB_18_cin / (4 * n.pi * dL_cm**2.)
-CLU_FX_soft_attenuated = attenuation * CLU_FX_soft
-detected = (CLU_FX_soft_attenuated > 10**(flux_limit))
+detected = (CLU_FX_soft > 10**(flux_limit))
 
 # relaxation state
 # the ones that have the most recent MM are most disturbed.
@@ -263,6 +336,12 @@ coolness = delta_t_values_itp(delta_t_MM)
 # implement correlated scatter for quantities
 # as of now it is 100% correlated (false)
 
+data.add_column(Column(name='LX_soft_RF', data=LX_out, unit='erg/s'))
+data.add_column(Column(name='kT', data=KT_OUT, unit='keV'))
+data.add_column(Column(name='LX_soft', data=LX_obsF, unit='erg/s'))
+data.add_column(Column(name='FX_soft', data=CLU_FX_soft, unit='erg/cm2/s'))
+
+
 # writes the results
 print('writes results', time.time() - t0)
 f = h5py.File(path_2_CLU_file, "a")
@@ -274,50 +353,22 @@ halo_data = f.create_group('CLUSTERS')
 
 halo_data.create_dataset('ids_cluster', data=ids_cluster)
 
-ds = halo_data.create_dataset(
-    'LX_soft_cin',
-    data=n.log10(LX_BB_18_cin) +
-    scatter_1 *
-    0.27)
-ds.attrs['units'] = 'log10(L_X/[0.5-2keV, cin, erg/s])'
+ds = halo_data.create_dataset('LX_soft_RF', data=n.log10(LX_soft_RF))
+ds.attrs['units'] = 'log10(L_X/[0.5-2keV, restFrame, erg/s])'
 
-halo_data.create_dataset(
-    'LX_soft_cex',
-    data=n.log10(LX_BB_18_cex) +
-    scatter_1 *
-    0.27)
-ds.attrs['units'] = 'log10(L_X/[0.5-2keV, cex, erg/s])'
+ds = halo_data.create_dataset('LX_soft', data=n.log10(LX_out))
+ds.attrs['units'] = 'log10(L_X/[0.5-2keV, obsFrame, erg/s])'
 
-halo_data.create_dataset(
-    'TX_cin',
-    data=n.log10(TX_BB_18_cin) +
-    scatter_1 *
-    0.179)
-ds.attrs['units'] = 'log10(T cin [keV])'
-
-halo_data.create_dataset(
-    'TX_cex',
-    data=n.log10(TX_BB_18_cex) +
-    scatter_1 *
-    0.128)
-ds.attrs['units'] = 'log10(T cex [keV])'
-
-halo_data.create_dataset(
-    'MICM_cex',
-    data=n.log10(MICM_BB_18_cex) +
-    scatter_1 *
-    0.098)
-ds.attrs['units'] = 'log10(M_ICM [Msun]))'
+halo_data.create_dataset('kT', data=KT_OUT)
+ds.attrs['units'] = 'kT cin [keV]'
 
 halo_data.create_dataset('FX_soft', data=CLU_FX_soft)
 ds.attrs['units'] = 'F_X / [0.5-2keV, erg/cm2/s]'
 
-halo_data.create_dataset('FX_soft_attenuated', data=CLU_FX_soft_attenuated)
+halo_data.create_dataset('FX_soft_attenuated', data=CLU_FX_soft)
 ds.attrs['units'] = 'F_X / [0.5-2keV, erg/cm2/s]'
 
 halo_data.create_dataset('detected', data=detected)
-
-halo_data.create_dataset('scatter_1', data=scatter_1)
 
 halo_data.create_dataset('coolness', data=coolness)
 ds.attrs['units'] = '0:very disturbed, 1:relaxed'

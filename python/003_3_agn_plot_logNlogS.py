@@ -40,7 +40,7 @@ from scipy.interpolate import interp1d
 import matplotlib.pyplot as p
 import matplotlib
 import astropy.io.fits as fits
-import h5py
+#import h5py
 import numpy as n
 print('PLOT XLF and logNlogS')
 print('------------------------------------------------')
@@ -369,9 +369,9 @@ n.savetxt(
 
 sys.exit()
 
-print('opens galaxy file ', time.time() - t0)
-f3 = h5py.File(path_2_galaxy_file, 'r')
-mass = f3['/galaxy/SMHMR_mass'][:]  # log of the stellar mass
+#print('opens galaxy file ', time.time() - t0)
+f3 = fits.open(path_2_galaxy_file)
+mass = f3[1].data['SMHMR_mass']  # log of the stellar mass
 f3.close()
 
 f_duty = interp1d(

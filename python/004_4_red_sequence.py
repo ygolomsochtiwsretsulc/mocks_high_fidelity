@@ -77,7 +77,7 @@ if env == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "UNIT_fA2_DIR":
     cosmo = cosmoUNIT
 
 # import all pathes
-test_dir = os.path.join(os.environ[env], 'hlists', 'fits')
+test_dir = os.path.join(os.environ[env], 'fits')
 path_2_CLU_catalog = os.path.join(test_dir, env + '_eRO_CLU.fit')
 path_2_CLU_SAT_catalog = os.path.join(test_dir, env + '_eRO_CLU_SAT.fit')
 # output catalog

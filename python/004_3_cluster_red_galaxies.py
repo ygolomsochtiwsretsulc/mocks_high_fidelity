@@ -47,7 +47,7 @@ t0 = time.time()
 # import all pathes
 env = sys.argv[1]
 
-test_dir = os.path.join(os.environ[env], 'hlists', 'fits')
+test_dir = os.path.join(os.environ[env], 'fits')
 path_2_CLU_SAT_catalog = os.path.join(test_dir, env + '_eRO_CLU_SAT.fit')
 
 
