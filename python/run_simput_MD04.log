@@ -1,0 +1,7 @@
+CREATES FITS FILES
+------------------------------------------------
+------------------------------------------------
+Traceback (most recent call last):
+  File "003_4_agn_simput.py", line 41, in <module>
+    f_sat = float(sys.argv[2])  # 0.2
+IndexError: list index out of range

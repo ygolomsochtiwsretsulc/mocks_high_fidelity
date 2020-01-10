@@ -73,7 +73,7 @@ xspec.Xset.cosmo = "67.77 0. 0.692885"
 
 nh_vals = 10**n.arange(-2,4+0.01,0.5)#0.05)
 z_vals = n.hstack(( n.arange(0.,0.7,0.05), [0.8, 0.9, 1, 1.1, 1.2, 1.4, 1.6] ))
-kT_vals = n.hstack(( n.arange(0.5,8,0.5), [10, 20, 30, 40, 50] ))
+kT_vals = n.hstack(([0.1, 0.2], n.arange(0.5,8,0.5), [10, 20, 30, 40, 50] ))
 
 def get_fraction_obsF_RF(nh_val=1, kT=4, redshift=0, norm=1, metallicity=0.3):
 	"""
