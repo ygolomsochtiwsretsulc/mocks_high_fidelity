@@ -30,7 +30,7 @@ run_dir = os.path.join(lss_git_dir, '003_6_log')
 def writeScript(env, ftyp):
 	min_ = 0 
 	max_ = 768
-	bds = n.arange(min_, max_+50, 50)
+	bds = n.arange(min_, max_+14, 14)
 	for ii, (min_X, max_X) in enumerate(zip(bds[:-1], bds[1:])):
 		#f = open(os.path.join(run_dir, env + '_' + ftyp + '_' + hpx+ ".sh"), 'w')
 		f = open(os.path.join(run_dir, env + '_' + ftyp + '_' + str(ii).zfill(2) + ".sh"), 'w')

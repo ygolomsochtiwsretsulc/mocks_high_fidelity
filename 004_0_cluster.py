@@ -4,17 +4,15 @@ What it does
 
 Computes the X-ray cluster model in each shell
 
-Uses scaling relations to infer LX_soft_cin, LX_soft_cex, TX_cin, TX_cex, FX_soft_cin, FX_soft_cex,
-
 References
 ----------
 
-* Bulbul et al. 2019 https://ui.adsabs.harvard.edu/abs/2019ApJ...871...50B
+comparat et al. in prep
 
 Command to run
 --------------
 
-python3 004_0_cluster.py environmentVAR fileBasename
+python3 004_0_cluster.py environmentVAR fileBasename image_boolean
 
 arguments
 ---------
@@ -23,6 +21,8 @@ environmentVAR: environment variable linking to the directory where files are e.
 It will then work in the directory : $environmentVAR/hlists/fits/
 
 fileBasename: base name of the file e.g. all_1.00000
+
+image_boolean: yes or no will write or not the images for sixte / simput simulations
 
 Dependencies
 ------------
@@ -35,39 +35,6 @@ import time, os, sys, numpy, scipy, astropy, h5py, extinction, matplotlib
 182 XXL, 
 49 HIFLUGS
 12 XCOP
-
-
-# correlated random variables 
-# https://scipy-cookbook.readthedocs.io/items/CorrelatedRandomSamples.html
-# import numpy as np
-from scipy.linalg import eigh, cholesky
-from scipy.stats import norm
-# Choice of cholesky or eigenvector method.
-method = 'cholesky'
-#method = 'eigenvectors'
-# The desired covariance matrix.
-r = np.array([
-        [  0.36, 0.49],
-        [  0.49,  0.19],
-    ])
-
-# Generate samples from three independent normally distributed random
-# variables (with mean 0 and std. dev. 1).
-x = norm.rvs(size=(3, N_clu))
-
-# We need a matrix `c` for which `c*c^T = r`.  We can use, for example,
-# the Cholesky decomposition, or the we can construct `c` from the
-# eigenvectors and eigenvalues.
-
-if method == 'cholesky':
-    # Compute the Cholesky decomposition.
-    c = cholesky(r, lower=True)
-
-# Convert the data to correlated random variables. 
-y = np.dot(c, x)
-
-
-
 """
 from astropy.table import Table, Column
 from astropy_healpix import healpy
@@ -96,10 +63,13 @@ t0 = time.time()
 env = sys.argv[1]  # 'MD04'
 baseName = sys.argv[2]  # "all_0.62840"
 z_snap = 1./float(baseName.split('_')[1])-1.
+aexp_str = str(int(float(baseName.split('_')[1])*1e5)).zfill(6)
 print(env, baseName,z_snap)
 make_figure = True
 make_figure = False
 is_writing_images = sys.argv[3] # 'yes'
+
+b_HS = 0.8
 
 # initializes pathes to files
 test_dir = os.path.join(os.environ[env], 'fits')
@@ -159,7 +129,8 @@ DeltaVir_bn98 = lambda zz : (18.*n.pi**2. + 82.*(omega(zz)-1)- 39.*(omega(zz)-1)
 
 f1 = fits.open(path_2_light_cone)
 N_obj = len(f1[1].data['M500c'])
-cluster = ( n.log10(f1[1].data['M500c'] / h) > 13 ) & ( f1[1].data['pid'] == -1 )
+#cluster = ( n.log10(f1[1].data['M500c'] / h) > n.log10(1e13) ) # & ( f1[1].data['pid'] == -1 )
+cluster = ( n.log10(f1[1].data['M500c']) > 13 ) # & ( f1[1].data['pid'] == -1 )
 
 Mvir = f1[1].data['Mvir'][cluster] / h
 Rvir = f1[1].data['Rvir'][cluster]
@@ -171,11 +142,20 @@ scale_of_last_MM = f1[1].data['scale_of_last_MM'][cluster]
 N_clu = len(Mvir)
 print(N_clu, 'clusters')
 Xoff = f1[1].data['Xoff'][cluster] / f1[1].data['Rvir'][cluster]
+NN,BB=n.histogram(Xoff, bins=1000)
+NN_C = n.cumsum(NN)*1./N_clu
+# from Xoff assign percentile
+itp_xoff_cdf = interp1d( n.hstack((BB)), n.hstack((0.,NN_C)))
+#from percentile assign Xoff
+itp_xoff = interp1d( n.hstack((0.,NN_C)), n.hstack((BB)))
+Xoff_PC = itp_xoff_cdf(Xoff)
+
 b_to_a_500c = f1[1].data['b_to_a_500c'][cluster]
 #f1.close()
 halo_lineID = n.arange(N_obj)[cluster]
-ids_cluster = (n.arange(N_obj)[cluster]*1e12 + f1[1].data['id'][cluster] ).astype('int')
-ids_cluster_str = n.array([str(el).zfill(22) for el in ids_cluster])
+#ids_cluster = (halo_lineID*1000000000000 + abs(f1[1].data['id'][cluster]) ).astype('int64')
+ids_cluster_str = n.array([aexp_str+str(el).zfill(16) for el in f1[1].data['id'][cluster]])
+#aexp_str
 
 f2 = fits.open(path_2_coordinate_file)
 ra = f2[1].data['ra'][cluster]
@@ -210,9 +190,9 @@ path_2_cbp = os.path.join(os.environ['GIT_CBP'])
 Mpc=3.0856776e+24
 msun=1.98892e33
 if N_clu < 100:
-	nsim = N_clu*100
+	nsim = N_clu*1000
 else:
-	nsim = N_clu*10
+	nsim = N_clu*100
 covor=n.loadtxt(os.path.join(path_2_cbp, 'covmat_xxl_hiflugcs_xcop.txt'))
 xgrid_ext=n.loadtxt(os.path.join(path_2_cbp, 'radial_binning.txt'))
 mean_log=n.loadtxt(os.path.join(path_2_cbp, 'mean_pars.txt'))
@@ -239,24 +219,41 @@ def calc_lx(prof,kt,m5,z):
 
 profs=n.exp(n.random.multivariate_normal(mean_log,covor,size=nsim))
 
-allz=profs[:,len(mean_log)-3]
-allkt=profs[:,len(mean_log)-1]
-allm5=profs[:,len(mean_log)-2]
+allz_i  = profs[:,len(mean_log)-3]
+allkt_i = profs[:,len(mean_log)-1]
+allm5_i = profs[:,len(mean_log)-2]
 
-profiles=profs[:,:len(xgrid_ext)]
+profiles_i = profs[:,:len(xgrid_ext)]
+
+in_zbin = (allz_i<zmax+0.05)&(allz_i>zmin-0.05)
+
+allz     = allz_i    [in_zbin]
+allkt    = allkt_i   [in_zbin]
+allm5    = allm5_i   [in_zbin]
+profiles = profiles_i[in_zbin]
+nsim = len(allz)
+
+EM0 = -n.log10(profiles.T[0])
+EM0_norm = ( EM0 - EM0.min() ) / n.max(EM0 - EM0.min())
+NN,BB=n.histogram(EM0, bins=1000)
+NN_C = n.cumsum(NN)*1./len(EM0)
+# from EM0 assign percentile
+itp_EM0_cdf = interp1d( n.hstack((BB)), n.hstack((0.,NN_C)))
+#from percentile assign Xoff
+itp_EM0 = interp1d( n.hstack((0.,NN_C)), n.hstack((BB)))
+EM0_PC = itp_EM0_cdf(EM0)
 
 alllx=n.empty(nsim)
 for i in range(nsim):
 	tprof=profiles[i]
 	alllx[i]=calc_lx(tprof,allkt[i],allm5[i],allz[i])
 
-
-print('profiles created', time.time()-t0)
+print(len(allz),'profiles created', time.time()-t0)
 from sklearn.neighbors import BallTree
 
-Tree_profiles = BallTree(n.transpose([allz, n.log10(allm5)]))
+Tree_profiles = BallTree(n.transpose([allz, n.log10(allm5), EM0_PC]))
 #DATA = n.array([[z_i, m_i] for z_i, m_i in zip(zzs, logM500c) ])
-DATA = n.transpose([zzs, logM500c])
+DATA = n.transpose([zzs, n.log10(M500c*b_HS), Xoff_PC])
 ids_out = Tree_profiles.query(DATA, k=1, return_distance = False)
 
 ids = n.hstack((ids_out))
@@ -265,28 +262,10 @@ ids = n.hstack((ids_out))
 # to convert to 0.5-2 observed frame 
 LX_out = alllx[ids]
 KT_OUT = allkt[ids]
+CBP_redshift = allz[ids]
+CBP_M500c    = n.log10(allm5)[ids]
+CBP_EM0      = itp_EM0(EM0_PC[ids])
 print('profiles matched', time.time()-t0)
-
-
-dir_2_SMPT_image = os.path.join(os.environ[env], "cat_CLU_SIMPUT", 'cluster_images')
-if os.path.isdir(dir_2_SMPT_image) == False:
-    os.system('mkdir -p ' + dir_2_SMPT_image)
-
-print('creates SIMPUT images')
-path_2_images = []
-# writes images using these profiles
-
-for profile_i, r500c_i, conversion_arcmin, file_name, b_a in zip(profiles[ids], R500c,  cosmo.kpc_proper_per_arcmin(zz).value, ids_cluster_str, b_to_a_500c):
-	image_file = os.path.join(dir_2_SMPT_image, file_name+'.fits')
-	print(image_file)
-	path_2_images.append(file_name)
-	x_coord = n.hstack(( 0., xgrid_ext*r500c_i/conversion_arcmin, 10*xgrid_ext[-1]*r500c_i/conversion_arcmin, 1000*xgrid_ext[-1]*r500c_i/conversion_arcmin )) # arcminutes
-	y_coord = n.hstack(( profile_i[0], profile_i, 0., 0. ))
-	profile = interp1d(x_coord, y_coord)
-	matrix = create_matrix(profile, n_pixel = 120, b_a = b_a)
-	if is_writing_images == 'yes':
-		write_img(matrix, image_file, n_pixel = 120)
-
 
 # attenuation grid should cover down to 0.05 keV 
 itp_logNH, itp_z, itp_kt, itp_frac_obs = n.loadtxt( os.path.join( os.environ['GIT_AGN_MOCK'], "data", "xray_k_correction", "fraction_observed_clusters.txt"), unpack=True )
@@ -300,10 +279,10 @@ XX_nh, YY_z, ZZ_kt = n.meshgrid(nh_vals, z_vals, kT_vals)
 
 shape_i = XX_nh.shape
 
-matrix = itp_frac_obs.reshape(shape_i)
+matrix_z_nh_kt = itp_frac_obs.reshape(shape_i)
 
 from scipy.interpolate import RegularGridInterpolator
-attenuation_3d = RegularGridInterpolator((z_vals, n.log10(nh_vals*1e22), kT_vals), matrix)
+attenuation_3d = RegularGridInterpolator((z_vals, n.log10(nh_vals*1e22), kT_vals), matrix_z_nh_kt)
 
 sel = (galactic_NH>1e19)
 bad_NH = (sel==False)
@@ -339,30 +318,48 @@ CLU_FX_soft = CLU_FX_soft_1 * att
 # Flux limit for point sources
 # use the flux limit for SNR3 point sources to have all possible clusters, in particular at high redshift
 # the a second flux limit will be applied with image simulations
-pix_ids = healpy.ang2pix(
-    512,
-    n.pi /
-    2. -
-    g_lat *
-    n.pi /
-    180.,
-    g_lon *
-    n.pi /
-    180.,
-    nest=True)
+pix_ids = healpy.ang2pix( 512,    n.pi /    2. -    g_lat *    n.pi /    180.,    g_lon *    n.pi /    180.,    nest=True)
 flux_lim_data = fits.open(path_2_flux_limits)
 #flux_limit_eRASS3, flux_limit_eRASS8, flux_limit_SNR3
-flux_limit = flux_lim_data[1].data['flux_limit_SNR3'][pix_ids]
+flux_limit = flux_lim_data[1].data['flux_limit_eRASS8'][pix_ids]
 print('flux limit file opened', time.time() - t0)
-detected = (CLU_FX_soft > 10**(flux_limit))
+detected = (CLU_FX_soft > 10**(flux_limit+0.4)) # to get 300,000 over the full sky
 
 # relaxation state
 # based on MD40, quartiles of Xoff
-xoff_bins_Q = n.array([0.,  4.28608992e-02, 6.59490117e-02, 1.00837135e-01, 5.7516e-01])
-coolness = n.ones_like(Xoff).astype('int')
-for jj, (x_min, x_max) in enumerate(zip(xoff_bins_Q[:-1], xoff_bins_Q[1:])):
-	sel = (Xoff >= x_min) & (Xoff < x_max) 
-	coolness[sel] = jj+1
+#xoff_bins_Q = n.array([0.,  4.28608992e-02, 6.59490117e-02, 1.00837135e-01, 5.7516e-01])
+#coolness = n.ones_like(Xoff).astype('int')
+#for jj, (x_min, x_max) in enumerate(zip(xoff_bins_Q[:-1], xoff_bins_Q[1:])):
+	#sel = (Xoff >= x_min) & (Xoff < x_max) 
+	#coolness[sel] = jj+1
+
+dir_2_SMPT_image = os.path.join(os.environ[env], "cat_CLU_SIMPUT", 'cluster_images')
+if os.path.isdir(dir_2_SMPT_image) == False:
+    os.system('mkdir -p ' + dir_2_SMPT_image)
+
+print('creates SIMPUT images')
+path_2_images = []
+# writes images using these profiles
+
+angularSize_per_pixel = n.zeros_like(ra)
+for jj, (profile_i, r500c_i, conversion_arcmin, file_name, b_a, det) in enumerate(zip(profiles[ids], R500c,  cosmo.kpc_proper_per_arcmin(zz).value, ids_cluster_str, b_to_a_500c, detected)):
+	image_file = os.path.join(dir_2_SMPT_image, file_name+'.fits')
+	#print(image_file)
+	path_2_images.append(file_name)
+	if is_writing_images == 'yes' :
+		if det :
+			x_coord = n.hstack(( 0., xgrid_ext*r500c_i/conversion_arcmin, 10*xgrid_ext[-1]*r500c_i/conversion_arcmin, 1000*xgrid_ext[-1]*r500c_i/conversion_arcmin )) # arcminutes
+			y_coord = n.hstack(( profile_i[0], profile_i, 0., 0. ))
+			profile = interp1d(x_coord, y_coord)
+			truncation_radius = 2 * r500c_i/ conversion_arcmin
+			n_pixel = 2*int(truncation_radius*60/20)
+			matrix, angularSize_per_pixel_j = create_matrix(profile, n_pixel = n_pixel, b_a = b_a, truncation_radius = truncation_radius)
+			angularSize_per_pixel[jj] = angularSize_per_pixel_j
+			print(r500c_i, conversion_arcmin, r500c_i/ conversion_arcmin, 60*angularSize_per_pixel_j, n_pixel, image_file)
+			if os.path.isfile(image_file)==False:
+				write_img(matrix, image_file, n_pixel = n_pixel, angularSize_per_pixel=angularSize_per_pixel_j)
+
+print('angularSize_per_pixel', angularSize_per_pixel)
 
 ### the ones that have the most recent MM are most disturbed.
 ### we do 4 classes with equal number of each class
@@ -389,6 +386,8 @@ for col_name, unit_val in zip(f2[1].data.columns.names, f2[1].data.columns.units
 for col_name in f1[1].data.columns.names:
 	if col_name == 'Mvir' or col_name == 'M200c' or col_name == 'M500c':
 		t.add_column(Column(name='HALO_'+col_name, data=f1[1].data[col_name][cluster]/h, unit='', dtype=n.float32 ) )
+	elif col_name == 'id' or col_name == 'pid' :
+		t.add_column(Column(name='HALO_'+col_name, data=f1[1].data[col_name][cluster], unit='', dtype=n.int64 ) )
 	else:
 		t.add_column(Column(name='HALO_'+col_name, data=f1[1].data[col_name][cluster], unit='', dtype=n.float32 ) )
 
@@ -397,214 +396,15 @@ t.add_column(Column(name='CLUSTER_LX_soft_RF', data=n.log10(LX_out), unit='erg/s
 t.add_column(Column(name='CLUSTER_kT', data=KT_OUT, unit='keV', dtype=n.float32))
 t.add_column(Column(name='CLUSTER_LX_soft', data=n.log10(LX_obsF), unit='erg/s', dtype=n.float32))
 t.add_column(Column(name='CLUSTER_FX_soft', data=CLU_FX_soft, unit='erg/(cm*cm*s)', dtype=n.float32))
-t.add_column(Column(name='CLUSTER_coolness', data=coolness, unit='' , dtype=n.float32) )
 t.add_column(Column(name='XRAY_image_path', data=n.array(path_2_images), unit='' , dtype='S22' ) )
+t.add_column(Column(name='angularSize_per_pixel', data=angularSize_per_pixel, unit='arcmin' , dtype=n.float32 ) )
+t.add_column(Column(name='CBP_redshift', data=CBP_redshift, unit='' , dtype=n.float32 ) )
+t.add_column(Column(name='CBP_M500c', data=CBP_M500c, unit='' , dtype=n.float32 ) )
+t.add_column(Column(name='CBP_EM0', data=CBP_EM0, unit='' , dtype=n.float32 ) )
+
+t.add_column(Column(name='flux_limit_eRASS8_pt', data=flux_limit, unit='' , dtype=n.float32 ) )
 
 for col_name, unit_val in zip(f3[1].data.columns.names, f3[1].data.columns.units):
 	t.add_column(Column(name='galaxy_'+col_name, data=f3[1].data[col_name][cluster], unit='', dtype=n.float32 ) )
 
 t.write(path_2_CLU_file, overwrite=True)
-
-sys.exit()
-
-# writes the results
-print('writes results', time.time() - t0)
-f = h5py.File(path_2_CLU_file, "a")
-f.attrs['file_name'] = os.path.basename(path_2_CLU_file)
-f.attrs['creator'] = 'JC'
-
-# writes the results
-halo_data = f.create_group('CLUSTERS')
-
-halo_data.create_dataset('ids_cluster', data=ids_cluster)
-
-ds = halo_data.create_dataset('LX_soft_RF', data=n.log10(LX_soft_RF))
-ds.attrs['units'] = 'log10(L_X/[0.5-2keV, restFrame, erg/s])'
-
-ds = halo_data.create_dataset('LX_soft', data=n.log10(LX_out))
-ds.attrs['units'] = 'log10(L_X/[0.5-2keV, obsFrame, erg/s])'
-
-halo_data.create_dataset('kT', data=KT_OUT)
-ds.attrs['units'] = 'kT cin [keV]'
-
-halo_data.create_dataset('FX_soft', data=CLU_FX_soft)
-ds.attrs['units'] = 'F_X / [0.5-2keV, erg/cm2/s]'
-
-halo_data.create_dataset('FX_soft_attenuated', data=CLU_FX_soft)
-ds.attrs['units'] = 'F_X / [0.5-2keV, erg/cm2/s]'
-
-halo_data.create_dataset('detected', data=detected)
-
-halo_data.create_dataset('coolness', data=coolness)
-ds.attrs['units'] = '0:very disturbed, 1:relaxed'
-
-f.close()
-
-### NOW THE FIGURES ###
-if make_figure:
-    import matplotlib
-    matplotlib.use('Agg')
-    matplotlib.rcParams.update({'font.size': 14})
-    import matplotlib.pyplot as p
-
-    fig_dir = os.path.join(
-        os.environ['GIT_AGN_MOCK'],
-        'figures',
-        env,
-        'clusters',
-    )
-    if os.path.isdir(fig_dir) == False:
-        os.system('mkdir -p ' + fig_dir)
-
-    fig_out = os.path.join(
-        fig_dir,
-        'Cluster_LX_soft_cin_vs_mass_' +
-        baseName +
-        '.png')
-    X = M500c[cluster]
-    Y = n.log10(LX_BB_18_cin) + scatter_1 * 0.27
-    p.figure(1, (6., 5.5))
-    p.tight_layout()
-    p.plot(X, Y, 'k+', rasterized=True)
-    p.title(baseName)
-    p.xscale('log')
-    p.xlabel('M500c')
-    p.ylabel('LX_soft cin')
-    p.grid()
-    p.savefig(fig_out)
-    p.clf()
-
-    fig_out = os.path.join(
-        fig_dir,
-        'Cluster_LX_soft_cex_vs_mass_' +
-        baseName +
-        '.png')
-    X = M500c[cluster]
-    Y = n.log10(LX_BB_18_cex) + scatter_1 * 0.27
-    p.figure(1, (6., 5.5))
-    p.tight_layout()
-    p.plot(X, Y, 'k+', rasterized=True)
-    p.title(baseName)
-    p.xscale('log')
-    p.xlabel('M500c')
-    p.ylabel('LX_soft cex')
-    p.grid()
-    p.savefig(fig_out)
-    p.clf()
-
-sys.exit()
-
-# other scaling relations
-
-# DIETRICH 2018
-N_Mgas = 31.92  # Dietrich 18
-N_kT = 2.18
-N_L = 103.7
-N_Lce = 102.66
-
-slope_E_Mgas = 0.05  # Dietrich 18
-slope_E_kT = 0.61
-slope_E_L = 1.20
-slope_E_Lce = 1.82
-
-slope_M500_Mgas = 1.398  # Dietrich 18
-slope_M500_kT = 0.66
-slope_M500_L = 1.43  # 1.26*(1.+0.33*0.43)
-slope_M500_Lce = 1.36  # 1.06*(1.+0.33*0.88)
-
-scatter_Mgas = 0.106  # Dietrich 18
-scatter_kT = 0.18
-scatter_L = 0.24
-scatter_Lce = 0.17
-
-# MANTZ 2016
-
-#N_Mgas = 31.98
-#N_kT 	= 2.18
-#N_L 	= 103.7
-#N_Lce 	= 102.66
-
-#slope_E_Mgas 	= -0.11
-#slope_E_kT 	= 0.61
-#slope_E_L 	= 1.20
-#slope_E_Lce 	= 1.82
-
-#slope_M500_Mgas= 1.04
-#slope_M500_kT 	= 0.66
-#slope_M500_L 	= 1.26
-#slope_M500_Lce = 1.06
-
-#scatter_Mgas = 0.086
-#scatter_kT = 0.18
-#scatter_L = 0.24
-#scatter_Lce = 0.17
-
-E035 = cosmo.efunc(0.35)
-
-# converts logM500 to clusters observables
-
-
-def m500_to_qty(logM500, z, slope_efunc, slope_m500, normalization): return n.e**normalization * \
-    (cosmoMD.efunc(z) / E035)**(slope_efunc) * (10**(logM500 - n.log10(6) - 14))**(slope_m500)
-
-
-def logM500_to_logMgas(
-    logM500,
-    z): return m500_to_qty(
-        logM500,
-        z,
-        slope_E_Mgas,
-        slope_M500_Mgas,
-    N_Mgas)
-
-
-def logM500_to_kT(
-    logM500,
-    z): return m500_to_qty(
-        logM500,
-        z,
-        slope_E_kT,
-        slope_M500_kT,
-    N_kT)
-
-
-def logM500_to_L(
-    logM500,
-    z): return m500_to_qty(
-        logM500,
-        z,
-        slope_E_L,
-        slope_M500_L,
-    N_L)
-
-
-def logM500_to_Lce(
-    logM500,
-    z): return m500_to_qty(
-        logM500,
-        z,
-        slope_E_Lce,
-        slope_M500_Lce,
-    N_Lce)
-
-
-
-#Mean_Mgas = n.log10(logM500_to_logMgas(log_m500c, z))
-#V_scatter_Mgas = norm.rvs(loc=0, scale=scatter_Mgas, size=nCluster)
-#VAL_Mgas = n.zeros_like(m500c_i)
-#VAL_Mgas[ok] = Mean_Mgas + V_scatter_Mgas
-
-#Mean_kT = logM500_to_kT(log_m500c, z)
-#V_scatter_kT = norm.rvs(loc=0, scale=scatter_kT, size=nCluster)
-#VAL_kT = n.zeros_like(m500c_i)
-#VAL_kT[ok] = Mean_kT + V_scatter_kT
-
-#Mean_L = n.log10(logM500_to_L(log_m500c, z))
-#V_scatter_L = norm.rvs(loc=0, scale=scatter_L, size=nCluster)
-#VAL_L = n.zeros_like(m500c_i)
-#VAL_L[ok] = Mean_L + V_scatter_L
-
-#Mean_Lce = n.log10(logM500_to_Lce(log_m500c, z))
-#V_scatter_Lce = norm.rvs(loc=0, scale=scatter_Lce, size=nCluster)
-#VAL_Lce = n.zeros_like(m500c_i)
-#VAL_Lce[ok] = Mean_Lce + V_scatter_Lce

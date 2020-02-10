@@ -189,11 +189,11 @@ path_2_CLU_catalog = os.path.join(os.environ[env], env + '_eRO_CLU.fit')
 # concatenates shells into a single fits catalog for the clusters, for
 # each simulation
 #os.chdir(tmp_dir)
-c1 = 'ls $'+env+'/fits/*_CLU.fits > fit_list_eRo_CLU.list'
+c1 = 'ls $'+env+'/fits/*_CLU.fits > fit_list_eRo_CLU'+env+'.list'
 print(c1)
 os.system(c1)
 #path_2_list = os.path.join(tmp_dir, 'fit_list_eRo_CLU.list')
-c2 = stilts_cmd + """ tcat in=@fit_list_eRo_CLU.list ifmt=fits omode=out ofmt=fits out=""" + path_2_CLU_catalog
+c2 = stilts_cmd + """ tcat in=@fit_list_eRo_CLU"""+env+""".list ifmt=fits omode=out ofmt=fits out=""" + path_2_CLU_catalog
 print(c2)
 os.system(c2)
 #os.system('rm -rf ' + tmp_dir)

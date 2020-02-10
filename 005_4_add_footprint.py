@@ -18,6 +18,7 @@ python 005_4_add_footprint.py AGN_DEEP_4MOST.fits
 python 005_4_add_footprint.py FILAMENTS5_4MOST.fits
 python 005_4_add_footprint.py S5_CGAL_4MOST.fit
 python 005_4_add_footprint.py AGN_IR_4MOST.fits
+python 005_4_add_footprint.py ELG_4MOST.fits
 
 cd $MD10
 gzip -k --rsyncable  $MD10/S5_BCG_4MOST.fit
@@ -30,7 +31,6 @@ gzip -k --rsyncable  $MD10/QSO_4MOST.fits
 gzip -k --rsyncable  $MD10/AGN_WIDE_4MOST.fits
 gzip -k --rsyncable  $MD10/AGN_DEEP_4MOST.fits
 gzip -k --rsyncable  $MD10/FILAMENTS5_4MOST.fits
-gzip -k --rsyncable  $MD10/ELG_4MOST.fits
 
 rsync $MD10/S5_BCG_4MOST.fit.gz      $HOME/wwwDir/MultiDark/MD10/
 rsync $MD10/LyA_4MOST.fits.gz        $HOME/wwwDir/MultiDark/MD10/
@@ -42,6 +42,8 @@ rsync $MD10/QSO_4MOST.fits.gz        $HOME/wwwDir/MultiDark/MD10/
 rsync $MD10/AGN_WIDE_4MOST.fits.gz   $HOME/wwwDir/MultiDark/MD10/
 rsync $MD10/AGN_DEEP_4MOST.fits.gz   $HOME/wwwDir/MultiDark/MD10/
 rsync $MD10/FILAMENTS5_4MOST.fits.gz $HOME/wwwDir/MultiDark/MD10/
+
+gzip -k --rsyncable  $MD10/ELG_4MOST.fits
 rsync $MD10/ELG_4MOST.fits.gz        $HOME/wwwDir/MultiDark/MD10/
 
 

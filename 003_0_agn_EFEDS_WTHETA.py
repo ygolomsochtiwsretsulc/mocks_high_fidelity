@@ -4,36 +4,17 @@ What it does
 
 Computes the AGN model from Comparat et al. 2019.
 
-It outputs X-ray and optical properties of AGNs
+Re-samples to a given f_sat
 
-References
-----------
-
- * Merloni et al. 2014 http://adsabs.harvard.edu/abs/2014MNRAS.437.3550M
-
- * Georgakakis et al. 2018 https://ui.adsabs.harvard.edu/\#abs/2018MNRAS.tmp.3272G
-
- * Comparat et al. 2019 https://ui.adsabs.harvard.edu/abs/2019MNRAS.tmp.1335C
-
-
-Command to run
---------------
-
-python3 003_0_agn.py environmentVAR fileBasename
-
-arguments
----------
-
-environmentVAR: environment variable linking to the directory where files are e.g. "MD10"
-It will then work in the directory : $environmentVAR/hlists/fits/
-
-fileBasename: base name of the file e.g. all_1.00000
-
-Dependencies
-------------
-
-import time, os, sys, numpy, scipy, astropy, h5py, extinction, matplotlib
-
+python 003_0_agn_EFEDS_WTHETA.py 2
+python 003_0_agn_EFEDS_WTHETA.py 4
+python 003_0_agn_EFEDS_WTHETA.py 6
+python 003_0_agn_EFEDS_WTHETA.py 8
+python 003_0_agn_EFEDS_WTHETA.py 10
+python 003_0_agn_EFEDS_WTHETA.py 12
+python 003_0_agn_EFEDS_WTHETA.py 14
+python 003_0_agn_EFEDS_WTHETA.py 16
+python 003_0_agn_EFEDS_WTHETA.py 20
 
 """
 import sys
@@ -57,26 +38,14 @@ print('------------------------------------------------')
 t0 = time.time()
 
 
-env = sys.argv[1]  # 'MD04'
-baseName = sys.argv[2]  # "sat_0.62840"
-print(env, baseName)
-make_figure = True
-make_figure = False
+env = 'MD10'
+f_sat_pc = int(sys.argv[1]) # 10 # percent
+f_sat = f_sat_pc / 100.
+print('f sat', f_sat)
+test_dir = os.path.join(os.environ[env])
 
-
-def get_a(baseName):
-    alp = baseName.split('_')[1]
-    print('a=', alp)
-    return float(alp)
-
-
-a_snap = get_a(baseName)
-
-test_dir = os.path.join(os.environ[env], 'fits')
-
-path_2_coordinate_file = os.path.join(test_dir, baseName + '_coordinates.fits')
-path_2_galaxy_file = os.path.join(test_dir, baseName + '_galaxy.fits')
-path_2_agn_file = os.path.join(test_dir, baseName + '_agn.fits')
+path_2_coordinate_file = os.path.join(test_dir, 'EFEDS_all.fits')
+path_2_agn_file = os.path.join(test_dir, 'EFEDS_agn_fsat_'+str(f_sat_pc)+'.fits')
 
 # link to X-ray K-correction and attenuation curves
 path_2_hard_RF_obs_soft = os.path.join(
@@ -119,13 +88,77 @@ if env == "MD04":
     scatter_0 = 1.0
 
 print('opens coordinate file ', time.time() - t0)
-f2 = fits.open(path_2_coordinate_file)
-zz = f2[1].data['redshift_R']
-dL_cm = f2[1].data['dL']
-galactic_NH = f2[1].data['nH']
-galactic_ebv = f2[1].data['ebv']
+f1 = Table.read( path_2_coordinate_file )
+zz_1 = f1['redshift_R']
+cen = (f1['pid']==-1)
+sat = (cen==False)
+high_z = (zz_1>1.5)
+N_galaxies = len(zz_1)
+N_galaxies_cen = len(zz_1[cen])
+N_galaxies_sat = len(zz_1[sat])
+
+f_duty = interp1d( n.array([0., 0.75, 1.5, 3.5, 10.1]), n.array([0.1, 0.2, 0.3, 0.3, 0.3]))
+f_duty_realization = f_duty(zz_1)
+active = (n.random.random(size=N_galaxies) <= f_duty_realization)
+active[high_z][:]=True
+N_agn = len(zz_1[active])
+
+print('native N, cen, sat, f_sat', N_galaxies, N_galaxies_cen, N_galaxies_sat, N_galaxies_sat*1./N_galaxies_cen)
+print('N AGN', N_agn)
+
+native_f_sat = N_galaxies_sat*1./N_galaxies_cen 
+
+N_galaxies_sat/N_galaxies_cen
+
+rds = n.random.random(N_galaxies)
+if f_sat > native_f_sat:
+	# downsample centrals
+	print('downsamples centrals')
+	N_cen_goal = N_galaxies_sat / f_sat	
+	sel_cen = (rds < N_cen_goal / N_galaxies_cen)
+	all_cen = (cen)&(sel_cen)
+	keep = (sat)|(all_cen)
+	
+if f_sat <= native_f_sat:
+	# downsample sat
+	print('downsamples sat')
+	N_sat_goal = N_galaxies_cen * f_sat	
+	sel_sat = (rds<N_sat_goal/N_galaxies_sat)
+	all_sat = (sat)&(sel_sat)
+	keep = (cen)|(all_sat)
+
+f2 = f1[keep]
+
+zz = f2['redshift_R']
+dL_cm = f2['dL']
+galactic_NH = f2['nH']
+galactic_ebv = f2['ebv']
+mass = f2['SMHMR_mass']  # log of the stellar mass
+high_z = (zz>1.5)
+
+cen = (f2['pid']==-1)
+sat = (cen==False)
+
 N_galaxies = len(zz)
-f2.close()
+N_galaxies_cen = len(zz[cen])
+N_galaxies_sat = len(zz[sat])
+
+
+f_duty = interp1d( n.array([0., 0.75, 1.5, 3.5, 10.1]), n.array([0.1, 0.2, 0.3, 0.3, 0.3]))
+f_duty_realization = f_duty(zz)
+active = (n.random.random(size=N_galaxies) <= f_duty_realization)
+active[high_z][:]=True
+N_agn = len(zz[active])
+
+print('obtained N, cen, sat, f_sat', N_galaxies, N_galaxies_cen, N_galaxies_sat, N_galaxies_sat*1./N_galaxies_cen)
+print('N AGN', N_agn)
+
+f3 = f2[active]
+
+tt = Table(f3)
+tt.write(path_2_agn_file, overwrite=True)
+
+sys.exit()
 
 # computes the cosmological volume (full sky at that point)
 zmin = n.min(zz)
@@ -136,28 +169,24 @@ vol = (cosmo.comoving_volume(zmax).value - cosmo.comoving_volume(zmin).value)
 DL_mean_z = (cosmo.luminosity_distance(z_mean).to(u.cm)).value
 print('volume', vol, 'Mpc3')
 
-print('opens galaxy file ', time.time() - t0)
-f3 = fits.open(path_2_galaxy_file)
-mass = f3[1].data['SMHMR_mass']  # log of the stellar mass
-f3.close()
-
 print('computes duty cycle ', time.time() - t0)
 # duty cycle measured from Georgakakis 2017
-f_duty = interp1d(
-    n.array([0., 0.75, 2., 3.5, 10.1]),
-    ##n.array([0.1, 0.2, 0.25, 0.25, 0.25])
-    n.array([0.1, 0.2, 0.3, 0.3, 0.3])
-)
+#f_duty = interp1d(
+    #n.array([0., 0.75, 2., 3.5, 10.1]),
+    ###n.array([0.1, 0.2, 0.25, 0.25, 0.25])
+    #n.array([0.1, 0.2, 0.3, 0.3, 0.3])
+#)
 
 #if a_snap > 0.40:
-# all halos are written in the light cone at low redshift
-f_duty_realization = f_duty(zz)
+    ## all halos are written in the light cone at low redshift
+    #f_duty_realization = f_duty(zz)
 #if a_snap < 0.40:
-# only 30% of halos are written in the light cone at high redshifts
-#f_duty_realization = f_duty(zz) / 0.3
+    ## only 30% of halos are written in the light cone at high redshifts
+    #f_duty_realization = f_duty(zz) / 0.3
 
+f_duty = interp1d( n.array([0., 0.75, 1.5, 3.5, 10.1]), n.array([0.1, 0.2, 1., 1., 1.]))
+f_duty_realization = f_duty(zz)
 active = (n.random.random(size=N_galaxies) <= f_duty_realization)
-# ids to map to galaxy and halo files
 ids_active = n.arange(N_galaxies)[active]
 
 logm = mass[ids_active]

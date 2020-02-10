@@ -537,7 +537,7 @@ radius_arcsec = cosmo.arcsec_per_kpc_proper(z_array).value * radius_kpc
 
 # surface brightness profiles
 # http://ned.ipac.caltech.edu/level5/March05/Graham/Graham2.html
-b4 = 7.669
+b4 = 7.669 # 6*2-1./3.
 b1 = 1.678
 
 

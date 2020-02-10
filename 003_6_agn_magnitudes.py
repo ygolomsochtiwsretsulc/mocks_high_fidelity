@@ -10,8 +10,9 @@ for HEALPIX_id in n.arange(N_pixels):
 	print("nohup python 003_6_agn_magnitudes.py MD04 sat "+str(HEALPIX_id).zfill(3)+" > 003_6_log/log.MD04.sat."+str(HEALPIX_id).zfill(3)+" & ")
 
 """
-
-import matplotlib.pyplot as p
+#from astropy_healpix 
+import healpy
+#import matplotlib.pyplot as p
 from scipy.stats import norm
 from scipy.interpolate import interp1d
 from lib_magnitudes import *
@@ -22,8 +23,8 @@ t0 = time.time()
 #import matplotlib
 # matplotlib.use('Agg')
 
-env = sys.argv[1]
-ftyp = sys.argv[2]
+env =  sys.argv[1]
+ftyp =  sys.argv[2]
 HEALPIX_ID = sys.argv[3]
 
 catalog_input = os.path.join(
@@ -55,11 +56,20 @@ if ftyp == 'all':
 r_mag = agn_hdus_i[1].data['AGN_SDSS_r_magnitude']
 AGN_FX_soft = agn_hdus_i[1].data['AGN_FX_soft']
 #selection = ( r_mag>26.5 )|( AGN_FX_soft>1e-17 )
+pix_ids = healpy.ang2pix(512, n.pi/2. - agn_hdus_i[1].data['g_lat'] *n.pi /180., agn_hdus_i[1].data['g_lon']*n.pi /180., nest=True)
+
+path_2_flux_limits = os.path.join(os.environ['GIT_AGN_MOCK'], "data", "erosita", "flux_limits.fits")
+flux_lim_data = fits.open(path_2_flux_limits) 
+#flux_limit_eRASS3, flux_limit_eRASS8, flux_limit_SNR3
+FX_LIM = flux_lim_data[1].data['flux_limit_SNR3']
+
+FX_LIM_value_cen = 10**(FX_LIM[pix_ids] - 1 )
+detected_all = (AGN_FX_soft > FX_LIM_value_cen)
 
 selection0 = n.zeros_like(r_mag)
 selection0[agn_ids] = 1
 
-selection = (selection0==1)
+selection = (selection0==1)&(detected_all)
 
 agn_hdus = Table(agn_hdus_i[1].data[selection])
 agn_hdus_i.close()
@@ -97,8 +107,7 @@ def get_rescaling_values(flambda, ll, r_mag, redshift):
         flambda, ll * (1 + z_i))['sdss2010-r'][0] for z_i in zs])
     ABmag_sdss_z = interp1d(zs, ABmag_sdss)
     # function to rescale to the right magnitude for a given redshift
-    def rescale_by(r_mag_out, redshift): return 10**((r_mag_out +
-                                                      48.6) / -2.5) / 10**((ABmag_sdss_z(redshift) + 48.6) / -2.5)
+    def rescale_by(r_mag_out, redshift): return 10**((r_mag_out +48.6) / -2.5) / 10**( ( ABmag_sdss_z( redshift ) + 48.6) / -2.5)
     # rescaling values
     rsbs = rescale_by(r_mag, redshift)
     return rsbs

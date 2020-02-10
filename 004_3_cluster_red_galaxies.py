@@ -60,10 +60,7 @@ zr_CLU = hdu_clu[1].data['redshift_R']
 mass = hdu_clu[1].data['galaxy_stellar_mass']
 log_sfr = hdu_clu[1].data['galaxy_star_formation_rate']
 
-
-def frac_old(x, z_cluster): return ((x + 0.01)**(-0.25) - \
-             x / 100. - 0.47) * (1. + z_cluster)**2. / 3.2
-
+def frac_old(x, z_cluster): return ((x + 0.01)**(-0.25) - x / 100. - 0.47) * (1. + z_cluster)**2. / 3.2
 
 f_red = frac_old(x, zr_CLU)
 
