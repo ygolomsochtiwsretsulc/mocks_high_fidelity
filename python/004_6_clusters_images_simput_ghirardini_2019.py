@@ -81,8 +81,7 @@ root_dir = os.path.join(os.environ[env])
 dir_2_eRO_all = os.path.join(root_dir, "cat_eRO_CLU")
 dir_2_SMPT = os.path.join(root_dir, "cat_CLU_SIMPUT")
 dir_2_SMPT_image = os.path.join(root_dir, "cat_CLU_SIMPUT", 'cluster_images')
-dir_2_SMPT_spectra = os.path.join(
-    root_dir, "cat_CLU_SIMPUT", 'cluster_Xspectra')
+dir_2_SMPT_spectra = os.path.join(root_dir, "cat_CLU_SIMPUT", 'cluster_Xspectra')
 
 if os.path.isdir(dir_2_SMPT_image) == False:
     os.system('mkdir -p ' + dir_2_SMPT_image)

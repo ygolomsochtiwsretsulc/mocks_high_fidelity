@@ -194,6 +194,30 @@ def add_kmag(HEALPIX_id):
 	t_lrg.write (path_2_LRG  , overwrite=True)
 	t_elg.write (path_2_ELG  , overwrite=True)
 
+
+#N_pixels = healpy.nside2npix(8)
+#for HEALPIX_id in n.arange(N_pixels)[::-1][:340]:
+def add_kmag_bgs5_only(HEALPIX_id):
+	#HEALPIX_id=359
+	# catalogs
+	path_2_BG_S5 = os.path.join(dir_2_OUT, 'S5GAL_'  + str(HEALPIX_id).zfill(6) + '.fit')
+
+	t_bgS5 = Table.read(path_2_BG_S5)
+	if 'K_mag_abs' not in t_bgS5.columns:
+		t_bgS5.add_column(Column(name='K_mag_abs', data=n.zeros_like(t_bgS5['Mstar'].data), unit='mag'))
+
+	#for zmin, zmax, p_a, p_b in zip(z0, z1, a0, b0):
+	for zmin, zmax, p_b in zip(z0, z1, b0):
+		#print(zmin, zmax, p_a, p_b)
+		s_bgS5  = (t_bgS5['Z']>=zmin)  & (t_bgS5['Z']<=zmax) 
+		#mag = lambda x : fun( x, p_a, p_b)
+		mag = lambda x : fun( x, p_b)
+		t_bgS5 ['K_mag_abs'][s_bgS5]  = mag(t_bgS5 ['Mstar'][s_bgS5])
+
+	t_bgS5['K_mag_abs']+=norm.rvs(loc=0, scale=0.15, size=len(t_bgS5['Z']))
+
+	t_bgS5.write(path_2_BG_S5, overwrite=True)
+
 def add_kmag_only_elg(HEALPIX_id):
 	path_2_ELG   = os.path.join(dir_2_OUT, 'ELG_' + str(HEALPIX_id).zfill(6) + '.fit')
 	t_elg = Table.read(path_2_ELG)
@@ -213,6 +237,7 @@ for HEALPIX_id in n.arange(N_pixels):
 	print(HEALPIX_id)
 	try :
 		#add_kmag(HEALPIX_id)
-		add_kmag_only_elg(HEALPIX_id)
+		#add_kmag_only_elg(HEALPIX_id)
+		add_kmag_bgs5_only(HEALPIX_id)
 	except(ValueError):
 		print('already computed')

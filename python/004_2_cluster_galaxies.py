@@ -58,12 +58,7 @@ deg_to_rad = n.pi / 180.
 #from sklearn.neighbors import DistanceMetric
 
 env = sys.argv[1]
-laptop = sys.argv[2]  # 'True'
-
-if laptop == "True":
-    stilts_cmd = 'java -jar /home/comparat/software/stilts.jar'
-else:
-    stilts_cmd = 'stilts'
+stilts_cmd = 'stilts'
 
 test_dir = os.path.join(os.environ[env], 'fits')
 tmp_dir = os.path.join(os.environ[env], 'fits', 'tmp')
@@ -71,20 +66,23 @@ if os.path.isdir(tmp_dir) == False:
     os.system('mkdir -p ' + tmp_dir)
 
 # input cluster catalog
-path_2_CLU_catalog = os.path.join(test_dir, env + '_eRO_CLU.fit')
+path_2_CLU_catalog = os.path.join(os.environ[env], env + '_eRO_CLU.fit')
 # output cluster galaxy catalog
-path_2_CLU_SAT_catalog = os.path.join(test_dir, env + '_eRO_CLU_SAT.fit')
-
+path_2_CLU_SAT_catalog = os.path.join(os.environ[env], env + '_eRO_CLU_SAT.fit')
 
 # simulation setup
-if env == "MD10" or env == "MD04":
+if env[:2] == "MD" : # env == "MD04" or env == "MD40" or env == "MD10" or env == "MD25"
+    from astropy.cosmology import FlatLambdaCDM
+    import astropy.units as u
     cosmoMD = FlatLambdaCDM(
         H0=67.77 * u.km / u.s / u.Mpc,
         Om0=0.307115)  # , Ob0=0.048206)
     h = 0.6777
     L_box = 1000.0 / h
     cosmo = cosmoMD
-if env == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "UNIT_fA2_DIR":
+if env[:4] == "UNIT" : # == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "UNIT_fA2_DIR":
+    from astropy.cosmology import FlatLambdaCDM
+    import astropy.units as u
     cosmoUNIT = FlatLambdaCDM(H0=67.74 * u.km / u.s / u.Mpc, Om0=0.308900)
     h = 0.6774
     L_box = 1000.0 / h
@@ -92,11 +90,11 @@ if env == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "UNIT_fA2_DIR":
 
 # input columns of interest
 hdu_clu = fits.open(path_2_CLU_catalog)
-id_CLU = hdu_clu[1].data['halo_id']
+id_CLU = hdu_clu[1].data['HALO_id']
 rvir_CLU = hdu_clu[1].data['HALO_rvir']
-x_coord_CLU = hdu_clu[1].data['x']
-y_coord_CLU = hdu_clu[1].data['y']
-z_coord_CLU = hdu_clu[1].data['z']
+x_coord_CLU = hdu_clu[1].data['HALO_x']
+y_coord_CLU = hdu_clu[1].data['HALO_y']
+z_coord_CLU = hdu_clu[1].data['HALO_z']
 ra_CLU = hdu_clu[1].data['ra']
 dec_CLU = hdu_clu[1].data['dec']
 zr_CLU = hdu_clu[1].data['redshift_R']
@@ -118,7 +116,7 @@ path_2_sat_galaxy_files = sorted(
                 test_dir,
                 '*_galaxy.fits'))))
 
-baseNames = n.array([os.path.basename(path_2_sat_galaxy_file)[:-10]
+baseNames = n.array([os.path.basename(path_2_sat_galaxy_file)[:-12]
                      for path_2_sat_galaxy_file in path_2_sat_galaxy_files])
 baseNames.sort()
 
@@ -148,22 +146,22 @@ def get_data(
     Outputs the catalogue containing ( < 1 rvir angular) AND (< 1 r_vir) AND (r magnitude observed < 26.5) of a cluster.
 
     """
-    f1 = h5py.File(path_2_galaxy_file, 'r')
-    galaxy_stellar_mass = f1['galaxy/SMHMR_mass'][:]
-    galaxy_star_formation_rate = f1['galaxy/star_formation_rate'][:]
-    galaxy_LX_hard = f1['galaxy/LX_hard']
-    galaxy_mag_r = f1['galaxy/mag_r']
-    galaxy_mag_abs_r = f1['galaxy/mag_abs_r']
-    is_quiescent = f1['galaxy/is_quiescent']
+    f1 = fits.open(path_2_galaxy_file)
+    galaxy_stellar_mass = f1[1].data['SMHMR_mass']
+    galaxy_star_formation_rate = f1[1].data['star_formation_rate']
+    galaxy_LX_hard = f1[1].data['LX_hard']
+    galaxy_mag_r = f1[1].data['mag_r']
+    galaxy_mag_abs_r = f1[1].data['mag_abs_r']
+    is_quiescent = f1[1].data['is_quiescent']
     f1.close()
 
-    f2 = h5py.File(path_2_coordinate_file, 'r')
+    f2 = fits.open(path_2_coordinate_file)
     ra = f2[1].data['ra']
     dec = f2[1].data['dec']
     zzr = f2[1].data['redshift_R']
     zzs = f2[1].data['redshift_S']
     dL_cm = f2[1].data['dL']
-    galactic_NH = f2['nH']
+    galactic_NH = f2[1].data['nH']
     galactic_ebv = f2[1].data['ebv']
     g_lat = f2[1].data['g_lat']
     g_lon = f2[1].data['g_lon']

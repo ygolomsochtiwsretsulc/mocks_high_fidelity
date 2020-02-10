@@ -31,27 +31,29 @@ print('------------------------------------------------')
 #option = 'eRASS8'
 #option = 'eRASS3'
 
-env = sys.argv[1]
-#f_sat = 0.1  # float( sys.argv[2] ) # 0.2
+env = 'MD10' # sys.argv[1]
 
 root_dir = os.path.join(os.environ[env])
 
 dir_2_eRO_all = os.path.join(root_dir, "cat_AGN-MAG_all")
-dir_2_eRO_sat = os.path.join(root_dir, "cat_AGN-MAG_sat")
 
 dir_2_4MOST = os.path.join(root_dir, "cat_AGN_4MOST")
 
 if os.path.isdir(dir_2_4MOST) == False:
     os.system('mkdir -p ' + dir_2_4MOST)
 
+path_2_flux_limits = os.path.join(os.environ['GIT_AGN_MOCK'], "data", "erosita", "flux_limits.fits")
+flux_lim_data = fits.open(path_2_flux_limits) 
+#flux_limit_eRASS3, flux_limit_eRASS8, flux_limit_SNR3
+FX_LIM = flux_lim_data[1].data['flux_limit_SNR3']
+
+
+area_per_cat = healpy.nside2pixarea(8, degrees=True)
 N_pixels = healpy.nside2npix(8)
-for HEALPIX_id in n.arange(N_pixels)[::-1]:
+for HEALPIX_id in n.arange(N_pixels):
 	#HEALPIX_id = 350
 	print(HEALPIX_id)
-	path_2_eRO_all_catalog = os.path.join(
-		dir_2_eRO_all, str(HEALPIX_id).zfill(6) + '.fit')
-	path_2_eRO_sat_catalog = os.path.join(
-		dir_2_eRO_sat, str(HEALPIX_id).zfill(6) + '.fit')
+	path_2_eRO_all_catalog = os.path.join(dir_2_eRO_all, str(HEALPIX_id).zfill(6) + '.fit')
 	path_2_AGN_WIDE_catalog = os.path.join( dir_2_4MOST, 'AGN_WIDE_' + str(HEALPIX_id).zfill(6) + '.fit')
 	path_2_AGN_DEEP_catalog = os.path.join( dir_2_4MOST, 'AGN_DEEP_' + str(HEALPIX_id).zfill(6) + '.fit')
 	path_2_AGN_IR_catalog = os.path.join( dir_2_4MOST, 'AGN_IR_' + str(HEALPIX_id).zfill(6) + '.fit')
@@ -66,157 +68,73 @@ for HEALPIX_id in n.arange(N_pixels)[::-1]:
 	zmins = z_all[:-1]
 	zmaxs = z_all[1:]
 
-
 	hd_all = fits.open(path_2_eRO_all_catalog)
-	hd_sat = fits.open(path_2_eRO_sat_catalog)
 	N_agn_all = len(hd_all[1].data['ra'])
-	N_agn_sat = len(hd_sat[1].data['ra'])
-	#N_sat = int(N_agn_all * f_sat)
-	#N_all = int(N_agn_all * (1 - f_sat))
 
-	#rd_all = n.random.rand(N_agn_all)
-	#rd_sat = n.random.rand(N_agn_sat)
-
-	# =============================
+	pix_ids = healpy.ang2pix(512, n.pi/2. - hd_all[1].data['g_lat'] *n.pi /180., hd_all[1].data['g_lon']*n.pi /180., nest=True)
+	FX_LIM_value_cen = 10**(FX_LIM[pix_ids] - 0.1 )
 	# =============================
 	# =============================
 	# eROSITA SAMPLE
 	# apply flux limit erosita
 	# =============================
 	# =============================
-
-	log10_fluxes = n.arange(-18., -11., 0.05)
-	def detection_efficiency(log10_flux, log10_texp): return 0.5 + 0.5 * erf(
-		((log10_flux + (14.0 + (log10_texp - 3.1828) * 0.5936))) / (0.3204))
-
-	NSIDE = 512
-	# healpy.nside2npix(512)
-	FX_LIM = fits.open(
-		os.path.join(
-			os.environ['GIT_AGN_MOCK'],
-			'data/erosita/flux_limits.fits'))[1].data['flux_limit_SNR3']
-
-	# flux limit value
-	hp512_all = healpy.ang2pix(
-		NSIDE,
-		hd_all[1].data['ra'],
-		hd_all[1].data['dec'],
-		nest=True,
-		lonlat=True)
-	FX_LIM_value_all = 10**FX_LIM[hp512_all]*1./1.
-
-	hp512_sat = healpy.ang2pix(
-		NSIDE,
-		hd_sat[1].data['ra'],
-		hd_sat[1].data['dec'],
-		nest=True,
-		lonlat=True)
-	FX_LIM_value_sat = 10**FX_LIM[hp512_sat]*1./1.
-
 	# X-ray
-	detected_all = (hd_all[1].data['AGN_FX_soft'] > FX_LIM_value_all)
-	detected_sat = (hd_sat[1].data['AGN_FX_soft'] > FX_LIM_value_sat)
+	detected_all = (hd_all[1].data['AGN_FX_soft'] > FX_LIM_value_cen) 
+	print(len((detected_all).nonzero()[0])*768 )
 	# optical cut
 	opt_all = ( hd_all[1].data['AGN_SDSS_r_magnitude'] < 23.5 )
-	opt_sat = ( hd_sat[1].data['AGN_SDSS_r_magnitude'] < 23.5 )
 	# overall erosita selections
 	ero_all = ( detected_all ) & ( opt_all )
-	ero_sat = ( detected_sat ) & ( opt_sat )
 	# optical t1
 	opt_t11_all = (opt_all) & (hd_all[1].data['AGN_type']==11)
-	opt_t11_sat = (opt_sat) & (hd_sat[1].data['AGN_type']==11)
 	# type 2 AGN
 	T2_all = (hd_all[1].data['AGN_type'] == 22) | (hd_all[1].data['AGN_type'] == 21)
-	T2_sat = ( hd_sat[1].data['AGN_type'] == 22) | ( hd_sat[1].data['AGN_type'] == 21)
 	# wise selection
 	wise_def_all = (hd_all[1].data['WISE-W1'] < 26) & (hd_all[1].data['WISE-W1_err'] < 1) & (hd_all[1].data['WISE-W1'] < 19 ) # 18.85)
-	wise_def_sat = (hd_sat[1].data['WISE-W1'] < 26) & (hd_sat[1].data['WISE-W1_err'] < 1) & (hd_sat[1].data['WISE-W1'] < 19 ) # 18.85)
 	# IR sample, not detected in X-ray i.e. additional targets
 	agn_ir_all =   (T2_all) & (opt_all) & (wise_def_all) # ( detected_all == False) &
-	agn_ir_sat =   (T2_sat) & (opt_sat) & (wise_def_sat) # ( detected_sat == False) &
 	# area selection
 	area_erosita_all = (abs(hd_all[1].data['g_lat']) > 10) #& ( hd_all[1].data['g_lon'] > 180) #& (hd_all[1].data['dec'] < 10)
-	area_erosita_sat = (abs(hd_sat[1].data['g_lat']) > 10) #& ( hd_sat[1].data['g_lon'] > 180) #& (hd_sat[1].data['dec'] < 10)
 	# area opt-IR
 	area_optIR_all = (abs(hd_all[1].data['g_lat']) > 10) #& (hd_all[1].data['dec'] < 10)
-	area_optIR_sat = (abs(hd_sat[1].data['g_lat']) > 10) #& (hd_sat[1].data['dec'] < 10)
 	# selection booleans
 	is_erosita_all = ( (ero_all) & (area_erosita_all) )
-	is_erosita_sat = ( (ero_sat) & (area_erosita_sat) )
 	is_optIR_all   = ( (agn_ir_all) & (area_optIR_all) ) 
-	is_optIR_sat   = ( (agn_ir_sat) & (area_optIR_sat) ) 
 	is_optT11_all  = ( (opt_t11_all) & (area_optIR_all) )
-	is_optT11_sat  = ( (opt_t11_sat) & (area_optIR_sat) )
 	# complete selection for all 4most sub surveys
 	sel_all = ( is_erosita_all ) | ( is_optIR_all ) | ( is_optT11_all )
-	sel_sat = ( is_erosita_sat ) | ( is_optIR_sat ) | ( is_optT11_sat )
-
 	# number per square degrees
-	area_per_cat = healpy.nside2pixarea(8, degrees=True)
-	#print(n.round(len(hd_all[1].data['redshift_R'][detected_all]) / area_per_cat,1), 'cen per deg2, Xray eROSITA detection')
-	#print(n.round(len(hd_sat[1].data['redshift_R'][detected_sat]) / area_per_cat,1), 'sat per deg2, Xray eROSITA detection')
-	#print('------------------------------------------------')
-	##     
-	#print(n.round(len(hd_all[1].data['redshift_R'][opt_all]) / area_per_cat,1), 'cen per deg2, opt r<23.5')
-	#print(n.round(len(hd_sat[1].data['redshift_R'][opt_sat]) / area_per_cat,1), 'sat per deg2, opt r<23.5')
-	#print('------------------------------------------------')
-	##     n.round(
-	#print(n.round(len(hd_all[1].data['redshift_R'][ero_all]) / area_per_cat,1), 'cen per deg2, opt + Xray')
-	#print(n.round(len(hd_sat[1].data['redshift_R'][ero_sat]) / area_per_cat,1), 'sat per deg2, opt + Xray')
-	#print('------------------------------------------------')
-	##     n.round(
-	#print(n.round(len(hd_all[1].data['redshift_R'][opt_t11_all]) / area_per_cat,1), 'cen per deg2, opt type 11')
-	#print(n.round(len(hd_sat[1].data['redshift_R'][opt_t11_sat]) / area_per_cat,1), 'sat per deg2, opt type 11')
-	#print('------------------------------------------------')
-	##     n.round(
-	#print(n.round(len(hd_all[1].data['AGN_SDSS_r_magnitude'][agn_ir_all]) / area_per_cat,1), 'cen per deg2, IR, not (opt+Xray)')
-	#print(n.round(len(hd_sat[1].data['AGN_SDSS_r_magnitude'][agn_ir_sat]) / area_per_cat,1), 'sat per deg2, IR, not (opt+Xray)')
-	#print('------------------------------------------------')
-	##     n.round(
-	#print(n.round(len(hd_all[1].data['AGN_SDSS_r_magnitude'][sel_all]) / area_per_cat,1), 'cen per deg2, all')
-	#print(n.round(len(hd_sat[1].data['AGN_SDSS_r_magnitude'][sel_sat]) / area_per_cat,1), 'sat per deg2, all')
-	#print('------------------------------------------------')
-	# =============================
+		# =============================
 	# Define sub surveys
 	# =============================
 	# initialize target bits
 
 	survbit_all = n.zeros(len(hd_all[1].data['dec']),dtype='int')
-	survbit_sat = n.zeros(len(hd_sat[1].data['dec']),dtype='int')
 	# subsurvey selections 
-	# S6, AGN_WIDE
-	AGN_WIDE_all = ( is_erosita_all ) # & ( abs(hd_all[1].data['ecl_lat']) < 80 )
-	AGN_WIDE_sat = ( is_erosita_sat ) # & ( abs(hd_sat[1].data['ecl_lat']) < 80 )
 	# S6, AGN_DEEP
 	AGN_DEEP_all = ( is_erosita_all ) & ( abs(hd_all[1].data['ecl_lat']) > 80 )
-	AGN_DEEP_sat = ( is_erosita_sat ) & ( abs(hd_sat[1].data['ecl_lat']) > 80 )
+	# S6, AGN_WIDE
+	AGN_WIDE_all = ( is_erosita_all ) & (AGN_DEEP_all==False) # ( abs(hd_all[1].data['ecl_lat']) < 80 )
 	# S6, AGN_IR 
 	AGN_IR_all = ( is_optIR_all ) 
-	AGN_IR_sat = ( is_optIR_sat ) 
 	# S8, QSO
 	QSO_all = ( is_optT11_all ) & ( hd_all[1].data['redshift_R'] < 2.2 )
-	QSO_sat = ( is_optT11_sat ) & ( hd_sat[1].data['redshift_R'] < 2.2 )
 	# S8, Lya
 	LyA_all = ( is_optT11_all ) & ( hd_all[1].data['redshift_R'] >= 2.2 ) 
-	LyA_sat = ( is_optT11_sat ) & ( hd_sat[1].data['redshift_R'] >= 2.2 ) 
 	# assign target bits
 	survbit_all[AGN_WIDE_all] += 2**bitlist['AGN_WIDE']
-	survbit_sat[AGN_WIDE_sat] += 2**bitlist['AGN_WIDE']
 	#
 	survbit_all[AGN_DEEP_all] += 2**bitlist['AGN_DEEP']
-	survbit_sat[AGN_DEEP_sat] += 2**bitlist['AGN_DEEP']
 	#
 	survbit_all[AGN_IR_all] += 2**bitlist['AGN_IR']
-	survbit_sat[AGN_IR_sat] += 2**bitlist['AGN_IR']
 	#
 	survbit_all[QSO_all] += 2**bitlist['QSO']
-	survbit_sat[QSO_sat] += 2**bitlist['QSO']
 	#
 	survbit_all[LyA_all] += 2**bitlist['LyA']
-	survbit_sat[LyA_sat] += 2**bitlist['LyA']
 	#
 
-	target_bit = n.hstack((survbit_all[sel_all], survbit_sat[sel_sat]))
+	target_bit = survbit_all[sel_all]
 
 
 	# Now create a 4MOST file per sub survey
@@ -227,7 +145,7 @@ for HEALPIX_id in n.arange(N_pixels)[::-1]:
 		sel = ( target_bit & 2**bit_value != 0)
 
 		def create_column(col_name):
-			return n.hstack((hd_all[1].data[col_name][sel_all], hd_sat[1].data[col_name][sel_sat]))[sel]
+			return hd_all[1].data[col_name][sel_all][sel]
 
 		ra_array = create_column('ra')
 		dec_array = create_column('dec')
@@ -416,265 +334,3 @@ for HEALPIX_id in n.arange(N_pixels)[::-1]:
 	if t_out != 0:
 		t_out.write (path_2_LyA_catalog  , overwrite=True)
 
-
-sys.exit()
-
-_array = create_column('')
-_array = create_column('')
-_array = create_column('')
-_array = create_column('')
-_array = create_column('')
-_array = create_column('')
-_array = create_column('')
-_array = create_column('')
-_array = create_column('')
-_array = create_column('')
-_array = create_column('')
-_array = create_column('')
-_array = create_column('')
-
-
-
-
-name_array = n.array(
-	[(HEALPIX_id * 1e8 + ii).astype('int').astype('str').zfill(12) for ii in n.arange(N_obj)])
-
-t['NAME'] = Column(name_array, dtype=str)
-t['RA'] = Column(ra_array, unit='degree', dtype=n.float64)
-t['DEC'] = Column(dec_array, unit='degree', dtype=n.float64)
-t['PMRA'] = Column(n.zeros(N_obj), unit='mas/yr', dtype=n.float32)
-t['PMDEC'] = Column(n.zeros(N_obj), unit='mas/yr', dtype=n.float32)
-t['EPOCH'] = Column(2000 * n.ones(N_obj), unit='yr', dtype=n.float32)
-t['RESOLUTION'] = Column(n.ones(N_obj), unit='', dtype=n.int16)
-
-s1_name = 'AGN_WIDE'
-s2_name = 'AGN_DEEP'
-s3_name = 'AGN_IR'
-
-
-subsurvey_name = n.zeros_like(name_array).astype('str')
-subsurvey_name[:] = s1_name
-subsurvey_name[(ecl_lat_array < -80)] = s2_name
-subsurvey_name[target_bit & 1] = s3_name
-
-t['SUBSURVEY'] = Column(subsurvey_name, unit='', dtype=str)
-
-priority = 100 * n.ones(N_obj)
-priority[target_bit == 2] = 90
-t['PRIORITY'] = Column(priority, unit='', dtype=n.int16)
-
-template_names = n.zeros_like(z_array).astype('U100')
-
-z_all = n.hstack((0., n.arange(0.3, 3., 0.2), 3.5, 4.5, 6.))
-#z_all = n.hstack(( 0.0, n.arange(0.3, 3., 0.2), 6. ))
-zmins = z_all[:-1]
-zmaxs = z_all[1:]
-print('ebv array', galactic_ebv_array)
-ebv_1000 = (galactic_ebv_array * 1000).astype('int')
-#print('ebv_galaxy', n.min(ebv_1000), n.max(ebv_1000))
-ebv_1_0 = (ebv_1000 > 1000)
-ebv_0_5 = (ebv_1000 > 500) & (ebv_1000 <= 1000)
-ebv_0_4 = (ebv_1000 > 400) & (ebv_1000 <= 500)
-ebv_0_3 = (ebv_1000 > 300) & (ebv_1000 <= 400)
-ebv_0_2 = (ebv_1000 > 200) & (ebv_1000 <= 300)
-ebv_0_1 = (ebv_1000 > 100) & (ebv_1000 <= 200)
-ebv_0_0 = (ebv_1000 <= 100)
-
-def z_name(z0, z1): return "_zmin_" + str(int(10 * z0)
-											).zfill(2) + "_zmax_" + str(int(10 * z1)).zfill(2)
-
-QSO = (AGN_type_array == 11) | (AGN_type_array == 12)
-T2 = (AGN_type_array == 22) | (AGN_type_array == 21)
-ELL = (T2) & (AGN_random_number_array < 0.2)
-
-for z0, z1 in zip(zmins, zmaxs):
-	zsel = (z_array >= z0) & (z_array < z1)
-	template_names[(zsel)] = "4most_" + 'qso_BL' + \
-		z_name(z0, z1) + '_EBV_0_01.fits'
-
-	template_names[(QSO) & (zsel) & (ebv_0_0)] = "4most_" + \
-		'qso_BL' + z_name(z0, z1) + '_EBV_0_01.fits'
-	template_names[(QSO) & (zsel) & (ebv_0_1)] = "4most_" + \
-		'qso_BL' + z_name(z0, z1) + '_EBV_0_1.fits'
-	template_names[(QSO) & (zsel) & (ebv_0_2)] = "4most_" + \
-		'qso_BL' + z_name(z0, z1) + '_EBV_0_2.fits'
-	template_names[(QSO) & (zsel) & (ebv_0_3)] = "4most_" + \
-		'qso_BL' + z_name(z0, z1) + '_EBV_0_3.fits'
-	template_names[(QSO) & (zsel) & (ebv_0_4)] = "4most_" + \
-		'qso_BL' + z_name(z0, z1) + '_EBV_0_4.fits'
-	template_names[(QSO) & (zsel) & (ebv_0_5)] = "4most_" + \
-		'qso_BL' + z_name(z0, z1) + '_EBV_0_5.fits'
-	template_names[(QSO) & (zsel) & (ebv_1_0)] = "4most_" + \
-		'qso_BL' + z_name(z0, z1) + '_EBV_1_0.fits'
-	if z1 < 2.2:
-		template_names[(T2) & (zsel) & (ebv_0_0)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_0_01.fits'
-		template_names[(T2) & (zsel) & (ebv_0_1)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_0_1.fits'
-		template_names[(T2) & (zsel) & (ebv_0_2)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_0_2.fits'
-		template_names[(T2) & (zsel) & (ebv_0_3)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_0_3.fits'
-		template_names[(T2) & (zsel) & (ebv_0_4)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_0_4.fits'
-		template_names[(T2) & (zsel) & (ebv_0_5)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_0_5.fits'
-		template_names[(T2) & (zsel) & (ebv_1_0)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_1_0.fits'
-
-		template_names[(ELL) & (zsel) & (ebv_0_0)] = "4most_" + \
-			'LRG' + z_name(z0, z1) + '_EBV_0_01.fits'
-		template_names[(ELL) & (zsel) & (ebv_0_1)] = "4most_" + \
-			'LRG' + z_name(z0, z1) + '_EBV_0_1.fits'
-		template_names[(ELL) & (zsel) & (ebv_0_2)] = "4most_" + \
-			'LRG' + z_name(z0, z1) + '_EBV_0_2.fits'
-		template_names[(ELL) & (zsel) & (ebv_0_3)] = "4most_" + \
-			'LRG' + z_name(z0, z1) + '_EBV_0_3.fits'
-		template_names[(ELL) & (zsel) & (ebv_0_4)] = "4most_" + \
-			'LRG' + z_name(z0, z1) + '_EBV_0_4.fits'
-		template_names[(ELL) & (zsel) & (ebv_0_5)] = "4most_" + \
-			'LRG' + z_name(z0, z1) + '_EBV_0_5.fits'
-		template_names[(ELL) & (zsel) & (ebv_1_0)] = "4most_" + \
-			'LRG' + z_name(z0, z1) + '_EBV_1_0.fits'
-	if z1 >= 2.2 and z1 < 6.:
-		template_names[(T2) & (zsel) & (ebv_0_0)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_0_01.fits'
-		template_names[(T2) & (zsel) & (ebv_0_1)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_0_1.fits'
-		template_names[(T2) & (zsel) & (ebv_0_2)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_0_2.fits'
-		template_names[(T2) & (zsel) & (ebv_0_3)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_0_3.fits'
-		template_names[(T2) & (zsel) & (ebv_0_4)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_0_4.fits'
-		template_names[(T2) & (zsel) & (ebv_0_5)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_0_5.fits'
-		template_names[(T2) & (zsel) & (ebv_1_0)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_1_0.fits'
-
-		template_names[(ELL) & (zsel) & (ebv_0_0)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_0_01.fits'
-		template_names[(ELL) & (zsel) & (ebv_0_1)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_0_1.fits'
-		template_names[(ELL) & (zsel) & (ebv_0_2)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_0_2.fits'
-		template_names[(ELL) & (zsel) & (ebv_0_3)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_0_3.fits'
-		template_names[(ELL) & (zsel) & (ebv_0_4)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_0_4.fits'
-		template_names[(ELL) & (zsel) & (ebv_0_5)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_0_5.fits'
-		template_names[(ELL) & (zsel) & (ebv_1_0)] = "4most_" + \
-			'AGN_type2' + z_name(z0, z1) + '_EBV_1_0.fits'
-
-zsel = (z_array > 6.)
-if len(zsel.nonzero()[0]) > 0:
-	#print(z0, z1)
-	template_names[(QSO) & (zsel) & (ebv_0_0)] = "4most_" + \
-		'qso_BL' + z_name(z0, z1) + '_EBV_0_01.fits'
-	template_names[(QSO) & (zsel) & (ebv_0_1)] = "4most_" + \
-		'qso_BL' + z_name(z0, z1) + '_EBV_0_1.fits'
-	template_names[(QSO) & (zsel) & (ebv_0_2)] = "4most_" + \
-		'qso_BL' + z_name(z0, z1) + '_EBV_0_2.fits'
-	template_names[(QSO) & (zsel) & (ebv_0_3)] = "4most_" + \
-		'qso_BL' + z_name(z0, z1) + '_EBV_0_3.fits'
-	template_names[(QSO) & (zsel) & (ebv_0_4)] = "4most_" + \
-		'qso_BL' + z_name(z0, z1) + '_EBV_0_4.fits'
-	template_names[(QSO) & (zsel) & (ebv_0_5)] = "4most_" + \
-		'qso_BL' + z_name(z0, z1) + '_EBV_0_5.fits'
-	template_names[(QSO) & (zsel) & (ebv_1_0)] = "4most_" + \
-		'qso_BL' + z_name(z0, z1) + '_EBV_1_0.fits'
-	template_names[(T2) & (zsel) & (ebv_0_0)] = "4most_" + \
-		'AGN_type2' + z_name(z0, z1) + '_EBV_0_01.fits'
-	template_names[(T2) & (zsel) & (ebv_0_1)] = "4most_" + \
-		'AGN_type2' + z_name(z0, z1) + '_EBV_0_1.fits'
-	template_names[(T2) & (zsel) & (ebv_0_2)] = "4most_" + \
-		'AGN_type2' + z_name(z0, z1) + '_EBV_0_2.fits'
-	template_names[(T2) & (zsel) & (ebv_0_3)] = "4most_" + \
-		'AGN_type2' + z_name(z0, z1) + '_EBV_0_3.fits'
-	template_names[(T2) & (zsel) & (ebv_0_4)] = "4most_" + \
-		'AGN_type2' + z_name(z0, z1) + '_EBV_0_4.fits'
-	template_names[(T2) & (zsel) & (ebv_0_5)] = "4most_" + \
-		'AGN_type2' + z_name(z0, z1) + '_EBV_0_5.fits'
-	template_names[(T2) & (zsel) & (ebv_1_0)] = "4most_" + \
-		'AGN_type2' + z_name(z0, z1) + '_EBV_1_0.fits'
-	template_names[(ELL) & (zsel) & (ebv_0_0)] = "4most_" + \
-		'AGN_type2' + z_name(z0, z1) + '_EBV_0_01.fits'
-	template_names[(ELL) & (zsel) & (ebv_0_1)] = "4most_" + \
-		'AGN_type2' + z_name(z0, z1) + '_EBV_0_1.fits'
-	template_names[(ELL) & (zsel) & (ebv_0_2)] = "4most_" + \
-		'AGN_type2' + z_name(z0, z1) + '_EBV_0_2.fits'
-	template_names[(ELL) & (zsel) & (ebv_0_3)] = "4most_" + \
-		'AGN_type2' + z_name(z0, z1) + '_EBV_0_3.fits'
-	template_names[(ELL) & (zsel) & (ebv_0_4)] = "4most_" + \
-		'AGN_type2' + z_name(z0, z1) + '_EBV_0_4.fits'
-	template_names[(ELL) & (zsel) & (ebv_0_5)] = "4most_" + \
-		'AGN_type2' + z_name(z0, z1) + '_EBV_0_5.fits'
-	template_names[(ELL) & (zsel) & (ebv_1_0)] = "4most_" + \
-		'AGN_type2' + z_name(z0, z1) + '_EBV_1_0.fits'
-	template_names[(ELL) & (zsel) & (ebv_1_0)] = "4most_" + \
-		'AGN_type2' + z_name(z0, z1) + '_EBV_1_0.fits'
-
-# sanity checks
-
-tpls = sorted(n.array(list(set(template_names))))
-##print(tpls)
-print('N templates used', len(tpls))
-bad = (template_names == '0.0')
-print(len(bad.nonzero()[0]))
-
-N_all = len(bad)
-
-
-t['TEMPLATE'] = Column(template_names, unit='', dtype=str)
-
-ruleset_array = n.zeros_like(z_array).astype('U20')
-ruleset_array[ruleset_array == "0.0"] = "AGN_ALL_3PC"
-#print(template_names, ruleset_array)
-#print(template_names.shape, ruleset_array.shape)
-#print(template_names.dtype, ruleset_array.dtype)
-t['RULESET'] = Column(ruleset_array, unit='', dtype=str)
-t['REDSHIFT_ESTIMATE'] = Column(z_array, unit='', dtype=n.float32)
-t['REDSHIFT_ERROR'] = Column(
-	n.ones(N_obj) *
-	0.00001,
-	unit='',
-	dtype=n.float32)
-
-t['EXTENT_PARAMETER'] = Column(n.ones(N_obj), unit='', dtype=n.float32)
-t['REDDENING'] = Column(galactic_ebv_array, unit='mag', dtype=n.float32)
-t['DATE_EARLIEST'] = Column(
-	n.ones(N_obj) * 59215.,
-	unit='',
-	dtype=n.float64)
-t['DATE_LATEST'] = Column(
-	n.ones(N_obj) * 66520,
-	unit='',
-	dtype=n.float64)
-
-magnitude_4fs = n.hstack(
-	(hd_all[1].data['AGN_SDSS_r_magnitude'][sel_all],
-		hd_sat[1].data['AGN_SDSS_r_magnitude'][sel_sat]))
-magnitude_4fs_err = n.ones(N_obj) * 0.1
-# implement the Palanque Delabrouille fraction to mimic fibermag !
-zi, zf, dm = n.loadtxt(
-	os.path.join(
-		os.environ['GIT_VS'], 'data/m_psf-m_model_redshift_PD16.txt'), unpack=True)
-for z0i, z1i, dmi in zip(zi, zf, dm):
-	#print(z0i, z1i)
-	ssel = (z_array >= z0i) & (z_array < z1i)
-	magnitude_4fs[ssel] = magnitude_4fs[ssel] + \
-		dmi * n.ones_like(magnitude_4fs[ssel])
-
-mag_type = n.zeros(N_obj).astype('U10')
-mag_type[mag_type == "0.0"] = "SDSS_r_AB"
-
-t['MAG'] = Column(magnitude_4fs, unit='mag', dtype=n.float32)
-t['MAG_ERR'] = Column(magnitude_4fs_err, unit='', dtype=n.float32)
-t['MAG_TYPE'] = Column(mag_type, unit='', dtype=n.str)
-
-print(path_2_4MOST_catalog)
-if os.path.isfile(path_2_4MOST_catalog):
-	os.system("rm " + path_2_4MOST_catalog)
-
-#t.write(path_2_4MOST_catalog, format='fits')

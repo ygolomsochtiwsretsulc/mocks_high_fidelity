@@ -43,8 +43,11 @@ t0 = time.time()
 #import astropy.io.fits as fits
 # import all pathes
 
-env = 'MD10' # sys.argv[1]  # 'MD04'
+env = sys.argv[1]  # 'MD04'
 print(env)
+doBG = False
+doLRG = False
+doFILAMENT = True
 
 area = healpy.nside2pixarea(8, degrees=True)
 
@@ -81,7 +84,7 @@ zmid_all = (zmax_all + zmin_all)/2.
 """
 # dz = 0.005 is a finer binning than any snapshot steps. The smallet step is 0.011 in dz.
 # 
-dz = 0.005
+dz = 0.05
 
 
 def json_read(fn):
@@ -109,12 +112,13 @@ zmin_all, zmax_all = all_z, all_z+dz
 zmid_all = (zmax_all + zmin_all)/2.
 
 # density of tracers per deg-2
-BG_density     = 250.
-LRG_density    = 400.
+BG_density     = 250. # 185138
+LRG_density    = 400. # 253764
 ELG_density    = 1200.
 QSO_density    = 190.
 QSOLya_density = 50.
-BG_S5_density = 400.
+BG_S5_density = 800. # 547756
+BG_S5_density_unique = 400. # 268067
 
 # defines the total numbers
 NN_s8bg  = get_nz(fn, 's8bg' , BG_density * 1.27  * area * dz, dz)
@@ -129,8 +133,15 @@ NN_s8elg = get_nz(fn, 's8elg', ELG_density * 1.14 * area * dz, dz)
 selection_s8elg = (NN_s8elg>8) & (zmid_all>0.6) & (zmid_all<1.11) 
 print('NN_s8elg', n.sum(NN_s8elg[selection_s8elg])/area )
 
-NN_s5bg  = get_nz(fn, 's5bg' , BG_S5_density * 1.35 * area * dz, dz)
-selection_s5bg = (NN_s5bg>8) & (zmid_all>0.1) & (zmid_all<0.41) 
+fn = os.path.join( os.environ['GIT_AGN_MOCK'], 'data', 'cosmo-4most', 'filamentSurvey.nzgmm.json')
+mydict  = json_read(fn)
+# redshift array
+all_z = n.arange(mydict['zmin'],mydict['zmax']+dz, dz)
+zmin_all, zmax_all = all_z, all_z+dz
+zmid_all = (zmax_all + zmin_all)/2.
+
+NN_s5bg  = get_nz(fn, 'R195' , BG_S5_density_unique * 1.1 * area * dz, dz)
+selection_s5bg = (NN_s5bg>10) & (zmid_all>0.05) & (zmid_all<0.61) 
 print('NN_s5bg', n.sum(NN_s5bg[selection_s5bg])/area )
 
 #def get_dn_dv(file_name = os.path.join(os.environ['GIT_EMERGE'], "data/NZ/4FS_scenario2.17Jul2017.CoLoRe.BGhiz.nz")):
@@ -170,7 +181,7 @@ print('NN_s5bg', n.sum(NN_s5bg[selection_s5bg])/area )
 #zmin_qso, zmax_qso, N_qso_pdeg2    = rehash(n.loadtxt(os.path.join(os.environ['GIT_AGN_MOCK'], "data/cosmo-4most/qso.nz"), unpack=True)   )
 #print(zmin_qso, zmax_qso, N_qso_pdeg2 )
 N_pixels = healpy.nside2npix(8)
-for HEALPIX_id in n.arange(N_pixels)[::-1][:340]:
+for HEALPIX_id in n.arange(N_pixels):
 	#HEALPIX_id=359
 	# galaxy catalogs
 	path_2_gal_all_catalog = os.path.join(dir_2_gal_all, str(HEALPIX_id).zfill(6) + '.fit')
@@ -285,79 +296,81 @@ for HEALPIX_id in n.arange(N_pixels)[::-1][:340]:
 	all_vmax = logm + rds
 	N_halos = len(all_vmax)
 	
-	# LRG1 CASE
-	# SHAM with scatter until NZ is filled for cen and sat
-	# scatter 0.15
-	lrg1_selection = (n.ones(N_halos)==0)
-	print("LRG 1 S8", time.time()-t0)
-	for zmin, zmax, N_lrg1 in zip(zmin_all[(selection_s8bg)], zmax_all[(selection_s8bg)], NN_s8bg[(selection_s8bg)]):
-		z_sel = (allz>=zmin)&(allz<zmax)
-		all_vmax_sort_id = n.argsort(all_vmax[z_sel])
-		min_mass = all_vmax[z_sel][all_vmax_sort_id[-N_lrg1-1]]
-		mass_selection = (all_vmax>min_mass)&(z_sel)
-		lrg1_selection = (mass_selection) | (lrg1_selection)
+	if doBG:
+		# LRG1 CASE
+		# SHAM with scatter until NZ is filled for cen and sat
+		# scatter 0.15
+		lrg1_selection = (n.ones(N_halos)==0)
+		print("LRG 1 S8", time.time()-t0)
+		for zmin, zmax, N_lrg1 in zip(zmin_all[(selection_s8bg)], zmax_all[(selection_s8bg)], NN_s8bg[(selection_s8bg)]):
+			z_sel = (allz>=zmin)&(allz<zmax)
+			all_vmax_sort_id = n.argsort(all_vmax[z_sel])
+			min_mass = all_vmax[z_sel][all_vmax_sort_id[-N_lrg1-1]]
+			mass_selection = (all_vmax>min_mass)&(z_sel)
+			lrg1_selection = (mass_selection) | (lrg1_selection)
 
-	print('LRG1 S8 selected', len(lrg1_selection.nonzero()[0]), len(lrg1_selection.nonzero()[0])/area )
-	if os.path.isfile(path_2_OUT_catalog_BG):
-		os.system("rm " + path_2_OUT_catalog_BG)
-	t = Table()
-	t['RA'] = Column(ra_all[lrg1_selection], unit='degree', dtype=n.float64)
-	t['DEC'] = Column(dec_all[lrg1_selection], unit='degree', dtype=n.float64)
-	t['Z'] = Column(allz[lrg1_selection], unit='', dtype=n.float32)
-	t['Mstar'] = Column(logm[lrg1_selection], unit='log10(Mass/[Msun])', dtype=n.float32)
-	t['SFR'] = Column(sfr[lrg1_selection], unit='log10(SFR/[Msun/yr])', dtype=n.float32)
-	t['EBV'] = Column(ebv_all[lrg1_selection], unit='mag', dtype=n.float32)
-	t.write(path_2_OUT_catalog_BG)#
-	print(path_2_OUT_catalog_BG, 'written', time.time() - t0)
+		print('LRG1 S8 selected', len(lrg1_selection.nonzero()[0]), len(lrg1_selection.nonzero()[0])/area )
+		if os.path.isfile(path_2_OUT_catalog_BG):
+			os.system("rm " + path_2_OUT_catalog_BG)
+		t = Table()
+		t['RA'] = Column(ra_all[lrg1_selection], unit='degree', dtype=n.float64)
+		t['DEC'] = Column(dec_all[lrg1_selection], unit='degree', dtype=n.float64)
+		t['Z'] = Column(allz[lrg1_selection], unit='', dtype=n.float32)
+		t['Mstar'] = Column(logm[lrg1_selection], unit='log10(Mass/[Msun])', dtype=n.float32)
+		t['SFR'] = Column(sfr[lrg1_selection], unit='log10(SFR/[Msun/yr])', dtype=n.float32)
+		t['EBV'] = Column(ebv_all[lrg1_selection], unit='mag', dtype=n.float32)
+		t.write(path_2_OUT_catalog_BG)#
+		print(path_2_OUT_catalog_BG, 'written', time.time() - t0)
 
-	# S5 BG case
-	s5_selection = (n.ones(N_halos)==0)
-	print("LRG 1 S5", time.time()-t0)
-	for zmin, zmax, N_s5lrg1 in zip(zmin_all[selection_s5bg], zmax_all[selection_s5bg], NN_s5bg[selection_s5bg]):
-		z_sel = (allz>=zmin)&(allz<zmax)#&(allz>0.1)&(allz<0.4)
-		all_vmax_sort_id = n.argsort(all_vmax[z_sel])
-		min_mass = all_vmax[z_sel][all_vmax_sort_id[-N_s5lrg1-1]]
-		mass_selection = (all_vmax>min_mass)&(z_sel)
-		s5_selection = (mass_selection) | (s5_selection)
+	if doFILAMENT:
+		# S5 BG case
+		s5_selection = (n.ones(N_halos)==0)
+		print("LRG 1 S5", time.time()-t0)
+		for zmin, zmax, N_s5lrg1 in zip(zmin_all[selection_s5bg], zmax_all[selection_s5bg], NN_s5bg[selection_s5bg]):
+			z_sel = (allz>=zmin)&(allz<zmax)#&(allz>0.1)&(allz<0.4)
+			all_vmax_sort_id = n.argsort(all_vmax[z_sel])
+			min_mass = all_vmax[z_sel][all_vmax_sort_id[-N_s5lrg1-1]]
+			mass_selection = (all_vmax>min_mass)&(z_sel)
+			s5_selection = (mass_selection) | (s5_selection)
 
-	print('LRG1 S5 selected', len(s5_selection.nonzero()[0]), len(s5_selection.nonzero()[0])/area )
-	# write a BG catalogue
-	if os.path.isfile(path_2_OUT_catalog_BG_S5):
-		os.system("rm " + path_2_OUT_catalog_BG_S5)
-	t = Table()
-	t['RA'] = Column(ra_all[s5_selection], unit='degree', dtype=n.float64)
-	t['DEC'] = Column(dec_all[s5_selection], unit='degree', dtype=n.float64)
-	t['Z'] = Column(allz[s5_selection], unit='', dtype=n.float32)
-	t['Mstar'] = Column(logm[s5_selection], unit='log10(Mass/[Msun])', dtype=n.float32)
-	t['SFR'] = Column(sfr[s5_selection], unit='log10(SFR/[Msun/yr])', dtype=n.float32)
-	t['EBV'] = Column(ebv_all[s5_selection], unit='mag', dtype=n.float32)
-	t.write(path_2_OUT_catalog_BG_S5)#
-	print(path_2_OUT_catalog_BG_S5, 'written', time.time() - t0)
+		print('LRG1 S5 selected', len(s5_selection.nonzero()[0]), len(s5_selection.nonzero()[0])/area )
+		# write a BG catalogue
+		if os.path.isfile(path_2_OUT_catalog_BG_S5):
+			os.system("rm " + path_2_OUT_catalog_BG_S5)
+		t = Table()
+		t['RA'] = Column(ra_all[s5_selection], unit='degree', dtype=n.float64)
+		t['DEC'] = Column(dec_all[s5_selection], unit='degree', dtype=n.float64)
+		t['Z'] = Column(allz[s5_selection], unit='', dtype=n.float32)
+		t['Mstar'] = Column(logm[s5_selection], unit='log10(Mass/[Msun])', dtype=n.float32)
+		t['SFR'] = Column(sfr[s5_selection], unit='log10(SFR/[Msun/yr])', dtype=n.float32)
+		t['EBV'] = Column(ebv_all[s5_selection], unit='mag', dtype=n.float32)
+		t.write(path_2_OUT_catalog_BG_S5)#
+		print(path_2_OUT_catalog_BG_S5, 'written', time.time() - t0)
 
+	if doLRG:
+		# LRG2 CASE
+		lrg2_selection = (n.ones(N_halos)==0)
+		print("LRG 2", time.time()-t0)
+		for zmin, zmax, N_lrg2 in zip(zmin_all[(selection_s8lrg)], zmax_all[(selection_s8lrg)], NN_s8lrg[(selection_s8lrg)]):
+			z_sel = (allz>=zmin)&(allz<zmax)& (lrg1_selection==False) 
+			all_vmax_sort_id = n.argsort(all_vmax[z_sel])
+			min_mass = all_vmax[z_sel][all_vmax_sort_id[-N_lrg2-1]]
+			mass_selection = (all_vmax>min_mass) & (z_sel)
+			rds = n.random.rand(len(all_vmax))
+			lrg2_selection = (mass_selection) | (lrg2_selection)
 
-	# LRG2 CASE
-	lrg2_selection = (n.ones(N_halos)==0)
-	print("LRG 2", time.time()-t0)
-	for zmin, zmax, N_lrg2 in zip(zmin_all[(selection_s8lrg)], zmax_all[(selection_s8lrg)], NN_s8lrg[(selection_s8lrg)]):
-		z_sel = (allz>=zmin)&(allz<zmax)& (lrg1_selection==False) 
-		all_vmax_sort_id = n.argsort(all_vmax[z_sel])
-		min_mass = all_vmax[z_sel][all_vmax_sort_id[-N_lrg2-1]]
-		mass_selection = (all_vmax>min_mass) & (z_sel)
-		rds = n.random.rand(len(all_vmax))
-		lrg2_selection = (mass_selection) | (lrg2_selection)
-
-	print('LRG2 selected', len(lrg2_selection.nonzero()[0]), len(lrg2_selection.nonzero()[0])/area )
-	if os.path.isfile(path_2_OUT_catalog_LRG):
-		os.system("rm " + path_2_OUT_catalog_LRG)
-	t = Table()
-	t['RA'] = Column(ra_all[lrg2_selection], unit='degree', dtype=n.float64)
-	t['DEC'] = Column(dec_all[lrg2_selection], unit='degree', dtype=n.float64)
-	t['Z'] = Column(allz[lrg2_selection], unit='', dtype=n.float32)
-	t['Mstar'] = Column(logm[lrg2_selection], unit='log10(Mass/[Msun])', dtype=n.float32)
-	t['SFR'] = Column(sfr[lrg2_selection], unit='log10(SFR/[Msun/yr])', dtype=n.float32)
-	t['EBV'] = Column(ebv_all[lrg2_selection], unit='mag', dtype=n.float32)
-	t.write(path_2_OUT_catalog_LRG)#
-	print(path_2_OUT_catalog_LRG, 'written', time.time() - t0)
+		print('LRG2 selected', len(lrg2_selection.nonzero()[0]), len(lrg2_selection.nonzero()[0])/area )
+		if os.path.isfile(path_2_OUT_catalog_LRG):
+			os.system("rm " + path_2_OUT_catalog_LRG)
+		t = Table()
+		t['RA'] = Column(ra_all[lrg2_selection], unit='degree', dtype=n.float64)
+		t['DEC'] = Column(dec_all[lrg2_selection], unit='degree', dtype=n.float64)
+		t['Z'] = Column(allz[lrg2_selection], unit='', dtype=n.float32)
+		t['Mstar'] = Column(logm[lrg2_selection], unit='log10(Mass/[Msun])', dtype=n.float32)
+		t['SFR'] = Column(sfr[lrg2_selection], unit='log10(SFR/[Msun/yr])', dtype=n.float32)
+		t['EBV'] = Column(ebv_all[lrg2_selection], unit='mag', dtype=n.float32)
+		t.write(path_2_OUT_catalog_LRG)#
+		print(path_2_OUT_catalog_LRG, 'written', time.time() - t0)
 
 	"""
 	# ELG parameters

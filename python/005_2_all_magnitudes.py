@@ -244,20 +244,20 @@ def add_all_MAG(HEALPIX_id):
 	#t_out = add_magnitudes(t_survey = t_elg, flag = 'iss8elg', t_kids_i = t_kids)
 	#t_out.write (path_2_ELG  , overwrite=True)
 
-	t_out = add_magnitudes(t_survey = t_lrg, flag = 'iss8lrg', t_kids_i = t_kids)
-	t_out.write (path_2_LRG  , overwrite=True)
+	#t_out = add_magnitudes(t_survey = t_lrg, flag = 'iss8lrg', t_kids_i = t_kids)
+	#t_out.write (path_2_LRG  , overwrite=True)
 
-	t_out = add_magnitudes(t_survey = t_bg, flag = 'iss8bg', t_kids_i = t_kids)
-	t_out.write (path_2_BG  , overwrite=True)
+	#t_out = add_magnitudes(t_survey = t_bg, flag = 'iss8bg', t_kids_i = t_kids)
+	#t_out.write (path_2_BG  , overwrite=True)
 
-	t_out = add_magnitudes(t_survey = t_bgS5, flag = 'iss5bg', t_kids_i = t_kids)
+	t_out = add_magnitudes(t_survey = t_bgS5, flag = 'isR195', t_kids_i = t_kids)
 	t_out.write (path_2_BG_S5  , overwrite=True)
 
 
 N_pixels = healpy.nside2npix(8)
 for HEALPIX_id in n.arange(N_pixels):
 	print(HEALPIX_id)
-	#add_all_MAG(HEALPIX_id)
-	add_all_MAG_ELG_only(HEALPIX_id)
+	add_all_MAG(HEALPIX_id)
+	#add_all_MAG_ELG_only(HEALPIX_id)
 
 

@@ -130,8 +130,7 @@ print(volume)
 # STELLAR MASS
 # Equations 1 of Comparat et al. 2019
 
-def meanSM(Mh, z): return n.log10(Mh * 2. * (0.0351 - 0.0247 * z / (1. + z)) / ((Mh / (10**(11.79 + 1.5 * z / (1. + z))))
-                                                                                ** (- 0.9 + 0.5 * z / (1. + z)) + (Mh / (10**(11.79 + 1.5 * z / (1. + z))))**(0.67 + 0.2 * z / (1. + z))))
+def meanSM(Mh, z): return n.log10(Mh * 2. * (0.0351 - 0.0247 * z / (1. + z)) / ((Mh / (10**(11.79 + 1.5 * z / (1. + z))))** (- 0.9 + 0.5 * z / (1. + z)) + (Mh / (10**(11.79 + 1.5 * z / (1. + z))))**(0.67 + 0.2 * z / (1. + z))))
 
 
 mean_SM = meanSM(Mvir, zz)

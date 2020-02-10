@@ -47,7 +47,7 @@ t0 = time.time()
 # import all pathes
 env = sys.argv[1]
 
-test_dir = os.path.join(os.environ[env], 'fits')
+test_dir = os.path.join(os.environ[env])
 path_2_CLU_SAT_catalog = os.path.join(test_dir, env + '_eRO_CLU_SAT.fit')
 
 
@@ -60,10 +60,7 @@ zr_CLU = hdu_clu[1].data['redshift_R']
 mass = hdu_clu[1].data['galaxy_stellar_mass']
 log_sfr = hdu_clu[1].data['galaxy_star_formation_rate']
 
-
-def frac_old(x, z_cluster): return ((x + 0.01)**(-0.25) - \
-             x / 100. - 0.47) * (1. + z_cluster)**2. / 3.2
-
+def frac_old(x, z_cluster): return ((x + 0.01)**(-0.25) - x / 100. - 0.47) * (1. + z_cluster)**2. / 3.2
 
 f_red = frac_old(x, zr_CLU)
 

@@ -249,12 +249,12 @@ for HEALPIX_id in n.arange(N_pixels)[::-1]:
 	#t_out = add_4most_columns(subsurvey = subsurvey, t_survey = t_survey)
 	#t_out.write (path_2_LRG  , overwrite=True)
 	
-	subsurvey = 'ELG'
-	t_survey = t_elg 
-	t_out = add_4most_columns(subsurvey = subsurvey, t_survey = t_survey)
-	t_out.write (path_2_ELG  , overwrite=True)
-	
-	#subsurvey = 'filament_GAL'
-	#t_survey = t_bgS5 
+	#subsurvey = 'ELG'
+	#t_survey = t_elg 
 	#t_out = add_4most_columns(subsurvey = subsurvey, t_survey = t_survey)
-	#t_out.write (path_2_BG_S5  , overwrite=True)
+	#t_out.write (path_2_ELG  , overwrite=True)
+	
+	subsurvey = 'filament_GAL'
+	t_survey = t_bgS5 
+	t_out = add_4most_columns(subsurvey = subsurvey, t_survey = t_survey)
+	t_out.write (path_2_BG_S5  , overwrite=True)

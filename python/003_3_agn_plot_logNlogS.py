@@ -61,7 +61,7 @@ print(env, ftyp)
 
 
 if env == "MD10" or env == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "UNIT_fA2_DIR":
-    z_maximum = 1.4
+    z_maximum = 6.0
 if env == "MD04":
     z_maximum = 0.45
 
@@ -90,6 +90,8 @@ logNlogS_dir = os.path.join(root_dir, 'logNlogS')
 logNlogR_dir = os.path.join(root_dir, 'logNlogR')
 XLF_dir = os.path.join(root_dir, 'XLF')
 
+plot_dir = os.path.join(os.environ['GIT_AGN_MOCK'], 'figures', env, 'agn')
+
 #DATA_XLF = n.transpose([xf, nhar, (nhar)*(1-(nharN)**(-0.5)), (nhar)*(1+(nharN)**(-0.5)), N_nh20, N_nh22, N_nh24, phi_h(10**xf,z_mean)])
 
 fx_bins = n.arange(-20, -8., 0.2)
@@ -104,22 +106,24 @@ def get_lognlogs(hpx_id='000061'):
     # data=n.array(data)
     #N_pixels = len(data)
     NN = outout / area
-    itp = interp1d(x_fx, n.log10(NN))
-    return itp
+    #itp = interp1d(x_fx, n.log10(NN))
+    return x_fx, n.log10(NN) # itp
 
 #DATA_X = n.transpose(out)[(out[1]>0) & (out[2]!=n.inf)]
 #n.savetxt(os.path.join(logNlogS_dir, 'logNlogS_soft_'+baseName+'.ascii'), DATA_X  )
 
 
-hpx_ids = n.array(['000310', '000311', '000312', '000313',
-                   '000314', '000315', '000316'])
+hpx_ids = n.array([str(el).zfill(6) for el in n.arange(768)])
 
 p.figure(1, (6, 6))
 #p.axhline(n.log10(300), ls='dashed')
-
+ys=[]
 for hpx_id in hpx_ids:
-    itp = get_lognlogs(hpx_id)
-    p.plot(itp.x, itp.y, rasterized=True, label=hpx_id, lw=1, ls='dashed')
+    x, y = get_lognlogs(hpx_id)
+    p.plot(x, y, rasterized=True, lw=0.5, ls='solid') # label=hpx_id,
+    ys.append(y)
+
+p.plot(x, n.median(n.array(ys),axis=0), lw=2, ls='dashed', label='MD10 agn median') 
 
 #x, y_1 = get_lognlogs('C1')
 #x, y_1_t1 = get_lognlogs_t1('C1')
@@ -148,7 +152,7 @@ path_2_logNlogS_data = os.path.join(
     'logNlogS',
     'logNlogS_Georgakakis_08_AGN.data')
 x_data, y_data = n.loadtxt(path_2_logNlogS_data, unpack=True)
-p.plot(n.log10(x_data), n.log10(y_data), lw=3, ls='dotted', color='g')
+p.plot(n.log10(x_data), n.log10(y_data), lw=3, ls='dotted', color='g', label='G08')
 
 # Merloni 2012
 path_2_logNlogS_data = os.path.join(
@@ -157,14 +161,14 @@ path_2_logNlogS_data = os.path.join(
     'logNlogS',
     'logNlogS_Merloni_12_AGN.data')
 x_data, y_data = n.loadtxt(path_2_logNlogS_data, unpack=True)
-p.plot(n.log10(x_data), n.log10(y_data), lw=3, ls='dotted', color='r')
+p.plot(n.log10(x_data), n.log10(y_data), lw=3, ls='dotted', color='r', label='M12')
 
 # Mateos 2008
 path_2_logNlogS_data = os.path.join(
     os.environ["GIT_VS"],
     'data/logNlogS/logNlogS_Mateos_08_AGN.data')
 x_data, y_data, err = n.loadtxt(path_2_logNlogS_data, unpack=True)
-p.plot(x_data, n.log10(y_data), lw=3, ls='dotted', color='b')
+p.plot(x_data, n.log10(y_data), lw=3, ls='dotted', color='b', label='M08')
 
 p.xlabel('log(F_X[0.5-2 keV])')
 p.ylabel('log(>F_X) [/deg2]')
@@ -174,7 +178,7 @@ p.xlim((-17, -11.5))
 p.ylim((-2, 4.2))
 # p.title('Mocks')
 p.grid()
-p.savefig(os.path.join(logNlogS_dir, "logN_logS_AGN.png"))
+p.savefig(os.path.join(plot_dir, "logN_logS_AGN.png"))
 p.clf()
 
 

@@ -77,7 +77,7 @@ if env == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "UNIT_fA2_DIR":
     cosmo = cosmoUNIT
 
 # import all pathes
-test_dir = os.path.join(os.environ[env], 'fits')
+test_dir = os.path.join(os.environ[env])
 path_2_CLU_catalog = os.path.join(test_dir, env + '_eRO_CLU.fit')
 path_2_CLU_SAT_catalog = os.path.join(test_dir, env + '_eRO_CLU_SAT.fit')
 # output catalog
@@ -366,7 +366,7 @@ print('mean richness difference', n.mean(richness1 - richness))
 # ==============================
 ## COMPUTES THE COLOR ##
 # ==============================
-rds = norm.rvs(loc=0, scale=0.001, size=len(zr_CLU[is_quiescent]))
+rds = norm.rvs(loc=0, scale=0.05, size=len(zr_CLU[is_quiescent]))
 
 # + gr_sigma_RS_itp (zr_CLU[is_quiescent]) * rds / 10.
 gr = gr_RS_itp(zr_CLU[is_quiescent]) + rds

@@ -113,7 +113,7 @@ if env[:4] == "UNIT" : # == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "
     L_box = 1000.0 / h
     cosmo = cosmoUNIT
 
-if env == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "UNIT_fA2_DIR" or env == "MD10":
+if env == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "UNIT_fA2_DIR" or env == "MD40" or env == "MD10":
     scatter_0 = 1.4
 if env == "MD04":
     scatter_0 = 1.0
@@ -149,12 +149,12 @@ f_duty = interp1d(
     n.array([0.1, 0.2, 0.3, 0.3, 0.3])
 )
 
-if a_snap > 0.40:
-    # all halos are written in the light cone at low redshift
-    f_duty_realization = f_duty(zz)
-if a_snap < 0.40:
-    # only 30% of halos are written in the light cone at high redshifts
-    f_duty_realization = f_duty(zz) / 0.3
+#if a_snap > 0.40:
+# all halos are written in the light cone at low redshift
+f_duty_realization = f_duty(zz)
+#if a_snap < 0.40:
+# only 30% of halos are written in the light cone at high redshifts
+#f_duty_realization = f_duty(zz) / 0.3
 
 active = (n.random.random(size=N_galaxies) <= f_duty_realization)
 # ids to map to galaxy and halo files
