@@ -241,14 +241,14 @@ def add_all_MAG(HEALPIX_id):
 			t_survey.add_column(Column(name='hks', data=t_kids2['hks'][id_to_map], unit='mag'))
 		return t_survey #.write(path_2_out)
 
-	#t_out = add_magnitudes(t_survey = t_elg, flag = 'iss8elg', t_kids_i = t_kids)
-	#t_out.write (path_2_ELG  , overwrite=True)
+	t_out = add_magnitudes(t_survey = t_elg, flag = 'iss8elg', t_kids_i = t_kids)
+	t_out.write (path_2_ELG  , overwrite=True)
 
-	#t_out = add_magnitudes(t_survey = t_lrg, flag = 'iss8lrg', t_kids_i = t_kids)
-	#t_out.write (path_2_LRG  , overwrite=True)
+	t_out = add_magnitudes(t_survey = t_lrg, flag = 'iss8lrg', t_kids_i = t_kids)
+	t_out.write (path_2_LRG  , overwrite=True)
 
-	#t_out = add_magnitudes(t_survey = t_bg, flag = 'iss8bg', t_kids_i = t_kids)
-	#t_out.write (path_2_BG  , overwrite=True)
+	t_out = add_magnitudes(t_survey = t_bg, flag = 'iss8bg', t_kids_i = t_kids)
+	t_out.write (path_2_BG  , overwrite=True)
 
 	t_out = add_magnitudes(t_survey = t_bgS5, flag = 'isR195', t_kids_i = t_kids)
 	t_out.write (path_2_BG_S5  , overwrite=True)

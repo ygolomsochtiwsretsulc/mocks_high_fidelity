@@ -51,18 +51,35 @@ t0 = time.time()
 
 env = 'MD10'
 path_2_coordinate_file = sys.argv[1] # '/home/comparat/data/MultiDark/MD_1.0Gpc/EFEDS_agn_fsat_20.fits' # 
+new_run = False
+# link to X-ray K-correction and attenuation curves
+#path_2_hard_RF_obs_soft = os.path.join(
+    #os.environ['GIT_AGN_MOCK'],
+    #"data",
+    #"xray_k_correction",
+    #"fraction_observed_A15_RF_hard_Obs_soft_fscat_002.txt")
+#path_2_RF_obs_hard = os.path.join(
+    #os.environ['GIT_AGN_MOCK'],
+    #"data",
+    #"xray_k_correction",
+    #"fraction_observed_A15_RF_hard_Obs_hard_fscat_002.txt")
+#path_2_NH_attenuation = os.path.join(
+    #os.environ['GIT_AGN_MOCK'],
+    #"data",
+    #"xray_k_correction",
+    #'gal_nh_ratio_relation_newg16.dat')
 
 # link to X-ray K-correction and attenuation curves
 path_2_hard_RF_obs_soft = os.path.join(
     os.environ['GIT_AGN_MOCK'],
     "data",
     "xray_k_correction",
-    "fraction_observed_A15_RF_hard_Obs_soft_fscat_002.txt")
+    "v2_fraction_observed_A15_RF_hard_Obs_soft_fscat_002.txt")
 path_2_RF_obs_hard = os.path.join(
     os.environ['GIT_AGN_MOCK'],
     "data",
     "xray_k_correction",
-    "fraction_observed_A15_RF_hard_Obs_hard_fscat_002.txt")
+    "v2_fraction_observed_A15_RF_hard_Obs_hard_fscat_002.txt")
 path_2_NH_attenuation = os.path.join(
     os.environ['GIT_AGN_MOCK'],
     "data",
@@ -101,18 +118,18 @@ dL_cm = f1['dL']
 galactic_NH = f1['nH']
 galactic_ebv = f1['ebv']
 mass = f1['SMHMR_mass']  # log of the stellar mass
-high_z = (zz>1.5)
-
-f1.add_column(Column(name='LX_hard', data=n.zeros_like(zz), unit='log10(L_X/[2-10keV, erg/s])'))
-f1.add_column(Column(name='LX_soft', data=n.zeros_like(zz), unit='log10(L_X/[0.5-2keV, erg/s])'))
-f1.add_column(Column(name='FX_soft', data=n.zeros_like(zz), unit='F_X / [0.5-2keV, erg/cm2/s]'))
-f1.add_column(Column(name='FX_soft_attenuated', data=n.zeros_like(zz), unit='F_X / [0.5-2keV, erg/cm2/s]'))
-f1.add_column(Column(name='FX_hard', data=n.zeros_like(zz), unit='F_X / [0.5-2keV, erg/cm2/s]'))
-f1.add_column(Column(name='logNH', data=n.zeros_like(zz), unit='log10(nH/[cm-2])'))
-f1.add_column(Column(name='agn_type', data=n.zeros_like(zz), unit=''))
-f1.add_column(Column(name='random', data=n.zeros_like(zz), unit=''))
-f1.add_column(Column(name='SDSS_r_AB', data=n.zeros_like(zz), unit='mag'))
-f1.add_column(Column(name='SDSS_r_AB_attenuated', data=n.zeros_like(zz), unit='mag'))
+#high_z = (zz>1.5)
+if new_run :
+	f1.add_column(Column(name='LX_hard', data=n.zeros_like(zz), unit='log10(L_X/[2-10keV, erg/s])'))
+	f1.add_column(Column(name='LX_soft', data=n.zeros_like(zz), unit='log10(L_X/[0.5-2keV, erg/s])'))
+	f1.add_column(Column(name='FX_soft', data=n.zeros_like(zz), unit='F_X / [0.5-2keV, erg/cm2/s]'))
+	f1.add_column(Column(name='FX_soft_attenuated', data=n.zeros_like(zz), unit='F_X / [0.5-2keV, erg/cm2/s]'))
+	f1.add_column(Column(name='FX_hard', data=n.zeros_like(zz), unit='F_X / [0.5-2keV, erg/cm2/s]'))
+	f1.add_column(Column(name='logNH', data=n.zeros_like(zz), unit='log10(nH/[cm-2])'))
+	f1.add_column(Column(name='agn_type', data=n.zeros_like(zz), unit=''))
+	f1.add_column(Column(name='random', data=n.zeros_like(zz), unit=''))
+	f1.add_column(Column(name='SDSS_r_AB', data=n.zeros_like(zz), unit='mag'))
+	f1.add_column(Column(name='SDSS_r_AB_attenuated', data=n.zeros_like(zz), unit='mag'))
 
 N_agn = len(zz)
 N_agn_cen = len(zz[cen])
@@ -273,7 +290,7 @@ for z_bins_i in z_bins:
 	percent_observed_H_S = percent_observed_itp(logNH)
 
 	lx_obs_frame_05_2 = n.log10(10**lx * percent_observed_H_S)
-	fx_05_20 = 10**(lx_obs_frame_05_2) / (4 * n.pi * (dl_cm)**2.) / h**3
+	fx_05_20 = 10**(lx_obs_frame_05_2) / (4 * n.pi * (dl_cm)**2.) # / h**3
 	lx_05_20 = lx_obs_frame_05_2
 	#print('fx_05_20', fx_05_20, time.time() - t0)
 	#print('lx_05_20', lx_05_20, time.time() - t0)
@@ -295,7 +312,7 @@ for z_bins_i in z_bins:
 	percent_observed_H_H = percent_observed_itp(logNH)
 
 	lx_obs_frame_2_10 = n.log10(10**lx * percent_observed_H_H)
-	fx_2_10 = 10**(lx_obs_frame_2_10) / (4 * n.pi * (dl_cm)**2.) / h**3
+	fx_2_10 = 10**(lx_obs_frame_2_10) / (4 * n.pi * (dl_cm)**2.) # / h**3
 	#print('fx_2_10', fx_2_10, time.time() - t0)
 	#print('lx_obs_frame_2_10', lx_obs_frame_2_10, time.time() - t0)
 

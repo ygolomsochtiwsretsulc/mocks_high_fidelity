@@ -37,8 +37,10 @@ import astropy.units as u
 from astropy.cosmology import FlatLambdaCDM
 from scipy.integrate import quad
 from scipy.interpolate import interp1d
-import matplotlib.pyplot as p
 import matplotlib
+matplotlib.use('Agg')
+matplotlib.rcParams.update({'font.size': 14})
+import matplotlib.pyplot as p
 import astropy.io.fits as fits
 #import h5py
 import numpy as n

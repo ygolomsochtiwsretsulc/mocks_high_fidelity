@@ -62,14 +62,15 @@ t0 = time.time()
 
 env = sys.argv[1]  # 'MD04'
 baseName = sys.argv[2]  # "all_0.62840"
+is_writing_images = sys.argv[3] # 'yes'
 z_snap = 1./float(baseName.split('_')[1])-1.
 aexp_str = str(int(float(baseName.split('_')[1])*1e5)).zfill(6)
 print(env, baseName,z_snap)
 make_figure = True
 make_figure = False
-is_writing_images = sys.argv[3] # 'yes'
 
-b_HS = 0.8
+# no need fo bias, it is already calibrated in the data
+b_HS = 1.0 # 0.8
 
 # initializes pathes to files
 test_dir = os.path.join(os.environ[env], 'fits')
@@ -334,6 +335,7 @@ detected = (CLU_FX_soft > 10**(flux_limit+0.4)) # to get 300,000 over the full s
 	#coolness[sel] = jj+1
 
 dir_2_SMPT_image = os.path.join(os.environ[env], "cat_CLU_SIMPUT", 'cluster_images')
+dir_2_SMPT_image = os.path.join(os.environ[env], "cat_CLU_SIMPUT", 'cluster_images_13_02_2020')
 if os.path.isdir(dir_2_SMPT_image) == False:
     os.system('mkdir -p ' + dir_2_SMPT_image)
 
@@ -352,7 +354,7 @@ for jj, (profile_i, r500c_i, conversion_arcmin, file_name, b_a, det) in enumerat
 			y_coord = n.hstack(( profile_i[0], profile_i, 0., 0. ))
 			profile = interp1d(x_coord, y_coord)
 			truncation_radius = 2 * r500c_i/ conversion_arcmin
-			n_pixel = 2*int(truncation_radius*60/20)
+			n_pixel = 2*int(truncation_radius*60/20)+1
 			matrix, angularSize_per_pixel_j = create_matrix(profile, n_pixel = n_pixel, b_a = b_a, truncation_radius = truncation_radius)
 			angularSize_per_pixel[jj] = angularSize_per_pixel_j
 			print(r500c_i, conversion_arcmin, r500c_i/ conversion_arcmin, 60*angularSize_per_pixel_j, n_pixel, image_file)

@@ -93,23 +93,6 @@ test_dir = os.path.join(os.environ[env], 'fits')
 path_2_light_cone = os.path.join(test_dir, baseName + '.fits')
 path_2_coordinate_file = os.path.join(test_dir, baseName + '_coordinates.fits')
 
-# X-ray K-correction and attenuation curves
-path_2_hard_RF_obs_soft = os.path.join(
-    os.environ['GIT_AGN_MOCK'],
-    "data",
-    "xray_k_correction",
-    "fraction_observed_A15_RF_hard_Obs_soft_fscat_002.txt")
-path_2_RF_obs_hard = os.path.join(
-    os.environ['GIT_AGN_MOCK'],
-    "data",
-    "xray_k_correction",
-    "fraction_observed_A15_RF_hard_Obs_hard_fscat_002.txt")
-path_2_NH_attenuation = os.path.join(
-    os.environ['GIT_AGN_MOCK'],
-    "data",
-    "xray_k_correction",
-    'gal_nh_ratio_relation_newg16.dat')
-
 # simulation setup
 if env[:2] == "MD" : # env == "MD04" or env == "MD40" or env == "MD10" or env == "MD25"
     from astropy.cosmology import FlatLambdaCDM

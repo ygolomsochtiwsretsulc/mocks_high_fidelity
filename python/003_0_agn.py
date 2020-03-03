@@ -79,16 +79,33 @@ path_2_galaxy_file = os.path.join(test_dir, baseName + '_galaxy.fits')
 path_2_agn_file = os.path.join(test_dir, baseName + '_agn.fits')
 
 # link to X-ray K-correction and attenuation curves
+#path_2_hard_RF_obs_soft = os.path.join(
+    #os.environ['GIT_AGN_MOCK'],
+    #"data",
+    #"xray_k_correction",
+    #"fraction_observed_A15_RF_hard_Obs_soft_fscat_002.txt")
+#path_2_RF_obs_hard = os.path.join(
+    #os.environ['GIT_AGN_MOCK'],
+    #"data",
+    #"xray_k_correction",
+    #"fraction_observed_A15_RF_hard_Obs_hard_fscat_002.txt")
+#path_2_NH_attenuation = os.path.join(
+    #os.environ['GIT_AGN_MOCK'],
+    #"data",
+    #"xray_k_correction",
+    #'gal_nh_ratio_relation_newg16.dat')
+
+# link to X-ray K-correction and attenuation curves
 path_2_hard_RF_obs_soft = os.path.join(
     os.environ['GIT_AGN_MOCK'],
     "data",
     "xray_k_correction",
-    "fraction_observed_A15_RF_hard_Obs_soft_fscat_002.txt")
+    "v2_fraction_observed_A15_RF_hard_Obs_soft_fscat_002.txt")
 path_2_RF_obs_hard = os.path.join(
     os.environ['GIT_AGN_MOCK'],
     "data",
     "xray_k_correction",
-    "fraction_observed_A15_RF_hard_Obs_hard_fscat_002.txt")
+    "v2_fraction_observed_A15_RF_hard_Obs_hard_fscat_002.txt")
 path_2_NH_attenuation = os.path.join(
     os.environ['GIT_AGN_MOCK'],
     "data",
@@ -307,7 +324,7 @@ percent_observed_itp = interp1d(
 percent_observed_H_S = percent_observed_itp(logNH)
 
 lx_obs_frame_05_2 = n.log10(10**lx * percent_observed_H_S)
-fx_05_20 = 10**(lx_obs_frame_05_2) / (4 * n.pi * (dl_cm)**2.) / h**3
+fx_05_20 = 10**(lx_obs_frame_05_2) / (4 * n.pi * (dl_cm)**2.) # / h**3
 lx_05_20 = lx_obs_frame_05_2
 #print('fx_05_20', fx_05_20, time.time() - t0)
 #print('lx_05_20', lx_05_20, time.time() - t0)
@@ -329,7 +346,7 @@ percent_observed_itp = interp1d(
 percent_observed_H_H = percent_observed_itp(logNH)
 
 lx_obs_frame_2_10 = n.log10(10**lx * percent_observed_H_H)
-fx_2_10 = 10**(lx_obs_frame_2_10) / (4 * n.pi * (dl_cm)**2.) / h**3
+fx_2_10 = 10**(lx_obs_frame_2_10) / (4 * n.pi * (dl_cm)**2.) #/ h**3
 #print('fx_2_10', fx_2_10, time.time() - t0)
 #print('lx_obs_frame_2_10', lx_obs_frame_2_10, time.time() - t0)
 

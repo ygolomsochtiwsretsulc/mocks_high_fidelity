@@ -37,7 +37,7 @@ print('------------------------------------------------')
 print('------------------------------------------------')
 t0 = time.time()
 
-from sklearn.neighbors import BallTree
+#from sklearn.neighbors import BallTree
 
 #import matplotlib
 #matplotlib.use('Agg')
@@ -118,13 +118,13 @@ for el in host_ids:
 
 # link to templates
 def tpl_name(temperature, redshift): return 'cluster_Xspectra/cluster_spectrum_10kT_' + str(int(temperature * 10)).zfill(4) + '_100z_' + str(int(redshift * 100)).zfill(4) + '.fits[SPECTRUM][#row==1]'
-
+#HEALPIX_8_id = 151
 for HEALPIX_8_id in n.arange(healpy.nside2npix(8)):
 	"""
 	Loops over healpix pixels and writes the files to path_2_eRO_catalog
 	"""
 	print(HEALPIX_8_id)
-	path_2_SMPT_catalog = os.path.join(dir_2_SMPT, str(HEALPIX_8_id).zfill(6) + '.fit')
+	path_2_SMPT_catalog = os.path.join(dir_2_SMPT, 'c_'+str(HEALPIX_8_id).zfill(6) + '.fit')
 	# print(path_2_eRO_catalog)
 	sf = (HEALPIX_8 == HEALPIX_8_id)
 	t1 = t[sf]
@@ -157,34 +157,46 @@ for HEALPIX_8_id in n.arange(healpy.nside2npix(8)):
 	indexes_z = n.array([(n.abs(z_val - z_arr)).argmin() for z_val in redshift])
 	z_values = z_arr[indexes_z]
 	spec_names = n.zeros(N_clu_all).astype('U200')
-	# spec_names[template=="0.0"] =
 	# "cluster_Xspectra/cluster_spectrum_10kT_0100_100z_0150.fits[SPECTRUM][#row==1]"
 	for jj, (kT_values_ii, z_values_ii) in enumerate(zip(kT_values, z_values)):
 		spec_names[jj] = tpl_name(kT_values_ii, z_values_ii)
 
-	hdu_cols = fits.ColDefs([
-		# ,fits.Column(name="SRC_NAME" , format='10A', unit='', array =  n.arange(len(hd_all[1].data['ra'])).astype('str') )
-		fits.Column(name="SRC_ID", format='K', unit='', array=(n.arange(N_clu_all) + 4e8).astype('int')), 
-		fits.Column(name="RA", format='D', unit='deg', array=ra_array), 
-		fits.Column(name="DEC", format='D', unit='deg', array=dec_array), 
-		fits.Column(name="E_MIN", format='D', unit='keV', array=n.ones(N_clu_all) * 0.5), 
-		fits.Column(name="E_MAX", format='D', unit='keV', array=n.ones(N_clu_all) * 2.0), 
-		fits.Column(name="FLUX", format='D', unit='erg/s/cm**2', array=FX_soft_attenuated), 
-		fits.Column(name="IMAGE", format='100A', unit='', array=template), 
-		fits.Column(name="SPECTRUM", format='100A', unit='', array=spec_names),         
-		fits.Column(name="IMGROTA", format='D', unit='deg', array=orientation), 
-		fits.Column(name="IMGSCAL", format='D', unit='', array=pixel_rescaling)
-	])
-
-	hdu = fits.BinTableHDU.from_columns(hdu_cols)
-	hdu.name = 'SRC_CAT'
-	hdu.header['HDUCLASS'] = 'HEASARC/SIMPUT'
-	hdu.header['HDUCLAS1'] = 'SRC_CAT'
-	hdu.header['HDUVERS'] = '1.1.0'
-	hdu.header['RADESYS'] = 'FK5'
-	hdu.header['EQUINOX'] = 2000.0
-	outf = fits.HDUList([fits.PrimaryHDU(), hdu])  # ,  ])
-	if os.path.isfile(path_2_SMPT_catalog):
-		os.system("rm " + path_2_SMPT_catalog)
-	outf.writeto(path_2_SMPT_catalog, overwrite=True)
-	print(path_2_SMPT_catalog, 'written', time.time() - t0)
+	N_per_simput = 999
+	for jj, (id_min, id_max) in enumerate(zip(n.arange(0,N_clu_all,N_per_simput), n.arange(0,N_clu_all,N_per_simput)+N_per_simput)):
+		path_2_SMPT_catalog = os.path.join(dir_2_SMPT, 'c_'+str(HEALPIX_8_id).zfill(6) + '_N_'+str(jj)+'.fit')
+		hdu_cols = fits.ColDefs([
+			fits.Column(name="SRC_ID",  format='K',    unit='',    array=(n.arange(N_clu_all) + 4e8).astype('int')[id_min:id_max]), 
+			fits.Column(name="RA",      format='D',    unit='deg', array=ra_array[id_min:id_max]), 
+			fits.Column(name="DEC",     format='D',    unit='deg', array=dec_array[id_min:id_max]), 
+			fits.Column(name="E_MIN",   format='D',    unit='keV', array=n.ones(N_clu_all)[id_min:id_max] * 0.5), 
+			fits.Column(name="E_MAX",   format='D',    unit='keV', array=n.ones(N_clu_all)[id_min:id_max] * 2.0), 
+			fits.Column(name="FLUX",    format='D',    unit='erg/s/cm**2', array=FX_soft_attenuated[id_min:id_max]), 
+			fits.Column(name="IMAGE",   format='100A', unit='', array=template[id_min:id_max]), 
+			fits.Column(name="SPECTRUM",format='100A', unit='', array=spec_names[id_min:id_max]),         
+			fits.Column(name="IMGROTA", format='D',    unit='deg', array=orientation[id_min:id_max]), 
+			fits.Column(name="IMGSCAL", format='D',    unit='', array=pixel_rescaling[id_min:id_max])
+		])
+		hdu = fits.BinTableHDU.from_columns(hdu_cols)
+		hdu.name = 'SRC_CAT'
+		hdu.header['HDUCLASS'] = 'HEASARC/SIMPUT'
+		hdu.header['HDUCLAS1'] = 'SRC_CAT'
+		hdu.header['HDUVERS'] = '1.1.0'
+		hdu.header['RADESYS'] = 'FK5'
+		hdu.header['EQUINOX'] = 2000.0
+		outf = fits.HDUList([fits.PrimaryHDU(), hdu])  # ,  ])
+		if os.path.isfile(path_2_SMPT_catalog):
+			os.system("rm " + path_2_SMPT_catalog)
+		outf.writeto(path_2_SMPT_catalog, overwrite=True)
+		print(path_2_SMPT_catalog, 'written', time.time() - t0)
+		path_2_CLU_catalog = os.path.join(dir_2_eRO_all, 'c_'+str(HEALPIX_8_id).zfill(6) +'_N_'+str(jj)+ '.fit')
+		t_out = Table( t2[id_min:id_max] )
+		t_out.add_column(Column(name="SRC_ID",   dtype = n.int64,    unit='',            data = (n.arange(N_clu_all) + 4e8).astype('int')[id_min:id_max])   )
+		t_out.add_column(Column(name="E_MIN",    dtype = n.float,    unit='keV',         data = n.ones(N_clu_all)[id_min:id_max] * 0.5)     )
+		t_out.add_column(Column(name="E_MAX",    dtype = n.float,    unit='keV',         data = n.ones(N_clu_all)[id_min:id_max] * 2.0)     )
+		t_out.add_column(Column(name="FLUX",     dtype = n.float,    unit='erg/s/cm**2', data = FX_soft_attenuated[id_min:id_max])          )
+		t_out.add_column(Column(name="IMAGE",    dtype = n.str,      unit='',            data = template[id_min:id_max])                    )
+		t_out.add_column(Column(name="SPECTRUM", dtype = n.str,      unit='',            data = spec_names[id_min:id_max])                  )
+		t_out.add_column(Column(name="IMGROTA",  dtype = n.float,    unit='deg',         data = orientation[id_min:id_max])                 )
+		t_out.add_column(Column(name="IMGSCAL",  dtype = n.float,    unit='',            data = pixel_rescaling[id_min:id_max])             )
+		t_out.write(path_2_CLU_catalog, overwrite=True)
+		print(path_2_CLU_catalog, 'written', time.time() - t0)

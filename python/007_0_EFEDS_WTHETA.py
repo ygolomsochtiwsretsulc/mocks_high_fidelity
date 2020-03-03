@@ -66,7 +66,7 @@ f2 = fits.open(path_2_coordinate_file)
 ra = f2[1].data['ra']
 dec = f2[1].data['dec']
 zz = f2[1].data['redshift_R']
-cluster = ( zz < 3 ) & (abs(dec)<10) & (ra > 130) & (ra < 210 )
+cluster = ( zz < 6 ) & (abs(dec)<10) & (ra > 130) & (ra < 210 )
 print(len(ra[cluster]), 'points')
 
 t = Table()

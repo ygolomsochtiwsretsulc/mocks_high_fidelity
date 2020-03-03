@@ -67,7 +67,7 @@ env = sys.argv[1]  # 'MD04'
 baseName = sys.argv[2]  # "sat_0.62840"
 print(env, baseName)
 make_figure = True
-#make_figure = False
+make_figure = False
 
 # import all pathes
 test_dir = os.path.join(os.environ[env], 'fits')
@@ -141,8 +141,7 @@ print('masses', mass[:10], time.time() - t0)
 # STAR FORMATION RATE (valid only for star forming galaxies !)
 sfr = n.zeros_like(zz)
 # whitaker et al 2012, Eq. 1,2,3.
-mean_SFR = (0.70 - 0.13 * zz) * (mass - 10.5) + \
-    0.38 + 1.14 * zz - 0.19 * zz**2.
+mean_SFR = (0.70 - 0.13 * zz) * (mass - 10.5) + 0.38 + 1.14 * zz - 0.19 * zz**2.
 rds2 = norm.rvs(loc=0, scale=0.34, size=N_halos)
 log_sfr = mean_SFR + rds2
 print('log sfr', log_sfr[:10], time.time() - t0)
@@ -163,6 +162,7 @@ def fraction_Qf(mass, z): return 0.5 + 0.5 * \
 rds_Qf = n.random.random(N_obj)
 
 frac = fraction_Qf(mass, zz)
+frac[ zz > 2 ] = 0.
 SF = (rds_Qf > frac)
 QU = (SF == False)
 
@@ -204,6 +204,7 @@ def galaxy_lx(redshift, mass, sfr):
 gal_LX = galaxy_lx(zz, 10**mass, 10**log_sfr)
 print('gal_LX', gal_LX[:10])
 
+"""
 # galaxy LF abundance matching to Loveday et al. 2016
 ngal, M, phi, Err = n.loadtxt(os.path.join(
     os.environ['GIT_AGN_MOCK'], 'data', 'LF_loveday_2015', 'lf.txt'), unpack=True)
@@ -235,7 +236,6 @@ dist_mods = interp1d(z_array, cosmo.distmod(z_array).value)
 mag_r = mag_abs_r + dist_mods(zz)
 print('mag_r', mag_r[:10], time.time() - t0)
 
-"""
 # mass size relation
 
 # https://arxiv.org/pdf/1411.6355.pdf
@@ -270,8 +270,8 @@ t.add_column(Column(name='SMHMR_mass', data=mass, unit='log10(Msun)'))
 t.add_column(Column(name='star_formation_rate', data=log_sfr, unit='log10(Msun/yr)'))
 t.add_column(Column(name='is_quiescent', data=QU, unit=''))
 t.add_column(Column(name='LX_hard', data=n.log10(gal_LX), unit='log10(erg/s)'))
-t.add_column(Column(name='mag_abs_r', data=mag_abs_r, unit='mag'))
-t.add_column(Column(name='mag_r', data=mag_r, unit='mag'))
+t.add_column(Column(name='mag_abs_r', data=n.zeros_like(mass), unit='mag'))
+t.add_column(Column(name='mag_r', data=n.zeros_like(mass), unit='mag'))
 
 t.write(path_2_galaxy_file, overwrite=True)
 print('done', time.time() - t0, 's')

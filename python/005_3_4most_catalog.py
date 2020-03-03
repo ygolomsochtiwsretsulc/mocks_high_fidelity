@@ -239,20 +239,20 @@ for HEALPIX_id in n.arange(N_pixels)[::-1]:
 	#path_2_LRG   = os.path.join(dir_2_OUT, 'LRG_' + str(HEALPIX_id).zfill(6) + '.fit')
 	#path_2_ELG   = os.path.join(dir_2_OUT, 'ELG_' + str(HEALPIX_id).zfill(6) + '.fit')
 	#
-	#subsurvey = 'BG'
-	#t_survey = t_bg 
-	#t_out = add_4most_columns(subsurvey = subsurvey, t_survey = t_survey)
-	#t_out.write (path_2_BG  , overwrite=True)
+	subsurvey = 'BG'
+	t_survey = t_bg 
+	t_out = add_4most_columns(subsurvey = subsurvey, t_survey = t_survey)
+	t_out.write (path_2_BG  , overwrite=True)
 	
-	#subsurvey = 'LRG'
-	#t_survey = t_lrg 
-	#t_out = add_4most_columns(subsurvey = subsurvey, t_survey = t_survey)
-	#t_out.write (path_2_LRG  , overwrite=True)
+	subsurvey = 'LRG'
+	t_survey = t_lrg 
+	t_out = add_4most_columns(subsurvey = subsurvey, t_survey = t_survey)
+	t_out.write (path_2_LRG  , overwrite=True)
 	
-	#subsurvey = 'ELG'
-	#t_survey = t_elg 
-	#t_out = add_4most_columns(subsurvey = subsurvey, t_survey = t_survey)
-	#t_out.write (path_2_ELG  , overwrite=True)
+	subsurvey = 'ELG'
+	t_survey = t_elg 
+	t_out = add_4most_columns(subsurvey = subsurvey, t_survey = t_survey)
+	t_out.write (path_2_ELG  , overwrite=True)
 	
 	subsurvey = 'filament_GAL'
 	t_survey = t_bgS5 

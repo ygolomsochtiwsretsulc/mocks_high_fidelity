@@ -236,8 +236,8 @@ N_pixels = healpy.nside2npix(8)
 for HEALPIX_id in n.arange(N_pixels):
 	print(HEALPIX_id)
 	try :
-		#add_kmag(HEALPIX_id)
+		add_kmag(HEALPIX_id)
 		#add_kmag_only_elg(HEALPIX_id)
-		add_kmag_bgs5_only(HEALPIX_id)
+		#add_kmag_bgs5_only(HEALPIX_id)
 	except(ValueError):
 		print('already computed')

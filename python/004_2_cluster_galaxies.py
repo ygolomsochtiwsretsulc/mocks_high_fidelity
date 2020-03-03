@@ -8,6 +8,24 @@ Uses BallTrees to find neighbours efficiently.
 Create a satellite file for each shell/ftype.
 Then concatenates (stilts/topcat) into a (very big) single file. $ENV_eRO_CLU_SAT.fit
 
+
+    parameters:
+     - path_2_light_cone: light cone file
+     - path_2_coordinate_file: coordinate file
+     - path_2_galaxy_file: galaxy properties file
+     - N_rvir_angular: search within X angular rvir, Default=2.
+
+    output:
+     - hdu_cols: hdu data unit containing the matched satellite file.
+
+    Filter the galaxy catalog to every galaxy within 1_rvir angular
+
+    Then retains galaxies within 1 r_vir (3D positions)
+
+    Outputs the catalogue containing ( < 1 rvir angular) AND (< 1 r_vir) AND (r magnitude observed < 26.5) of a cluster.
+
+
+
 References
 ----------
 
@@ -46,29 +64,31 @@ from scipy.interpolate import interp1d
 import astropy.io.fits as fits
 import h5py
 import numpy as n
+from astropy.table import Table, Column
+	
 print('CREATES FITS FILE with galaxies around clusters')
 print('------------------------------------------------')
 print('------------------------------------------------')
 t0 = time.time()
-#import astropy.io.fits as fits
-# import all pathes
-deg_to_rad = n.pi / 180.
-#from astropy.table import Table,unique
-#from math import radians, cos, sin, asin, sqrt, pi
-#from sklearn.neighbors import DistanceMetric
 
 env = sys.argv[1]
-stilts_cmd = 'stilts'
+baseName = sys.argv[2]
+delta_crit = sys.argv[3]
+#env="MD10" 
+#baseName="all_0.89510"
+#delta_crit = '200c'
+#delta_crit = '500c'
+#delta_crit = 'vir'
+#delta_crit = '2rvir'
+
+z_snap = 1./float(baseName.split('_')[1])-1.
+aexp_str = str(int(float(baseName.split('_')[1])*1e5)).zfill(6)
+print(env, baseName, delta_crit)
 
 test_dir = os.path.join(os.environ[env], 'fits')
-tmp_dir = os.path.join(os.environ[env], 'fits', 'tmp')
-if os.path.isdir(tmp_dir) == False:
-    os.system('mkdir -p ' + tmp_dir)
 
 # input cluster catalog
 path_2_CLU_catalog = os.path.join(os.environ[env], env + '_eRO_CLU.fit')
-# output cluster galaxy catalog
-path_2_CLU_SAT_catalog = os.path.join(os.environ[env], env + '_eRO_CLU_SAT.fit')
 
 # simulation setup
 if env[:2] == "MD" : # env == "MD04" or env == "MD40" or env == "MD10" or env == "MD25"
@@ -88,172 +108,110 @@ if env[:4] == "UNIT" : # == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "
     L_box = 1000.0 / h
     cosmo = cosmoUNIT
 
+path_2_light_cone = os.path.join(test_dir, baseName + '.fits')
+path_2_coordinate_file = os.path.join(test_dir, baseName + '_coordinates.fits')
+path_2_galaxy_file = os.path.join(test_dir, baseName + '_galaxy.fits')
+path_2_out_file = os.path.join(test_dir, baseName + '_galaxiesAroundClusters.fit')
+
+f1 = Table.read(path_2_galaxy_file)
+
+f2 = Table.read(path_2_coordinate_file)
+zzr = f2['redshift_R']
+
+shell_zmin = n.min(zzr)
+shell_zmax = n.max(zzr)
+
 # input columns of interest
-hdu_clu = fits.open(path_2_CLU_catalog)
-id_CLU = hdu_clu[1].data['HALO_id']
-rvir_CLU = hdu_clu[1].data['HALO_rvir']
-x_coord_CLU = hdu_clu[1].data['HALO_x']
-y_coord_CLU = hdu_clu[1].data['HALO_y']
-z_coord_CLU = hdu_clu[1].data['HALO_z']
-ra_CLU = hdu_clu[1].data['ra']
-dec_CLU = hdu_clu[1].data['dec']
-zr_CLU = hdu_clu[1].data['redshift_R']
-zs_CLU = hdu_clu[1].data['redshift_S']
-hdu_clu.close()
-
-# interpolation of angular diameter distance with redshift
-zzs = n.arange(0, n.max(zr_CLU) + 0.1, 0.01)
-itp_angular_size = interp1d(zzs, n.array(
-    [cosmo.kpc_comoving_per_arcmin(zz_i).value for zz_i in zzs]))
-search_rad_1_rvir_arcmin = rvir_CLU / itp_angular_size(zr_CLU)
-search_rad_1_rvir_deg = search_rad_1_rvir_arcmin / 60.
-
-# get all possible galaxy files
-path_2_sat_galaxy_files = sorted(
-    n.array(
-        glob.glob(
-            os.path.join(
-                test_dir,
-                '*_galaxy.fits'))))
-
-baseNames = n.array([os.path.basename(path_2_sat_galaxy_file)[:-12]
-                     for path_2_sat_galaxy_file in path_2_sat_galaxy_files])
-baseNames.sort()
-
-# loop over all these files to create fit catalogs of galaxies around
-# clusters in 2 rvir angular
+hdu_clu_i = Table.read(path_2_CLU_catalog)
+# selecte redshift range around the shell
+s_z = (hdu_clu_i['redshift_R']>shell_zmin-0.05) & (hdu_clu_i['redshift_R']<shell_zmax+0.05)
+# define sub set
+hdu_clu = hdu_clu_i[s_z]
+rvir_CLU = hdu_clu['HALO_Rvir']
+x_coord_CLU = hdu_clu['HALO_x']
+y_coord_CLU = hdu_clu['HALO_y']
+z_coord_CLU = hdu_clu['HALO_z']
 
 
-def get_data(
-        path_2_light_cone,
-        path_2_coordinate_file,
-        path_2_galaxy_file,
-        N_rvir_angular=1.):
-    """
-    parameters:
-     - path_2_light_cone: light cone file
-     - path_2_coordinate_file: coordinate file
-     - path_2_galaxy_file: galaxy properties file
-     - N_rvir_angular: search within X angular rvir, Default=2.
+omega = lambda zz: cosmo.Om0*(1+zz)**3. / cosmo.efunc(zz)**2
+DeltaVir_bn98 = lambda zz : (18.*n.pi**2. + 82.*(omega(zz)-1)- 39.*(omega(zz)-1)**2.)/omega(zz)
 
-    output:
-     - hdu_cols: hdu data unit containing the matched satellite file.
+HOST_HALO_Mvir = hdu_clu['HALO_Mvir'] / h
+HOST_HALO_Rvir = hdu_clu['HALO_Rvir']
+HOST_HALO_M500c = hdu_clu['HALO_M500c'] / h
+HOST_HALO_R500c = (DeltaVir_bn98(z_snap)/500. * HOST_HALO_M500c / HOST_HALO_Mvir)**(1./3.)*HOST_HALO_Rvir
+HOST_HALO_M200c = hdu_clu['HALO_M200c'] / h
+HOST_HALO_R200c = (DeltaVir_bn98(z_snap)/200. * HOST_HALO_M200c / HOST_HALO_Mvir)**(1./3.)*HOST_HALO_Rvir
 
-    Filter the galaxy catalog to every galaxy within 1_rvir angular
-
-    Then retains galaxies within 1 r_vir (3D positions)
-
-    Outputs the catalogue containing ( < 1 rvir angular) AND (< 1 r_vir) AND (r magnitude observed < 26.5) of a cluster.
-
-    """
-    f1 = fits.open(path_2_galaxy_file)
-    galaxy_stellar_mass = f1[1].data['SMHMR_mass']
-    galaxy_star_formation_rate = f1[1].data['star_formation_rate']
-    galaxy_LX_hard = f1[1].data['LX_hard']
-    galaxy_mag_r = f1[1].data['mag_r']
-    galaxy_mag_abs_r = f1[1].data['mag_abs_r']
-    is_quiescent = f1[1].data['is_quiescent']
-    f1.close()
-
-    f2 = fits.open(path_2_coordinate_file)
-    ra = f2[1].data['ra']
-    dec = f2[1].data['dec']
-    zzr = f2[1].data['redshift_R']
-    zzs = f2[1].data['redshift_S']
-    dL_cm = f2[1].data['dL']
-    galactic_NH = f2[1].data['nH']
-    galactic_ebv = f2[1].data['ebv']
-    g_lat = f2[1].data['g_lat']
-    g_lon = f2[1].data['g_lon']
-    ecl_lat = f2[1].data['ecl_lat']
-    ecl_lon = f2[1].data['ecl_lon']
-    N_galaxies = len(zzr)
-    f2.close()
-
-    f1 = fits.open(path_2_light_cone)
-    halo_id = f1[1].data['id']
-    x = f1[1].data['x']
-    y = f1[1].data['y']
-    z = f1[1].data['z']
-
-    # angular search radius
-    rsearch_rad = search_rad_1_rvir_deg * N_rvir_angular * n.pi / 180.
-
-    # coordinates of the galaxies
-    obj_coord_rad = deg_to_rad * n.array([dec, ra]).T
-    Tree_obj_Haversine = BallTree(obj_coord_rad, metric='haversine')
-    # Looks at individual clusters
-    # retrieve targets within a circle of N angular rvir
-    # returns the IDS of objects within the search radius for each tile
-    idx_arrays, distances = Tree_obj_Haversine.query_radius(
-        deg_to_rad * n.transpose([dec_CLU, ra_CLU]), r=rsearch_rad, return_distance=True)
-
-    # computes the number of targets in each tile
-    N_in_test = n.array([len(t_i) for t_i in idx_arrays])
-
-    CLU_ids = n.hstack(
-        (n.array([n.ones(el) * ii for ii, el in enumerate(N_in_test)]))).astype('int')
-
-    sf = n.hstack((idx_arrays))
-
-    angular_distance_to_cluster = n.hstack(
-        (distances)) / (search_rad_1_rvir_deg[CLU_ids] * n.pi / 180.)
-    r_o_rvir = ((x_coord_CLU[CLU_ids] - x[sf])**2. + (y_coord_CLU[CLU_ids] - y[sf])
-                ** 2. + (z_coord_CLU[CLU_ids] - z[sf])**2.)**(0.5) / (rvir_CLU[CLU_ids] / 1000.)
-    redshift_distance_R = zzr[sf] - zr_CLU[CLU_ids]
-    redshift_distance_S = zzs[sf] - zs_CLU[CLU_ids]
-
-    s_R = (r_o_rvir < 1) & (galaxy_mag_r[sf] < 26.5)
-
-    hdu_cols = fits.ColDefs([
-        ##
-        # Coordinates
-        ##
-        fits.Column(name="ra", format='D', unit='degree', array=ra[sf[s_R]]), fits.Column(name="dec", format='D', unit='degree', array=dec[sf[s_R]]), fits.Column(name="g_lat", format='D', unit='degree', array=g_lat[sf[s_R]]), fits.Column(
-            name="g_lon", format='D', unit='degree', array=g_lon[sf[s_R]]), fits.Column(name="ecl_lat", format='D', unit='degree', array=ecl_lat[sf[s_R]]), fits.Column(name="ecl_lon", format='D', unit='degree', array=ecl_lon[sf[s_R]])        # distances
-        # extinction maps
-        # Galaxy properties
-        , fits.Column(name="redshift_R", format='D', unit='real space', array=zzr[sf[s_R]]), fits.Column(name="redshift_S", format='D', unit='redshift space', array=zzs[sf[s_R]]), fits.Column(name="dL_cm", format='D', unit='cm', array=dL_cm[sf[s_R]]), fits.Column(name="galactic_NH", format='D', unit='cm', array=galactic_NH[sf[s_R]]), fits.Column(name="galactic_ebv", format='D', unit='cm', array=galactic_ebv[sf[s_R]]), fits.Column(name="galaxy_stellar_mass", format='D', unit='M_sun', array=galaxy_stellar_mass[sf[s_R]]), fits.Column(name="galaxy_star_formation_rate", format='D', unit='M_sun', array=galaxy_star_formation_rate[sf[s_R]]), fits.Column(name="galaxy_LX_hard", format='D', unit='M_sun', array=galaxy_LX_hard[sf[s_R]]), fits.Column(name="galaxy_mag_r", format='D', unit='', array=galaxy_mag_r[sf[s_R]]), fits.Column(name="galaxy_mag_abs_r", format='D', unit='', array=galaxy_mag_abs_r[sf[s_R]]), fits.Column(name="is_quiescent", format='L', unit='', array=is_quiescent[sf[s_R]])        # Dark matter halo
-        ##
-        # ,fits.Column(name=  "scale_of_last_MM"   , format='D', unit='',     array = f1[1].data["scale_of_last_MM"   ][sf[s_R]] )
-        , fits.Column(name="HALO_M200c", format='D', unit='log10(M_sun)', array=f1[1].data["M200c"][sf[s_R]] / h), fits.Column(name="HALO_M500c", format='D', unit='log10(M_sun)', array=f1[1].data["M500c"][sf[s_R]] / h), fits.Column(name="HALO_Mvir", format='D', unit='log10(M_sun)', array=f1[1].data["Mvir"][sf[s_R]] / h), fits.Column(name="HALO_Acc_Rate_1Tdyn", format='D', unit='Msun/yr', array=f1[1].data["Acc_Rate_1_Tdyn"][sf[s_R]]), fits.Column(name="HALO_rs", format='D', unit='kpc', array=f1[1].data["rs"][sf[s_R]]), fits.Column(name="HALO_rvir", format='D', unit='kpc', array=f1[1].data["rvir"][sf[s_R]]), fits.Column(name="HALO_vmax", format='D', unit='km/s', array=f1[1].data["vmax"][sf[s_R]]), fits.Column(name="Vrms", format='D', unit='km/s', array=(f1[1].data["vx"][sf[s_R]]**2 + f1[1].data["vy"][sf[s_R]]**2 + f1[1].data["vz"][sf[s_R]]**2)**0.5)        #
-        , fits.Column(name="HALO_id", format='K', unit='', array=halo_id[sf[s_R]]), fits.Column(name="HALO_host_id", format='K', unit='', array=CLU_ids[s_R]), fits.Column(name="angular_distance_to_cluster_center_in_rvir", format='D', unit='theta/theta_vir', array=angular_distance_to_cluster[s_R]), fits.Column(name="comoving_distance_to_cluster_in_rvir", format='D', unit='r/r_vir', array=r_o_rvir[s_R]), fits.Column(name="redshift_R_distance_to_cluster", format='D', unit='z_R-z_R_cluster', array=redshift_distance_R[s_R]), fits.Column(name="redshift_S_distance_to_cluster", format='D', unit='z_S-z_S_cluster', array=redshift_distance_S[s_R])
-    ])
-    f1.close()
-    return hdu_cols
+if delta_crit == '200c' :
+	frac_rvir = HOST_HALO_R200c/HOST_HALO_Rvir
+	RADIUS = HOST_HALO_R200c
+if delta_crit == '500c' :
+	frac_rvir = HOST_HALO_R500c/HOST_HALO_Rvir
+	RADIUS = HOST_HALO_R500c
+if delta_crit == 'vir' :
+	frac_rvir = HOST_HALO_Rvir/HOST_HALO_Rvir
+	RADIUS = hdu_clu_bin['HOST_HALO_Rvir']
+if delta_crit == '2rvir' :
+	frac_rvir = 2.*n.ones_like(HOST_HALO_R200c)
+	RADIUS = 2.*hdu_clu_bin['HOST_HALO_Rvir']
 
 
-# LOOPS OVER ALL FILES AND CREATE THE TEMPORARY FILE
-hdu_col_array = []
-for baseName in baseNames[::-1]:
-    path_2_light_cone = os.path.join(test_dir, baseName + '.fits')
-    path_2_coordinate_file = os.path.join(
-        test_dir, baseName + '_coordinates.fits')
-    path_2_galaxy_file = os.path.join(test_dir, baseName + '_galaxy.fits')
-    path_2_out_file = os.path.join(
-        tmp_dir, baseName + '_galaxiesAroundClusters.fit')
+f3 = Table.read(path_2_light_cone)
+halo_id = f3['id']
+halo_pid = f3['pid']
+x = f3['x']
+y = f3['y']
+z = f3['z']
 
-    hdu_col = get_data(
-        path_2_light_cone,
-        path_2_coordinate_file,
-        path_2_galaxy_file)
-    tb_hdu = fits.BinTableHDU.from_columns(hdu_col)
-    prihdr = fits.Header()
-    prihdr['author'] = 'JC'
-    prihdu = fits.PrimaryHDU(header=prihdr)
-    thdulist = fits.HDUList([prihdu, tb_hdu])
-    if os.path.isfile(path_2_out_file):
-        os.system("rm " + path_2_out_file)
-    thdulist.writeto(path_2_out_file)
-    print('written', path_2_out_file, time.time() - t0)
+# 3D search
+Tree_obj = BallTree(n.transpose([x, y, z]))
+idx_arrays, distances = Tree_obj.query_radius(n.transpose([x_coord_CLU, y_coord_CLU, z_coord_CLU]), r = RADIUS/1000. , return_distance=True)
+N_in_test = n.array([len(t_i) for t_i in idx_arrays])
+
+N_in_test = n.array([len(t_i) for t_i in idx_arrays])
+# cluster ID: line in the cluster file for each satellite
+# for hdu_clu
+CLU_ids = n.hstack((n.array([n.ones(el) * ii for ii, el in enumerate(N_in_test)]))).astype('int')
+# IDs of the satellite in the galaxy and coordinate file
+# for f1, f2, f3
+sf = n.hstack((idx_arrays))
+
+# distance to cluster_center
+#r_o_rvir = n.hstack((distances)) / (rvir_CLU[CLU_ids] / 1000.)
 
 
-# concatenates all temporary files into a single fits catalog for the clusters
-os.chdir(tmp_dir)
-c1 = 'ls *_galaxiesAroundClusters.fit > fit_list_galaxiesAroundClusters.list'
-print(c1)
-os.system(c1)
-c2 = stilts_cmd + """ tcat in=@fit_list_galaxiesAroundClusters.list ifmt=fits omode=out ofmt=fits out=""" + path_2_CLU_SAT_catalog
-print(c2)
-os.system(c2)
-os.system('rm -rf ' + tmp_dir)
+t = Table()
+
+for col_name in f1.columns.keys():
+	print(col_name,)
+	if col_name=='LX_hard':
+		print('--not added',)
+	else:
+		t.add_column(Column(name=col_name, data=f1[col_name][sf] ) )
+
+for col_name in f2.columns.keys():
+	print(col_name,)
+	if col_name=='LX_hard':
+		print('--not added',)
+	else:
+		t.add_column(Column(name=col_name, data=f2[col_name][sf] ) )
+
+for col_name in f3.columns.keys():
+	print(col_name,)
+	if col_name in n.array(['M200c', 'M500c', 'Xoff', 'b_to_a_500c', 'c_to_a_500c', 'scale_of_last_MM', 'Acc_Rate_1_Tdyn']):
+		print('--not added',)
+	else:
+		t.add_column(Column(name=col_name, data=f3[col_name][sf] ) )
+
+
+for col_name in hdu_clu.columns.keys():
+	print(col_name,)
+	if col_name in n.array(['g_lon', 'g_lat', 'ecl_lon', 'ecl_lat', 'dL', 'nH', 'ebv', 'HALO_lineID','galaxy_SMHMR_mass', 'HALO_c_to_a_500c',  'galaxy_star_formation_rate', 'galaxy_is_quiescent',  'galaxy_LX_hard', 'galaxy_mag_abs_r',  'galaxy_mag_r']):
+		print('--not added',)
+	else:
+		t.add_column(Column(name='HOST_'+col_name, data=hdu_clu[col_name][CLU_ids] ) )
+
+
+t.write(path_2_out_file, overwrite=True)
+print('written to ',path_2_out_file, 'after ', time.time()-t0, ' seconds')
