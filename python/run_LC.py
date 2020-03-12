@@ -9,7 +9,7 @@ env = sys.argv[1]  # 'MD10'
 
 test_dir = os.path.join(os.environ[env], 'fits')
 
-baseNames_all = n.array([os.path.basename(el)[:-5] for el in n.array(glob.glob(os.path.join(test_dir, 'all_?.?????.fits')))])
+baseNames_all = n.array([os.path.basename(el)[:-12] for el in n.array(glob.glob(os.path.join(test_dir, 'all_?.?????_galaxy.fits')))])
 baseNames_all.sort()
 print(baseNames_all)
 if env == 'MD04':

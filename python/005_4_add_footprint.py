@@ -186,8 +186,13 @@ print('------------------------------------------------')
 
 MASKDIR = os.path.join(os.environ['GIT_AGN_MOCK'],'data', 'masks')
 
-env = 'MD10'
-root_dir = os.path.join(os.environ[env])
+if len(sys.argv)==1:
+	dir_2_MOCK = sys.argv[1]
+if len(sys.argv)==2:
+	env = sys.argv[1] 
+	file_name = sys.argv[2]
+	root_dir = os.path.join(os.environ[env])
+	dir_2_MOCK  = os.path.join(root_dir, file_name)
 
 nl = lambda selection : len(selection.nonzero()[0])
 
@@ -331,8 +336,6 @@ def fourmost_get_survbit(ra,dec):
 	return survbit
 
 
-file_name = sys.argv[1]
-dir_2_MOCK  = os.path.join(root_dir, file_name)
 t_survey  = Table.read(dir_2_MOCK  )
 print(dir_2_MOCK)
 mask_bit = fourmost_get_survbit(t_survey['RA'],t_survey['DEC'])

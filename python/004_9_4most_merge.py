@@ -23,7 +23,7 @@ print('------------------------------------------------')
 print('------------------------------------------------')
 
 
-env = 'MD10'  # sys.argv[1]
+env = sys.argv[1]
 
 # simulation setup
 if env == "MD10" or env == "MD04":
@@ -62,7 +62,7 @@ ll_gal = coords.galactic.l.value
 t3.add_column(Column(name='g_lat', data=bb_gal, unit='deg'))
 t3.add_column(Column(name='g_lon', data=ll_gal, unit='deg'))
 
-area_ero = lambda dec, g_lat, g_lon : (abs(g_lat) > 10) & (g_lon > 180) & (dec < 5)
+area_ero = lambda dec, g_lat, g_lon : (abs(g_lat) > 10) & (g_lon > 180) & (dec < 20)
 magl_lim = lambda mag, mag_lim : (mag < mag_lim) 
 selection = lambda t, mag_lim : area_ero(t['DEC'], t['g_lat'], t['g_lon']) & magl_lim( t['MAG'], mag_lim )
 nl = lambda sel : len(sel.nonzero()[0])

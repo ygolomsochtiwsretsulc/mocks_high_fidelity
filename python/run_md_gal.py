@@ -23,6 +23,7 @@ else:
 	z_max = 6.1
 
 lss_git_dir = os.path.join(os.environ['GIT_AGN_MOCK'], 'python')
+lss_fig_git_dir = os.path.join(os.environ['GIT_AGN_MOCK'], 'python', 'figures')
 
 baseNames_all = sorted(
     n.array(
@@ -86,10 +87,16 @@ def run_gal_only(env, baseName):
 	print(command)
 	os.system(command)
 
-
+def plot_stellar_mass(env, baseName):
+	os.chdir(lss_fig_git_dir)
+	print('galaxies', env, baseName, time.time() - t0)
+	command = "python3 plot_SMHMR.py " + env + ' ' + baseName
+	print(command)
+	os.system(command)
 
 for bn in baseNames[::-1]:
 	print(env, bn)
 	#run_all_coord(env, bn)
 	run_all_gal(env, bn)
 	#run_gal_only(env, bn)
+	#plot_stellar_mass(env, bn)

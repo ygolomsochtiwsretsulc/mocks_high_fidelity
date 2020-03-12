@@ -48,10 +48,15 @@ print('------------------------------------------------')
 print('------------------------------------------------')
 t0 = time.time()
 
+env = sys.argv[1] # 'MD10'
+f_sat_pc = int(sys.argv[2]) # 10 # percent
+f_sat = f_sat_pc / 100.
+print(env, 'f sat', f_sat)
+test_dir = os.path.join(os.environ[env])
+path_2_agn_file = os.path.join(test_dir, 'EFEDS_agn_fsat_'+str(f_sat_pc)+'.fits')
 
-env = 'MD10'
-path_2_coordinate_file = sys.argv[1] # '/home/comparat/data/MultiDark/MD_1.0Gpc/EFEDS_agn_fsat_20.fits' # 
 new_run = False
+#new_run = True
 # link to X-ray K-correction and attenuation curves
 #path_2_hard_RF_obs_soft = os.path.join(
     #os.environ['GIT_AGN_MOCK'],
@@ -74,12 +79,20 @@ path_2_hard_RF_obs_soft = os.path.join(
     os.environ['GIT_AGN_MOCK'],
     "data",
     "xray_k_correction",
-    "v2_fraction_observed_A15_RF_hard_Obs_soft_fscat_002.txt")
+    "v3_fraction_observed_A15_RF_hard_Obs_soft_fscat_002.txt")
+
 path_2_RF_obs_hard = os.path.join(
     os.environ['GIT_AGN_MOCK'],
     "data",
     "xray_k_correction",
-    "v2_fraction_observed_A15_RF_hard_Obs_hard_fscat_002.txt")
+    "v3_fraction_observed_A15_RF_hard_Obs_hard_fscat_002.txt")
+
+path_2_obs_hard_obs_soft = os.path.join(
+    os.environ['GIT_AGN_MOCK'],
+    "data",
+    "xray_k_correction",
+    "v3_fraction_observed_A15_Obs_hard_Obs_soft_fscat_002.txt")
+
 path_2_NH_attenuation = os.path.join(
     os.environ['GIT_AGN_MOCK'],
     "data",
@@ -110,7 +123,7 @@ if env == "MD04":
     scatter_0 = 1.0
 
 print('opens coordinate file ', time.time() - t0)
-f1 = Table.read( path_2_coordinate_file )
+f1 = Table.read( path_2_agn_file )
 cen = (f1['pid']==-1)
 sat = (cen==False)
 zz = f1['redshift_R']
@@ -141,7 +154,7 @@ print('N AGN', N_agn)
 # computes the cosmological volume
 area = 1600 # deg2
 DZ = 0.1
-z_bins = n.arange(0., 2., DZ)
+z_bins = n.arange(0., n.max(zz), DZ)
 ##
 for z_bins_i in z_bins:
 	zmin = z_bins_i
@@ -216,27 +229,26 @@ for z_bins_i in z_bins:
 	# Obscured fractions
 	# ===============================
 	# model from equations 4-11, 12-15 of Comparat et al. 2019
-	lx0 = 43.2
 
+	# too many CTK at high luminosity
+	# Eq. 4
+	#def f_thick(LXhard, z): return 0.30
+	def thick_LL(z, lx0 = 41.5): return lx0 + n.arctan(z*5)*1.5    
+	def f_thick(LXhard, z): return 0.30 * (0.5 + 0.5 * erf((thick_LL(z) - LXhard) / 0.25))
+	
+	# too many absorbed ones
+	# Eq. 7
+	def f_2(LXhard, z): return 0.9 * (41 / LXhard)**0.5
 
-	def lxz(z): return lx0 + erf(z) * 1.2
+	# fiducial
+	# Eq. 8
+	def f_1(LXhard, z): return f_thick(LXhard, z) + 0.01 + erf(z / 4.) * 0.3
 
+	# Eq. 10
+	def LL(z, lx0 = 43.2): return lx0 + erf(z) * 1.2
 
-	width = 0.6
-
-
-	def thick_fraction_z(z): return 0.30  # + erf(z)*0.1
-
-
-	def thin_fraction_max(LXhard): return 0.9 * (41 / LXhard)**0.5
-
-
-	def thin_fraction_z(z): return thick_fraction_z(z) + 0.01 + erf(z / 4.) * 0.4
-
-
-	def fraction_ricci(LXhard, z): return thin_fraction_z(z) + (thin_fraction_max(
-		LXhard) - thin_fraction_z(z)) * (0.5 + 0.5 * erf((-LXhard + lxz(z)) / width))
-
+	# Eq. 5,6
+	def fraction_ricci(LXhard, z, width = 0.6): return f_1(LXhard,z) + (f_2(LXhard, z) - f_1(LXhard,z)) * (0.5 + 0.5 * erf((LL(z) - LXhard) / width))
 
 	# initializes logNH
 	logNH = n.zeros(n_agn)
@@ -250,7 +262,7 @@ for z_bins_i in z_bins:
 	thinest = (randomNH >= frac_thin)
 
 	# thick obscuration, 24-26
-	thick = (randomNH < thick_fraction_z(z))
+	thick = (randomNH < f_thick(lx, z))
 	#thick = (randomNH < thick_fraction)
 
 	# obscured 22-24
@@ -271,30 +283,7 @@ for z_bins_i in z_bins:
 	# Assigns flux
 	# ===============================
 
-	# hard X-ray 2-10 keV rest-frame ==>> 0.5-2 obs frame
-	obscuration_z_grid, obscuration_nh_grid, obscuration_fraction_obs_erosita = n.loadtxt(
-		path_2_hard_RF_obs_soft, unpack=True)
-	obscuration_itp_H_S = interp2d(
-		obscuration_z_grid,
-		obscuration_nh_grid,
-		obscuration_fraction_obs_erosita)
-
 	NHS = n.arange(20, 26 + 0.05, 0.4)
-	percent_observed_itp = interp1d(
-		n.hstack((20 - 0.1, NHS, 26 + 0.1)),
-		n.hstack((
-			obscuration_itp_H_S(z_mean, 20.)[0],
-			n.array([obscuration_itp_H_S(z_i, logNH_i)[0] for z_i, logNH_i in zip(z_mean * n.ones_like(NHS), NHS)]),
-			obscuration_itp_H_S(z_mean, 26.)[0])))
-
-	percent_observed_H_S = percent_observed_itp(logNH)
-
-	lx_obs_frame_05_2 = n.log10(10**lx * percent_observed_H_S)
-	fx_05_20 = 10**(lx_obs_frame_05_2) / (4 * n.pi * (dl_cm)**2.) # / h**3
-	lx_05_20 = lx_obs_frame_05_2
-	#print('fx_05_20', fx_05_20, time.time() - t0)
-	#print('lx_05_20', lx_05_20, time.time() - t0)
-
 	# hard X-ray 2-10 keV rest-frame ==>> 2-10 obs frame
 	obscuration_z_grid, obscuration_nh_grid, obscuration_fraction_obs_erosita = n.loadtxt(
 		path_2_RF_obs_hard, unpack=True)
@@ -315,6 +304,32 @@ for z_bins_i in z_bins:
 	fx_2_10 = 10**(lx_obs_frame_2_10) / (4 * n.pi * (dl_cm)**2.) # / h**3
 	#print('fx_2_10', fx_2_10, time.time() - t0)
 	#print('lx_obs_frame_2_10', lx_obs_frame_2_10, time.time() - t0)
+
+	# obs X-ray 2-10 keV ==>> obs 0.5-2
+	# v3_fraction_observed_A15_RF_hard_Obs_soft_fscat_
+	# path_2_hard_RF_obs_soft
+	obscuration_z_grid, obscuration_nh_grid, obscuration_fraction_obs_erosita = n.loadtxt(path_2_hard_RF_obs_soft, unpack=True)
+	obscuration_itp_H_S = interp2d(
+		obscuration_z_grid,
+		obscuration_nh_grid,
+		obscuration_fraction_obs_erosita)
+
+	percent_observed_itp = interp1d(
+		n.hstack((20 - 0.1, NHS, 26 + 0.1)),
+		n.hstack((
+			obscuration_itp_H_S(z_mean, 20.)[0],
+			n.array([obscuration_itp_H_S(z_i, logNH_i)[0] for z_i, logNH_i in zip(z_mean * n.ones_like(NHS), NHS)]),
+			obscuration_itp_H_S(z_mean, 26.)[0])))
+
+	percent_observed_H_S = percent_observed_itp(logNH)
+
+	lx_05_20 = n.log10(10**lx * percent_observed_H_S)
+	fx_05_20 = 10**lx_05_20 / (4 * n.pi * (dl_cm)**2.)
+	#fx_05_20 = fx_2_10 * percent_observed_H_S
+	#lx_05_20 = fx_05_20 * (4 * n.pi * (dl_cm)**2.) # / h**3
+	#print('fx_05_20', fx_05_20, time.time() - t0)
+	#print('lx_05_20', lx_05_20, time.time() - t0)
+
 
 	# Adds type 11, 12, 21, 22
 	# Follows Merloni et al. 2014
@@ -441,6 +456,6 @@ for z_bins_i in z_bins:
 	f1['SDSS_r_AB'][z_sel] = empirical_mag_r
 	f1['SDSS_r_AB_attenuated'][z_sel] = agn_rmag_observed
 
-f1.write(path_2_coordinate_file, overwrite=True)
+f1.write(path_2_agn_file, overwrite=True)
 print('done', time.time() - t0, 's')
 

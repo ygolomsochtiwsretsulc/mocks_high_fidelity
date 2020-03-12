@@ -33,9 +33,6 @@ from astropy.table import Table, Column
 from astropy.cosmology import FlatLambdaCDM
 import astropy.units as u
 
-cosmoMD = FlatLambdaCDM(H0=67.77 * u.km / u.s / u.Mpc, Om0=0.307115)
-L_box = 1000.0 / 0.6777
-
 import astropy.io.fits as fits
 import numpy as n
 print('CREATES FITS FILES with SHAM method')
@@ -55,14 +52,30 @@ doELG = True
 #doFILAMENT = False
 #doELG = False
 
+if env[:2] == "MD" : # env == "MD04" or env == "MD40" or env == "MD10" or env == "MD25"
+    from astropy.cosmology import FlatLambdaCDM
+    import astropy.units as u
+    cosmoMD = FlatLambdaCDM(
+        H0=67.77 * u.km / u.s / u.Mpc,
+        Om0=0.307115)  # , Ob0=0.048206)
+    h = 0.6777
+    cosmo = cosmoMD
+if env[:4] == "UNIT" : # == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "UNIT_fA2_DIR":
+    from astropy.cosmology import FlatLambdaCDM
+    import astropy.units as u
+    cosmoUNIT = FlatLambdaCDM(H0=67.74 * u.km / u.s / u.Mpc, Om0=0.308900)
+    h = 0.6774
+    L_box = 1000.0 / h
+    cosmo = cosmoUNIT
+
+
+nl = lambda selection : len(selection.nonzero()[0])
 
 area = healpy.nside2pixarea(8, degrees=True)
 
 root_dir = os.path.join(os.environ[env])
 
 dir_2_gal_all = os.path.join(root_dir, "cat_GALAXY_all")
-
-dir_2_agn_all = os.path.join(root_dir, "cat_AGN_all")
 
 dir_2_OUT = os.path.join(root_dir, "cat_SHAM_COSMO")
 
@@ -115,20 +128,19 @@ NN_s8lrg = get_nz(fn, 's8lrg', LRG_density * 1.14 * area * dz, dz)
 selection_s8lrg = (NN_s8lrg>8) & (zmid_all>0.4) & (zmid_all<0.81) 
 print('NN_s8lrg N/deg2 = ', n.sum(NN_s8lrg[selection_s8lrg])/area )
 
-NN_s8elg = get_nz(fn, 's8elg', ELG_density * 1.9 * area * dz, dz)
+NN_s8elg = get_nz(fn, 's8elg', ELG_density * 1.15 * area * dz, dz)
 selection_s8elg = (NN_s8elg>8) & (zmid_all>0.6) & (zmid_all<1.11) 
 print('NN_s8elg N/deg2 = ', n.sum(NN_s8elg[selection_s8elg])/area )
 
-s5_fn = os.path.join( os.environ['GIT_AGN_MOCK'], 'data', 'cosmo-4most', 'filamentSurvey.nzgmm.json')
-s5_mydict  = json_read(s5_fn)
-# redshift array
-s5_all_z = n.arange(s5_mydict['zmin'], s5_mydict['zmax']+dz, dz)
-s5_zmin_all, s5_zmax_all = s5_all_z, s5_all_z+dz
-s5_zmid_all = (s5_zmax_all + s5_zmin_all)/2.
-
-NN_s5bg  = get_nz(s5_fn, 'R195' , BG_S5_density_unique * 1.22 * area * dz, dz)
-selection_s5bg = (NN_s5bg>8) & (s5_zmid_all>0.05) & (s5_zmid_all<0.51) 
-print('NN_s5bg N/deg2 = ', n.sum(NN_s5bg[selection_s5bg])/area )
+#s5_fn = os.path.join( os.environ['GIT_AGN_MOCK'], 'data', 'cosmo-4most', 'filamentSurvey.nzgmm.json')
+#s5_mydict  = json_read(s5_fn)
+## redshift array
+#s5_all_z = n.arange(s5_mydict['zmin'], s5_mydict['zmax']+dz, dz)
+#s5_zmin_all, s5_zmax_all = s5_all_z, s5_all_z+dz
+#s5_zmid_all = (s5_zmax_all + s5_zmin_all)/2.
+#NN_s5bg  = get_nz(s5_fn, 'R195' , BG_S5_density_unique * 1.22 * area * dz, dz)
+#selection_s5bg = (NN_s5bg>8) & (s5_zmid_all>0.05) & (s5_zmid_all<0.51) 
+#print('NN_s5bg N/deg2 = ', n.sum(NN_s5bg[selection_s5bg])/area )
 
 N_pixels = healpy.nside2npix(8)
 def run_mock(HEALPIX_id):
@@ -137,24 +149,18 @@ def run_mock(HEALPIX_id):
 	path_2_gal_all_catalog = os.path.join(dir_2_gal_all, str(HEALPIX_id).zfill(6) + '.fit')
 	#path_2_gal_sat_catalog = os.path.join(dir_2_gal_sat, str(HEALPIX_id).zfill(6) + '.fit')
 
-	# agn catalogs
-	path_2_agn_all_catalog = os.path.join(dir_2_agn_all, str(HEALPIX_id).zfill(6) + '.fit')
-	#path_2_agn_sat_catalog = os.path.join(dir_2_agn_sat, str(HEALPIX_id).zfill(6) + '.fit')
-
 	# output catalog
 	path_2_OUT_catalog_BG  = os.path.join(dir_2_OUT, 'BG_'  + str(HEALPIX_id).zfill(6) + '.fit')
 	path_2_OUT_catalog_BG_S5 = os.path.join(dir_2_OUT, 'S5GAL_'  + str(HEALPIX_id).zfill(6) + '.fit')
 	path_2_OUT_catalog_LRG = os.path.join(dir_2_OUT, 'LRG_' + str(HEALPIX_id).zfill(6) + '.fit')
 	path_2_OUT_catalog_ELG = os.path.join(dir_2_OUT, 'ELG_' + str(HEALPIX_id).zfill(6) + '.fit')
-	path_2_OUT_catalog_QSO = os.path.join(dir_2_OUT, 'QSO_' + str(HEALPIX_id).zfill(6) + '.fit')
 
 	print('=================================================================')
-	print(path_2_gal_all_catalog,  path_2_agn_all_catalog)
+	print(path_2_gal_all_catalog)
 	print( path_2_OUT_catalog_BG  )
 	print( path_2_OUT_catalog_BG_S5  )
 	print( path_2_OUT_catalog_LRG )
 	print( path_2_OUT_catalog_ELG )
-	print( path_2_OUT_catalog_QSO )
 
 	hd_all = fits.open(path_2_gal_all_catalog)[1].data
 	N_GAL_all = len(hd_all['ra'])
@@ -172,52 +178,29 @@ def run_mock(HEALPIX_id):
 	all_mvir = hd_all['HALO_Mvir']                  
 	logm     = hd_all['galaxy_stellar_mass']        
 	sfr      = hd_all['galaxy_star_formation_rate'] 
-	allz     = hd_all['redshift_R']                 
+	allz     = hd_all['redshift_R']
+	distance_modulus = cosmo.distmod(allz)   
+	all_kmag = hd_all['K_mag_abs'] + distance_modulus.value
 	rds      = norm.rvs(loc=0, scale=0.15, size=len(logm))
 	all_vmax = logm + rds
 	N_halos = len(all_vmax)
 	
-	if doBG:
-		# LRG1 CASE
-		# SHAM with scatter until NZ is filled for cen and sat
-		# scatter 0.15
-		lrg1_selection = (n.ones(N_halos)==0)
-		print("BG S8, time=", time.time()-t0)
-		for zmin, zmax, N_lrg1 in zip(zmin_all[(selection_s8bg)], zmax_all[(selection_s8bg)], NN_s8bg[(selection_s8bg)]):
-			z_sel = (allz>=zmin)&(allz<zmax)
-			all_vmax_sort_id = n.argsort(all_vmax[z_sel])
-			min_mass = all_vmax[z_sel][all_vmax_sort_id[-N_lrg1-1]]
-			mass_selection = (all_vmax>min_mass)&(z_sel)
-			lrg1_selection = (mass_selection) | (lrg1_selection)
-
-		print('N LRG1 S8 selected', len(lrg1_selection.nonzero()[0]),', density=', len(lrg1_selection.nonzero()[0])/area )
-		if os.path.isfile(path_2_OUT_catalog_BG):
-			os.system("rm " + path_2_OUT_catalog_BG)
-		t = Table()
-		t['RA'] = Column(ra_all[lrg1_selection], unit='degree', dtype=n.float64)
-		t['DEC'] = Column(dec_all[lrg1_selection], unit='degree', dtype=n.float64)
-		t['Z'] = Column(allz[lrg1_selection], unit='', dtype=n.float32)
-		t['Mstar'] = Column(logm[lrg1_selection], unit='log10(Mass/[Msun])', dtype=n.float32)
-		t['SFR'] = Column(sfr[lrg1_selection], unit='log10(SFR/[Msun/yr])', dtype=n.float32)
-		t['EBV'] = Column(ebv_all[lrg1_selection], unit='mag', dtype=n.float32)
-		t.write(path_2_OUT_catalog_BG)#
-		print(path_2_OUT_catalog_BG, 'written', time.time() - t0)
-
 	if doFILAMENT:
+		print("======================================")
 		# S5 BG case
-		s5_selection = (n.ones(N_halos)==0)
+		s5_selection = (all_kmag < 17.25)
 		print("Filament S5", time.time()-t0)
-		for zmin, zmax, N_s5lrg1 in zip(s5_zmin_all[selection_s5bg], s5_zmax_all[selection_s5bg], NN_s5bg[selection_s5bg]):
-			z_sel = (allz>=zmin)&(allz<zmax)
-			all_vmax_sort_id = n.argsort(all_vmax[z_sel])
-			min_mass = all_vmax[z_sel][all_vmax_sort_id[-N_s5lrg1-1]]
-			mass_selection = (all_vmax>min_mass)&(z_sel)
-			s5_selection = (mass_selection) | (s5_selection)
+		#for zmin, zmax, N_s5lrg1 in zip(s5_zmin_all[selection_s5bg], s5_zmax_all[selection_s5bg], NN_s5bg[selection_s5bg]):
+			#z_sel = (allz>=zmin)&(allz<zmax)
+			#if len(allz[z_sel]) > N_s5lrg1 :
+				#print( zmin, zmax, N_s5lrg1, len(allz[z_sel]) )
+				#all_vmax_sort_id = n.argsort(all_vmax[z_sel])
+				#min_mass = all_vmax[z_sel][all_vmax_sort_id[-N_s5lrg1-1]]
+				#mass_selection = (all_vmax>min_mass)&(z_sel)
+				#s5_selection = (mass_selection) | (s5_selection)
 
 		print('N LRG1 S5 selected', len(s5_selection.nonzero()[0]), ', density=', len(s5_selection.nonzero()[0])/area )
 		# write a BG catalogue
-		if os.path.isfile(path_2_OUT_catalog_BG_S5):
-			os.system("rm " + path_2_OUT_catalog_BG_S5)
 		t = Table()
 		t['RA'] = Column(ra_all[s5_selection], unit='degree', dtype=n.float64)
 		t['DEC'] = Column(dec_all[s5_selection], unit='degree', dtype=n.float64)
@@ -225,24 +208,55 @@ def run_mock(HEALPIX_id):
 		t['Mstar'] = Column(logm[s5_selection], unit='log10(Mass/[Msun])', dtype=n.float32)
 		t['SFR'] = Column(sfr[s5_selection], unit='log10(SFR/[Msun/yr])', dtype=n.float32)
 		t['EBV'] = Column(ebv_all[s5_selection], unit='mag', dtype=n.float32)
-		t.write(path_2_OUT_catalog_BG_S5)#
+		t['K_mag_abs'] = Column(hd_all['K_mag_abs'][s5_selection], unit='mag', dtype=n.float32)
+		t.write(path_2_OUT_catalog_BG_S5, overwrite=True)#
 		print(path_2_OUT_catalog_BG_S5, 'written', time.time() - t0)
 
+	if doBG:
+		print("======================================")
+		# LRG1 CASE
+		# SHAM with scatter until NZ is filled for cen and sat
+		# scatter 0.15
+		lrg1_selection = (n.ones(N_halos)==0)
+		print("BG S8, time=", time.time()-t0)
+		for zmin, zmax, N_lrg1 in zip(zmin_all[(selection_s8bg)], zmax_all[(selection_s8bg)], NN_s8bg[(selection_s8bg)]):
+			z_sel = (allz>=zmin)&(allz<zmax) # &(s5_selection==False)
+			print(zmin, zmax, N_lrg1, len(allz[z_sel]))
+			if len(allz[z_sel]) > N_lrg1 :
+				all_vmax_sort_id = n.argsort(all_vmax[z_sel])
+				min_mass = all_vmax[z_sel][all_vmax_sort_id[-N_lrg1-1]]
+				mass_selection = (all_vmax>min_mass)&(z_sel)
+				lrg1_selection = (mass_selection) | (lrg1_selection)
+
+		print('N LRG1 S8 selected', len(lrg1_selection.nonzero()[0]),', density=', len(lrg1_selection.nonzero()[0])/area )
+		t = Table()
+		t['RA'] = Column(ra_all[lrg1_selection], unit='degree', dtype=n.float64)
+		t['DEC'] = Column(dec_all[lrg1_selection], unit='degree', dtype=n.float64)
+		t['Z'] = Column(allz[lrg1_selection], unit='', dtype=n.float32)
+		t['Mstar'] = Column(logm[lrg1_selection], unit='log10(Mass/[Msun])', dtype=n.float32)
+		t['SFR'] = Column(sfr[lrg1_selection], unit='log10(SFR/[Msun/yr])', dtype=n.float32)
+		t['EBV'] = Column(ebv_all[lrg1_selection], unit='mag', dtype=n.float32)
+		t['K_mag_abs'] = Column(hd_all['K_mag_abs'][lrg1_selection], unit='mag', dtype=n.float32)
+		t.write(path_2_OUT_catalog_BG, overwrite=True)#
+		print(path_2_OUT_catalog_BG, 'written', time.time() - t0)
+
+
 	if doLRG:
+		print("======================================")
 		# LRG2 CASE
 		lrg2_selection = (n.ones(N_halos)==0)
 		print("LRG 2", time.time()-t0)
 		for zmin, zmax, N_lrg2 in zip(zmin_all[(selection_s8lrg)], zmax_all[(selection_s8lrg)], NN_s8lrg[(selection_s8lrg)]):
 			z_sel = (allz>=zmin)&(allz<zmax)& (lrg1_selection==False) 
-			all_vmax_sort_id = n.argsort(all_vmax[z_sel])
-			min_mass = all_vmax[z_sel][all_vmax_sort_id[-N_lrg2-1]]
-			mass_selection = (all_vmax>min_mass) & (z_sel)
-			rds = n.random.rand(len(all_vmax))
-			lrg2_selection = (mass_selection) | (lrg2_selection)
+			print(zmin, zmax, N_lrg2, len(allz[z_sel]))
+			if len(allz[z_sel]) > N_lrg2 :
+				all_vmax_sort_id = n.argsort(all_vmax[z_sel])
+				min_mass = all_vmax[z_sel][all_vmax_sort_id[-N_lrg2-1]]
+				mass_selection = (all_vmax>min_mass) & (z_sel)
+				rds = n.random.rand(len(all_vmax))
+				lrg2_selection = (mass_selection) | (lrg2_selection)
 
 		print('N LRG2 selected', len(lrg2_selection.nonzero()[0]), ', density=', len(lrg2_selection.nonzero()[0])/area )
-		if os.path.isfile(path_2_OUT_catalog_LRG):
-			os.system("rm " + path_2_OUT_catalog_LRG)
 		t = Table()
 		t['RA'] = Column(ra_all[lrg2_selection], unit='degree', dtype=n.float64)
 		t['DEC'] = Column(dec_all[lrg2_selection], unit='degree', dtype=n.float64)
@@ -250,10 +264,12 @@ def run_mock(HEALPIX_id):
 		t['Mstar'] = Column(logm[lrg2_selection], unit='log10(Mass/[Msun])', dtype=n.float32)
 		t['SFR'] = Column(sfr[lrg2_selection], unit='log10(SFR/[Msun/yr])', dtype=n.float32)
 		t['EBV'] = Column(ebv_all[lrg2_selection], unit='mag', dtype=n.float32)
-		t.write(path_2_OUT_catalog_LRG)#
+		t['K_mag_abs'] = Column(hd_all['K_mag_abs'][lrg2_selection], unit='mag', dtype=n.float32)
+		t.write(path_2_OUT_catalog_LRG, overwrite=True)#
 		print(path_2_OUT_catalog_LRG, 'written', time.time() - t0)
 
 	if doELG:
+		print("======================================")
 		# ELG parameters
 		# ELG select on Mvir
 		elg_selection = (n.ones(N_halos)==0)
@@ -261,22 +277,22 @@ def run_mock(HEALPIX_id):
 		print("ELG", time.time()-t0)
 		for zmin, zmax, N_elg in zip(zmin_all[selection_s8elg], zmax_all[selection_s8elg], NN_s8elg[selection_s8elg]):
 			z_sel = (allz>=zmin)&(allz<zmax)
-			mh_bins = n.arange(mh_mean -2*mh_scatter, mh_mean +2*mh_scatter+0.05, 0.05)
-			mh_bins_pos = 0.5*(mh_bins[1:]+mh_bins[:-1])
-			proba = lambda x : norm.pdf(x, loc=mh_mean,scale=mh_scatter)
-			proba_norm = proba(mh_bins_pos).sum()
-			N_2_select_per_bin = (N_elg*proba(mh_bins_pos)/proba_norm).astype('int')
-			for id_bin in range(len(mh_bins)-1):
-				id_in_bin =(z_sel) & (all_mvir > mh_bins[id_bin]) &( all_mvir < mh_bins[id_bin+1]) 
-				N_avail = len(id_in_bin.nonzero()[0])
-				rds = n.random.rand(len(all_mvir))
-				bin_selection = (id_in_bin)&(rds < N_2_select_per_bin[id_bin]*1./N_avail)
-				elg_selection = (bin_selection)|(elg_selection)
+			print(zmin, zmax, N_elg, len(allz[z_sel]))
+			if len(allz[z_sel]) > N_elg :
+				mh_bins = n.arange(mh_mean -2*mh_scatter, mh_mean +2*mh_scatter+0.05, 0.05)
+				mh_bins_pos = 0.5*(mh_bins[1:]+mh_bins[:-1])
+				proba = lambda x : norm.pdf(x, loc=mh_mean,scale=mh_scatter)
+				proba_norm = proba(mh_bins_pos).sum()
+				N_2_select_per_bin = (N_elg*proba(mh_bins_pos)/proba_norm).astype('int')
+				for id_bin in range(len(mh_bins)-1):
+					id_in_bin =(z_sel) & (all_mvir > mh_bins[id_bin]) &( all_mvir < mh_bins[id_bin+1]) 
+					N_avail = len(id_in_bin.nonzero()[0])
+					rds = n.random.rand(len(all_mvir))
+					bin_selection = (id_in_bin)&(rds < N_2_select_per_bin[id_bin]*1./N_avail)
+					elg_selection = (bin_selection)|(elg_selection)
 
 		print('N ELG selected', len(elg_selection.nonzero()[0]),', density=', len(elg_selection.nonzero()[0])/area )
 		# write an ELG catalogue
-		if os.path.isfile(path_2_OUT_catalog_ELG):
-			os.system("rm " + path_2_OUT_catalog_ELG)
 		t = Table()
 		t['RA'] = Column(ra_all[elg_selection], unit='degree', dtype=n.float64)
 		t['DEC'] = Column(dec_all[elg_selection], unit='degree', dtype=n.float64)
@@ -284,7 +300,8 @@ def run_mock(HEALPIX_id):
 		t['Mstar'] = Column(logm[elg_selection], unit='log10(Mass/[Msun])', dtype=n.float32)
 		t['SFR'] = Column(sfr[elg_selection], unit='log10(SFR/[Msun/yr])', dtype=n.float32)
 		t['EBV'] = Column(ebv_all[elg_selection], unit='mag', dtype=n.float32)
-		t.write(path_2_OUT_catalog_ELG)#
+		t['K_mag_abs'] = Column(hd_all['K_mag_abs'][elg_selection], unit='mag', dtype=n.float32)
+		t.write(path_2_OUT_catalog_ELG, overwrite=True)#
 		print(path_2_OUT_catalog_ELG, 'written', time.time() - t0)
 
 

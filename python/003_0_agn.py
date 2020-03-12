@@ -100,18 +100,27 @@ path_2_hard_RF_obs_soft = os.path.join(
     os.environ['GIT_AGN_MOCK'],
     "data",
     "xray_k_correction",
-    "v2_fraction_observed_A15_RF_hard_Obs_soft_fscat_002.txt")
+    "v3_fraction_observed_A15_RF_hard_Obs_soft_fscat_002.txt")
+
 path_2_RF_obs_hard = os.path.join(
     os.environ['GIT_AGN_MOCK'],
     "data",
     "xray_k_correction",
-    "v2_fraction_observed_A15_RF_hard_Obs_hard_fscat_002.txt")
+    "v3_fraction_observed_A15_RF_hard_Obs_hard_fscat_002.txt")
+
+path_2_obs_hard_obs_soft = os.path.join(
+    os.environ['GIT_AGN_MOCK'],
+    "data",
+    "xray_k_correction",
+    "v3_fraction_observed_A15_Obs_hard_Obs_soft_fscat_002.txt")
+
 path_2_NH_attenuation = os.path.join(
     os.environ['GIT_AGN_MOCK'],
     "data",
     "xray_k_correction",
     'gal_nh_ratio_relation_newg16.dat')
 
+# simulat
 # simulation setup
 if env[:2] == "MD" : # env == "MD04" or env == "MD40" or env == "MD10" or env == "MD25"
     from astropy.cosmology import FlatLambdaCDM
@@ -225,6 +234,7 @@ X_luminosities = n.hstack((
              zip(fbins[:-1][bin_selection], fbins[1:][bin_selection], N_obs_th[bin_selection].astype('int') + 1)
              ])
 ))
+
 X_luminosities_sorted = X_luminosities[n.argsort(X_luminosities)]
 # print(X_luminosities_sorted)
 # scatter, then order the masses
@@ -249,27 +259,20 @@ t2 = time.time()
 # ===============================
 # Obscured fractions
 # ===============================
-# model from equations 4-11, 12-15 of Comparat et al. 2019
+"""
+# exact models from Comparat et al. 2019
+# model from equations 4-11, 12-15  
 lx0 = 43.2
-
-
 def lxz(z): return lx0 + erf(z) * 1.2
 
-
 width = 0.6
-
-
 def thick_fraction_z(z): return 0.30  # + erf(z)*0.1
-
 
 def thin_fraction_max(LXhard): return 0.9 * (41 / LXhard)**0.5
 
-
 def thin_fraction_z(z): return thick_fraction_z(z) + 0.01 + erf(z / 4.) * 0.4
 
-
-def fraction_ricci(LXhard, z): return thin_fraction_z(z) + (thin_fraction_max(
-    LXhard) - thin_fraction_z(z)) * (0.5 + 0.5 * erf((-LXhard + lxz(z)) / width))
+def fraction_ricci(LXhard, z): return thin_fraction_z(z) + (thin_fraction_max(LXhard) - thin_fraction_z(z)) * (0.5 + 0.5 * erf((-LXhard + lxz(z)) / width))
 
 
 # initializes logNH
@@ -294,6 +297,42 @@ obscured = (thinest == False) & (thick == False)
 logNH[thick] = n.random.uniform(24, 26, len(logNH[thick]))
 logNH[obscured] = n.random.uniform(22, 24, len(logNH[obscured]))
 logNH[thinest] = n.random.uniform(20, 22, len(logNH[thinest]))
+"""
+
+# Minor update of the Comparat et al. 2019 model at the high luminosity end to enhance the number density of low redshift high soft band flux objects
+# Eq. 4 (updated at high luminosity)
+def thick_LL(z, lx0 = 41.5): return lx0 + n.arctan(z*5)*1.5    
+def f_thick(LXhard, z): return 0.30 * (0.5 + 0.5 * erf((thick_LL(z) - LXhard) / 0.25))
+# Eq. 7
+def f_2(LXhard, z): return 0.9 * (41 / LXhard)**0.5
+# fiducial
+# Eq. 8
+def f_1(LXhard, z): return f_thick(LXhard, z) + 0.01 + erf(z / 4.) * 0.3
+# Eq. 10
+def LL(z, lx0 = 43.2): return lx0 + erf(z) * 1.2
+# Eq. 5,6
+def fraction_ricci(LXhard, z, width = 0.6): return f_1(LXhard,z) + (f_2(LXhard, z) - f_1(LXhard,z)) * (0.5 + 0.5 * erf((LL(z) - LXhard) / width))
+
+# initializes logNH
+logNH = n.zeros(n_agn)
+# obscuration, after the equations above
+randomNH = n.random.rand(n_agn)
+# unobscured 20-22
+#frac_thin = fraction_ricci(lsar, z)
+frac_thin = fraction_ricci(lx, z)
+thinest = (randomNH >= frac_thin)
+# thick obscuration, 24-26
+thick = (randomNH < f_thick(lx, z))
+#thick = (randomNH < thick_fraction)
+
+# obscured 22-24
+obscured = (thinest == False) & (thick == False)
+
+# assigns logNH values randomly :
+logNH[thick] = n.random.uniform(24, 26, len(logNH[thick]))
+logNH[obscured] = n.random.uniform(22, 24, len(logNH[obscured]))
+logNH[thinest] = n.random.uniform(20, 22, len(logNH[thinest]))
+
 
 print('=====================  AGN fractions and numbers vs NH values =================')
 print(n_agn,
@@ -305,50 +344,93 @@ print(n_agn,
 # Assigns flux
 # ===============================
 
-# hard X-ray 2-10 keV rest-frame ==>> 0.5-2 obs frame
-obscuration_z_grid, obscuration_nh_grid, obscuration_fraction_obs_erosita = n.loadtxt(
-    path_2_hard_RF_obs_soft, unpack=True)
-obscuration_itp_H_S = interp2d(
-    obscuration_z_grid,
-    obscuration_nh_grid,
-    obscuration_fraction_obs_erosita)
-
 NHS = n.arange(20, 26 + 0.05, 0.4)
-percent_observed_itp = interp1d(
-    n.hstack((20 - 0.1, NHS, 26 + 0.1)),
-    n.hstack((
-        obscuration_itp_H_S(z_mean, 20.)[0],
-        n.array([obscuration_itp_H_S(z_i, logNH_i)[0] for z_i, logNH_i in zip(z_mean * n.ones_like(NHS), NHS)]),
-        obscuration_itp_H_S(z_mean, 26.)[0])))
-
-percent_observed_H_S = percent_observed_itp(logNH)
-
-lx_obs_frame_05_2 = n.log10(10**lx * percent_observed_H_S)
-fx_05_20 = 10**(lx_obs_frame_05_2) / (4 * n.pi * (dl_cm)**2.) # / h**3
-lx_05_20 = lx_obs_frame_05_2
-#print('fx_05_20', fx_05_20, time.time() - t0)
-#print('lx_05_20', lx_05_20, time.time() - t0)
-
 # hard X-ray 2-10 keV rest-frame ==>> 2-10 obs frame
 obscuration_z_grid, obscuration_nh_grid, obscuration_fraction_obs_erosita = n.loadtxt(
-    path_2_RF_obs_hard, unpack=True)
+	path_2_RF_obs_hard, unpack=True)
 obscuration_itp_H_H = interp2d(
-    obscuration_z_grid,
-    obscuration_nh_grid,
-    obscuration_fraction_obs_erosita)
+	obscuration_z_grid,
+	obscuration_nh_grid,
+	obscuration_fraction_obs_erosita)
 
 percent_observed_itp = interp1d(
-    n.hstack((20 - 0.1, NHS, 26 + 0.1)),
-    n.hstack((
-        obscuration_itp_H_H(z_mean, 20.)[0],
-        n.array([obscuration_itp_H_H(z_i, logNH_i)[0] for z_i, logNH_i in zip(z_mean * n.ones_like(NHS), NHS)]),
-        obscuration_itp_H_H(z_mean, 26.)[0])))
+	n.hstack((20 - 0.1, NHS, 26 + 0.1)),
+	n.hstack((
+		obscuration_itp_H_H(z_mean, 20.)[0],
+		n.array([obscuration_itp_H_H(z_i, logNH_i)[0] for z_i, logNH_i in zip(z_mean * n.ones_like(NHS), NHS)]),
+		obscuration_itp_H_H(z_mean, 26.)[0])))
 percent_observed_H_H = percent_observed_itp(logNH)
 
 lx_obs_frame_2_10 = n.log10(10**lx * percent_observed_H_H)
-fx_2_10 = 10**(lx_obs_frame_2_10) / (4 * n.pi * (dl_cm)**2.) #/ h**3
+fx_2_10 = 10**(lx_obs_frame_2_10) / (4 * n.pi * (dl_cm)**2.) # / h**3
 #print('fx_2_10', fx_2_10, time.time() - t0)
 #print('lx_obs_frame_2_10', lx_obs_frame_2_10, time.time() - t0)
+
+# obs X-ray 2-10 keV ==>> obs 0.5-2
+# v3_fraction_observed_A15_RF_hard_Obs_soft_fscat_
+# path_2_hard_RF_obs_soft
+obscuration_z_grid, obscuration_nh_grid, obscuration_fraction_obs_erosita = n.loadtxt(path_2_hard_RF_obs_soft, unpack=True)
+obscuration_itp_H_S = interp2d(
+	obscuration_z_grid,
+	obscuration_nh_grid,
+	obscuration_fraction_obs_erosita)
+
+percent_observed_itp = interp1d(
+	n.hstack((20 - 0.1, NHS, 26 + 0.1)),
+	n.hstack((
+		obscuration_itp_H_S(z_mean, 20.)[0],
+		n.array([obscuration_itp_H_S(z_i, logNH_i)[0] for z_i, logNH_i in zip(z_mean * n.ones_like(NHS), NHS)]),
+		obscuration_itp_H_S(z_mean, 26.)[0])))
+
+percent_observed_H_S = percent_observed_itp(logNH)
+
+lx_05_20 = n.log10(10**lx * percent_observed_H_S)
+fx_05_20 = 10**lx_05_20 / (4 * n.pi * (dl_cm)**2.)
+
+## hard X-ray 2-10 keV rest-frame ==>> 0.5-2 obs frame
+#obscuration_z_grid, obscuration_nh_grid, obscuration_fraction_obs_erosita = n.loadtxt(
+    #path_2_hard_RF_obs_soft, unpack=True)
+#obscuration_itp_H_S = interp2d(
+    #obscuration_z_grid,
+    #obscuration_nh_grid,
+    #obscuration_fraction_obs_erosita)
+
+#NHS = n.arange(20, 26 + 0.05, 0.4)
+#percent_observed_itp = interp1d(
+    #n.hstack((20 - 0.1, NHS, 26 + 0.1)),
+    #n.hstack((
+        #obscuration_itp_H_S(z_mean, 20.)[0],
+        #n.array([obscuration_itp_H_S(z_i, logNH_i)[0] for z_i, logNH_i in zip(z_mean * n.ones_like(NHS), NHS)]),
+        #obscuration_itp_H_S(z_mean, 26.)[0])))
+
+#percent_observed_H_S = percent_observed_itp(logNH)
+
+#lx_obs_frame_05_2 = n.log10(10**lx * percent_observed_H_S)
+#fx_05_20 = 10**(lx_obs_frame_05_2) / (4 * n.pi * (dl_cm)**2.) # / h**3
+#lx_05_20 = lx_obs_frame_05_2
+##print('fx_05_20', fx_05_20, time.time() - t0)
+##print('lx_05_20', lx_05_20, time.time() - t0)
+
+## hard X-ray 2-10 keV rest-frame ==>> 2-10 obs frame
+#obscuration_z_grid, obscuration_nh_grid, obscuration_fraction_obs_erosita = n.loadtxt(
+    #path_2_RF_obs_hard, unpack=True)
+#obscuration_itp_H_H = interp2d(
+    #obscuration_z_grid,
+    #obscuration_nh_grid,
+    #obscuration_fraction_obs_erosita)
+
+#percent_observed_itp = interp1d(
+    #n.hstack((20 - 0.1, NHS, 26 + 0.1)),
+    #n.hstack((
+        #obscuration_itp_H_H(z_mean, 20.)[0],
+        #n.array([obscuration_itp_H_H(z_i, logNH_i)[0] for z_i, logNH_i in zip(z_mean * n.ones_like(NHS), NHS)]),
+        #obscuration_itp_H_H(z_mean, 26.)[0])))
+#percent_observed_H_H = percent_observed_itp(logNH)
+
+#lx_obs_frame_2_10 = n.log10(10**lx * percent_observed_H_H)
+#fx_2_10 = 10**(lx_obs_frame_2_10) / (4 * n.pi * (dl_cm)**2.) #/ h**3
+##print('fx_2_10', fx_2_10, time.time() - t0)
+##print('lx_obs_frame_2_10', lx_obs_frame_2_10, time.time() - t0)
 
 # Adds type 11, 12, 21, 22
 # Follows Merloni et al. 2014

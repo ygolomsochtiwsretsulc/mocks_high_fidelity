@@ -179,7 +179,7 @@ if __name__ == '__main__':
     dec_cen = dec_cen_s[int(tile_id)]
     data_dir = "/data40s/erosim/eRASS/eRASS8/" + tile_id
     simput_file_agn = '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/SIMPUT_000' + tile_id + '_1024.fit'
-    simput_file_cluster = '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/SIMPUT_000' + tile_id + '.fit'
+    simput_file_cluster = '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/000' + tile_id + '.fit'
     simput_file_BKG = '/data40s/erosim/Simput/Fullsky_bkg/bkg_simput_' + str(int(tile_id)) + '.fits'
     # Launch...
     # 3 files

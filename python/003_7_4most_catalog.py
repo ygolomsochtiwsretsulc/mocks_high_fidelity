@@ -31,7 +31,7 @@ print('------------------------------------------------')
 #option = 'eRASS8'
 #option = 'eRASS3'
 
-env = 'MD10' # sys.argv[1]
+env = sys.argv[1]
 
 root_dir = os.path.join(os.environ[env])
 
@@ -46,6 +46,7 @@ path_2_flux_limits = os.path.join(os.environ['GIT_AGN_MOCK'], "data", "erosita",
 flux_lim_data = fits.open(path_2_flux_limits) 
 #flux_limit_eRASS3, flux_limit_eRASS8, flux_limit_SNR3
 FX_LIM = flux_lim_data[1].data['flux_limit_SNR3']
+#FX_LIM = n.log10(2e-17 )
 
 
 area_per_cat = healpy.nside2pixarea(8, degrees=True)
@@ -80,7 +81,7 @@ for HEALPIX_id in n.arange(N_pixels):
 	# =============================
 	# =============================
 	# X-ray
-	detected_all = (hd_all[1].data['AGN_FX_soft'] > FX_LIM_value_cen) 
+	detected_all = (hd_all[1].data['AGN_FX_soft'] > FX_LIM_value_cen) & ( hd_all[1].data['g_lon'] > 180)
 	print(len((detected_all).nonzero()[0])*768 )
 	# optical cut
 	opt_all = ( hd_all[1].data['AGN_SDSS_r_magnitude'] < 23.5 )
@@ -95,7 +96,7 @@ for HEALPIX_id in n.arange(N_pixels):
 	# IR sample, not detected in X-ray i.e. additional targets
 	agn_ir_all =   (T2_all) & (opt_all) & (wise_def_all) # ( detected_all == False) &
 	# area selection
-	area_erosita_all = (abs(hd_all[1].data['g_lat']) > 10) #& ( hd_all[1].data['g_lon'] > 180) #& (hd_all[1].data['dec'] < 10)
+	area_erosita_all = (abs(hd_all[1].data['g_lat']) > 10) # #& (hd_all[1].data['dec'] < 10)
 	# area opt-IR
 	area_optIR_all = (abs(hd_all[1].data['g_lat']) > 10) #& (hd_all[1].data['dec'] < 10)
 	# selection booleans

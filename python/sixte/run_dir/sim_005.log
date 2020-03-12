@@ -1,0 +1,1798 @@
+set default FC to gfortran
+set default CC to gcc
+set default CXX to g++
+SASS_ROOT: /home/erosita/sw/eSASSdevel
+package SASS
+package EROSITA
+setup complete
+using Simput File: /data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/SIMPUT_000005_1024.fit 
+determine the search cone ...
+calculate the visibility GTIs ...
+cleaning up ...
+finished successfully!
+
+using Simput File: /data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/SIMPUT_000005_512.fit 
+determine the search cone ...
+calculate the visibility GTIs ...
+cleaning up ...
+finished successfully!
+
+using Simput File: /data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/SIMPUT_000005.fit 
+determine the search cone ...
+calculate the visibility GTIs ...
+cleaning up ...
+finished successfully!
+
+using Attitude File: /data01s/erosim/eRASS/eRASS_Pc87M55_3dobi_att_remeis.fits 
+initialize ...
+Telescope 1, use XML file
+/home/comparat/software/linux/sixte-2.5.10/share/sixte/instruments/srg/erosita_1.xml
+Telescope 2, use XML file
+/home/comparat/software/linux/sixte-2.5.10/share/sixte/instruments/srg/erosita_2.xml
+Telescope 3, use XML file
+/home/comparat/software/linux/sixte-2.5.10/share/sixte/instruments/srg/erosita_3.xml
+Telescope 4, use XML file
+/home/comparat/software/linux/sixte-2.5.10/share/sixte/instruments/srg/erosita_4.xml
+Telescope 5, use XML file
+/home/comparat/software/linux/sixte-2.5.10/share/sixte/instruments/srg/erosita_5.xml
+Telescope 6, use XML file
+/home/comparat/software/linux/sixte-2.5.10/share/sixte/instruments/srg/erosita_6.xml
+Telescope 7, use XML file
+/home/comparat/software/linux/sixte-2.5.10/share/sixte/instruments/srg/erosita_7.xml
+### Warning: the given GTI file overwrites the settings for TSTART, MJDREF and Exposure!
+    -> simulating from TSTART=2.507890e+06 until TSTOP=2.795418e+07 (MJDREF=51543.875) 
+load source catalog from file '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/SIMPUT_000005_1024.fit' ...
+try to load all spectra ('/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z1.5_N1024.fits[SPECTRUM]') into cache ...
+load source catalog from file '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/SIMPUT_000005_512.fit' ...
+try to load all spectra ('/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z1.5_N512.fits[SPECTRUM]') into cache ...
+load source catalog from file '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/SIMPUT_000005.fit[IMGSCAL>0]' ...
+try to load all spectra ('/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0040_100z_0150.fits[SPECTRUM]') into cache ...
+open event file '/data01s/erosim/eRASS/sixte/005/erass_ccd1_raw.fits' ...
+open event file '/data01s/erosim/eRASS/sixte/005/erass_ccd2_raw.fits' ...
+open event file '/data01s/erosim/eRASS/sixte/005/erass_ccd3_raw.fits' ...
+open event file '/data01s/erosim/eRASS/sixte/005/erass_ccd4_raw.fits' ...
+open event file '/data01s/erosim/eRASS/sixte/005/erass_ccd5_raw.fits' ...
+open event file '/data01s/erosim/eRASS/sixte/005/erass_ccd6_raw.fits' ...
+open event file '/data01s/erosim/eRASS/sixte/005/erass_ccd7_raw.fits' ...
+open event file '/data01s/erosim/eRASS/sixte/005/erass_ccd1_evt.fits' ...
+open event file '/data01s/erosim/eRASS/sixte/005/erass_ccd2_evt.fits' ...
+open event file '/data01s/erosim/eRASS/sixte/005/erass_ccd3_evt.fits' ...
+open event file '/data01s/erosim/eRASS/sixte/005/erass_ccd4_evt.fits' ...
+open event file '/data01s/erosim/eRASS/sixte/005/erass_ccd5_evt.fits' ...
+open event file '/data01s/erosim/eRASS/sixte/005/erass_ccd6_evt.fits' ...
+open event file '/data01s/erosim/eRASS/sixte/005/erass_ccd7_evt.fits' ...
+start simulation ...
+0 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0040_100z_0150.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0010_100z_0150.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0020_100z_0150.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0005_100z_0150.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0040_100z_0140.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0010_100z_0140.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0020_100z_0140.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0005_100z_0140.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0010_100z_0130.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0005_100z_0130.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0020_100z_0130.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0040_100z_0130.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0010_100z_0120.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0020_100z_0120.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0005_100z_0120.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0040_100z_0120.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0002_100z_0120.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0010_100z_0110.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0020_100z_0110.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0005_100z_0110.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0040_100z_0110.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0002_100z_0110.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0020_100z_0100.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0010_100z_0100.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0005_100z_0100.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0040_100z_0100.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0002_100z_0100.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0020_100z_0090.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0010_100z_0090.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0005_100z_0090.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0040_100z_0090.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0010_100z_0080.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0005_100z_0080.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0020_100z_0080.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0002_100z_0080.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0040_100z_0080.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0010_100z_0070.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0005_100z_0070.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0020_100z_0070.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0040_100z_0070.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0002_100z_0070.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0005_100z_0060.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0010_100z_0060.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0002_100z_0060.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/cluster_Xspectra/cluster_spectrum_10kT_0020_100z_0060.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.0_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.0_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z0.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z0.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.0_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.0_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.0_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.0_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.0_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z0.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.0_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.0_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z0.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z0.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z0.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.0_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.0_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z0.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z0.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z1.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.0_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z0.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z1.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z1.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z1.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z0.8_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z0.9_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.0_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z1.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z0.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z0.7_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z0.6_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.0_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z0.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z0.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.0_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z0.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z0.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z0.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z0.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z0.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z1.5_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z0.4_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z0.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z0.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z0.7_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z1.0_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.8_Z0.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.0_Z1.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z0.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+1 %2 %3 %4 %5 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.0_Z1.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z0.2_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.0_Z1.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z0.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z0.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z0.9_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.6_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z0.3_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.0_Z1.1_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.2_Z0.5_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z0.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+6 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.0_Z0.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.4_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z0.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.2_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.8_Z0.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z0.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z0.4_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.8_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z0.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+7 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.4_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z0.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z0.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.8_Z0.8_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+8 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+9 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z0.1_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.6_Z0.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+10 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.8_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.8_Z0.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+11 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.6_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+12 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.2_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+13 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH24.4_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.2_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+14 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.0_Z1.2_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+15 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.4_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+16 %17 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.6_Z0.6_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+18 %19 %20 %21 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.6_Z0.3_N512.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.6_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+22 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH25.0_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+23 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.4_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+24 %25 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH23.0_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+26 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH22.0_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+27 %28 %29 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.4_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+30 %31 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH21.2_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+32 %33 %34 %35 %36 %37 %38 %39 %40 %41 %
+*** Warning in convSimputMIdpSpecWithARF: the spectrum '/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/agn_Xspectra/NH20.2_Z0.0_N1024.fits[SPECTRUM][#row==1]' does not cover the full energy range of the ARF! ***
+42 %43 %44 %45 %46 %47 %48 %49 %50 %51 %52 %53 %54 %55 %56 %57 %58 %59 %60 %61 %62 %63 %64 %65 %66 %67 %68 %69 %70 %71 %72 %73 %74 %75 %76 %77 %78 %79 %80 %81 %82 %83 %84 %85 %86 %87 %88 %89 %90 %91 %92 %93 %94 %95 %96 %97 %98 %99 %100 %
+start event pattern analysis ...
+start event pattern analysis ...
+start event pattern analysis ...
+start event pattern analysis ...
+start event pattern analysis ...
+start event pattern analysis ...
+start event pattern analysis ...
+start sky projection ...
+
+cleaning up ...
+finished successfully!
+
+make event directory
+compute gti with ero_vis
+['ero_vis', 'GTIfile=/data01s/erosim/eRASS/sixte/005/erass_SIMPUT_000005_1024.gti', 'Simput=/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/SIMPUT_000005_1024.fit', 'Exposure=31536000.000000', 'Attitude=/data01s/erosim/eRASS/eRASS_Pc87M55_3dobi_att_remeis.fits', 'TSTART=0.000000', 'dt=10.0', 'visibility_range=1.0', 'clobber=yes']
+['ero_vis', 'GTIfile=/data01s/erosim/eRASS/sixte/005/erass_SIMPUT_000005_512.gti', 'Simput=/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/SIMPUT_000005_512.fit', 'Exposure=31536000.000000', 'Attitude=/data01s/erosim/eRASS/eRASS_Pc87M55_3dobi_att_remeis.fits', 'TSTART=0.000000', 'dt=10.0', 'visibility_range=1.0', 'clobber=yes']
+['ero_vis', 'GTIfile=/data01s/erosim/eRASS/sixte/005/erass_SIMPUT_000005.gti', 'Simput=/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/SIMPUT_000005.fit', 'Exposure=31536000.000000', 'Attitude=/data01s/erosim/eRASS/eRASS_Pc87M55_3dobi_att_remeis.fits', 'TSTART=0.000000', 'dt=10.0', 'visibility_range=1.0', 'clobber=yes']
+merges gti files
+/data01s/erosim/eRASS/sixte/005/gti.list
+/data01s/erosim/eRASS/sixte/005/erass.gti
+ls /data01s/erosim/eRASS/sixte/005/erass_*.gti > /data01s/erosim/eRASS/sixte/005/gti.list
+mgtime ingtis=@/data01s/erosim/eRASS/sixte/005/gti.list outgti=/data01s/erosim/eRASS/sixte/005/erass.gti merge=OR
+run sixte with erosim
+['erosim', 'Simput=/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/SIMPUT_000005_1024.fit', 'Simput2=/data17s/darksim/MD/MD_1.0Gpc/cat_AGN_SIMPUT/SIMPUT_000005_512.fit', 'Simput3=/data17s/darksim/MD/MD_1.0Gpc/cat_CLU_SIMPUT/SIMPUT_000005.fit[IMGSCAL>0]', 'Prefix=/data01s/erosim/eRASS/sixte/005/erass_', 'Attitude=/data01s/erosim/eRASS/eRASS_Pc87M55_3dobi_att_remeis.fits', 'GTIFile=/data01s/erosim/eRASS/sixte/005/erass.gti', 'TSTART=0.0', 'Exposure=31536000.0', 'MJDREF=51543.875', 'dt=10.0', 'Seed=42', 'clobber=yes', 'chatter=3', 'Background=yes']
+ERROR: No such device or address
+Task ero_calevents 0.0 terminating with status 6
+Unable to redirect prompts to the /dev/tty (at headas_stdio.c:152)
+['ero_calevents', 'Projection=AIT', 'Attitude=/data01s/erosim/eRASS/eRASS_Pc87M55_3dobi_att_remeis.fits', 'clobber=yes', 'EvtFile=/data01s/erosim/eRASS/sixte/005/erass_ccd1_evt.fits', 'eroEvtFile=/data01s/erosim/eRASS/sixte/005/cal_erass_ccd1_evt.fits', 'CCDNr=1', 'RA=1.5', 'Dec=0.0']
+Traceback (most recent call last):
+  File "../pre-process-esass.py", line 92, in <module>
+    PrepareForEsass(ra_cen, dec_cen, data_dir).prep_and_merge()
+  File "../pre-process-esass.py", line 81, in prep_and_merge
+    self.cal_events()
+  File "../pre-process-esass.py", line 41, in cal_events
+    subprocess.check_call(cmd)
+  File "/home/comparat/miniconda3/lib/python3.7/subprocess.py", line 347, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['ero_calevents', 'Projection=AIT', 'Attitude=/data01s/erosim/eRASS/eRASS_Pc87M55_3dobi_att_remeis.fits', 'clobber=yes', 'EvtFile=/data01s/erosim/eRASS/sixte/005/erass_ccd1_evt.fits', 'eroEvtFile=/data01s/erosim/eRASS/sixte/005/cal_erass_ccd1_evt.fits', 'CCDNr=1', 'RA=1.5', 'Dec=0.0']' returned non-zero exit status 6.
+ evtool: v1.26/2.1 eSASSdevel Jul 24 16:14:36 2019
+ evtool/validate_tEvtool: **STOP** infile /data01s/erosim/eRASS/sixte/005/merged_erass.fits does not exist
+ evtool: FAILED
+['/data01s/erosim/eRASS/sixte/005/products/021_EventList_post.fits'] /data01s/erosim/eRASS/sixte/005/products/ 1 post
+['evtool', 'eventfiles=/data01s/erosim/eRASS/sixte/005/merged_erass.fits', 'outfile=/data01s/erosim/eRASS/sixte/005/products/021_EventList_post.fits', 'emin=0.1', 'emax=0.5', 'image=yes', 'rebin=128', 'size=4096', 'pattern=15']
+Traceback (most recent call last):
+  File "../esass.py", line 324, in <module>
+    esass_pipeline.run_pipeline()
+  File "../esass.py", line 95, in run_pipeline
+    subprocess.check_call(cmd)
+  File "/home/comparat/miniconda3/lib/python3.7/subprocess.py", line 347, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['evtool', 'eventfiles=/data01s/erosim/eRASS/sixte/005/merged_erass.fits', 'outfile=/data01s/erosim/eRASS/sixte/005/products/021_EventList_post.fits', 'emin=0.1', 'emax=0.5', 'image=yes', 'rebin=128', 'size=4096', 'pattern=15']' returned non-zero exit status 1.

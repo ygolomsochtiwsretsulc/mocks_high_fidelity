@@ -73,7 +73,7 @@ xspec.Xset.cosmo = "67.77 0. 0.692885"
 
 nh_vals = 10**n.arange(-2,4+0.01,0.5)#0.05)
 z_vals = n.hstack(( n.arange(0.,0.7,0.05), [0.8, 0.9, 1, 1.1, 1.2, 1.4, 1.6] ))
-kT_vals = n.hstack(( n.arange(0.5,8,0.5), [10, 20, 30, 40, 50] ))
+kT_vals = n.hstack(([0.1, 0.2], n.arange(0.5,8,0.5), [10, 20, 30, 40, 50] ))
 
 def get_fraction_obsF_RF(nh_val=1, kT=4, redshift=0, norm=1, metallicity=0.3):
 	"""
@@ -93,11 +93,11 @@ def get_fraction_obsF_RF(nh_val=1, kT=4, redshift=0, norm=1, metallicity=0.3):
 	kev_max_erosita_RF = 2.0*(1+redshift)
 	m1 = xspec.Model("tbabs*apec")
 	m1.setPars(
-		nh_val,      
-		kT,          
-		metallicity,   
-		0., 
-		norm,     
+		nh_val,      #   1    1   TBabs      nH         10^22    1.00000      +/-  0.0          
+		kT,          #   2    2   apec       kT         keV      1.00000      +/-  0.0          
+		metallicity, #   3    2   apec       Abundanc            1.00000      frozen  
+		0.,          #   4    2   apec       Redshift            0.0          frozen
+		norm,        #   5    2   apec       norm                1.00000      +/-  0.0          
 		)
 	# flux observed
 	xspec.AllModels.calcFlux(str(kev_min_erosita)+" "+str(kev_max_erosita))

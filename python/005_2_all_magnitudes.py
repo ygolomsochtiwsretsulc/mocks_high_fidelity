@@ -50,10 +50,8 @@ dm_itp = interp1d(zs, cosmo.distmod(zs).value)
 #import astropy.io.fits as fits
 # import all pathes
 
-env = 'MD10' # sys.argv[1]  # 'MD04'
+env = sys.argv[1]  # 'MD04'
 print(env)
-
-stilts_cmd = 'stilts'
 
 root_dir = os.path.join(os.environ[env])
 

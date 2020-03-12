@@ -14,7 +14,7 @@ baseNames_all = n.array([os.path.basename(el)[:-5] for el in n.array(glob.glob(o
 baseNames_all.sort()
 print(baseNames_all)
 if env == 'MD04':
-	z_max = 0.45
+	z_max = 0.4
 else:
 	z_max = 1.2
 
@@ -23,7 +23,6 @@ z_sel = (z_array < z_max)
 baseNames = baseNames_all[z_sel]
 baseNames.sort()
 print(baseNames)
-
 
 def run_all_clusters(env, baseName):
 	print('cluster', env, baseName, time.time() - t0)
@@ -35,12 +34,6 @@ def run_all_clusters(env, baseName):
 	#if os.path.isfile(path_2_CLU_file)==False:
 	os.system("python3 004_0_cluster.py " + env + ' ' + baseName + ' ' + with_image)
 
-
 for bn in baseNames[::-1]:
 	print(env, bn)
 	run_all_clusters(env, bn)
-
-#os.system("python3 004_1_cluster_Merge.py " + env )
-#os.system("python3 004_2_cluster_galaxies.py " + env )
-#os.system("python3 004_3_cluster_red_galaxies.py " + env)
-#os.system("python3 004_4_red_sequence.py " + env)

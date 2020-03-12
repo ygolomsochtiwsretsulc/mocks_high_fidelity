@@ -29,17 +29,9 @@ else:
 
 lss_git_dir = os.path.join(os.environ['GIT_AGN_MOCK'], 'python')
 
-baseNames_all = sorted(
-    n.array(
-        [
-            os.path.basename(el)[
-                :-
-                5] for el in n.array(
-                    glob.glob(
-                        os.path.join(
-                            test_dir,
-                            ftyp +
-                            '_?.?????.fits')))]))
+baseNames_all = n.array([os.path.basename(el)[:-12] for el in n.array(glob.glob(os.path.join(test_dir, 'all_?.?????_galaxy.fits')))])
+baseNames_all.sort()
+print(baseNames_all)
 
 z_array = n.array([1. / float(eel.split('_')[1]) - 1 for eel in baseNames_all])
 z_sel = (z_array < z_max) & (z_array >= z_min)
@@ -60,6 +52,7 @@ def run_all_agn(env, baseName):
 		print(command_agn)
 		print('=======================================')
 		os.system(command_agn)
+	if os.path.isfile(dir_2_eRO_catalog)==False:
 		# AGN fits catalog per pixel
 		command_catalog = "python3 003_1_agn_catalogs.py " + env + ' ' + baseName
 		print('=======================================')
@@ -112,20 +105,20 @@ def concatenate_agn(env):
 		#os.system('rm ' + list_name)
 
 
-#for bn in baseNames[::-1]:
+for bn in baseNames[::-1]:
 	#print(env, bn)
-	#run_all_agn(env, bn)
+	run_all_agn(env, bn)
 	##run_agn_HPX_CAT(env, bn)
 
 concatenate_agn(env)
 
-#print('computes XLF')
-#command_plots = "python3 003_2_agn_compute_XLF_logNlogS_R.py " + env + ' ' + ftyp
-#print(command_plots)
-#os.system(command_plots)
+print('computes XLF')
+command_plots = "python3 003_2_agn_compute_XLF_logNlogS_R.py " + env + ' ' + ftyp
+print(command_plots)
+os.system(command_plots)
 
-#print('plot logNlogS')
-#command_plots_2 = "python3 003_3_agn_plot_logNlogS.py " + env + ' ' + ftyp
-#print(command_plots_2)
-#os.system(command_plots_2)
+print('plot logNlogS')
+command_plots_2 = "python3 003_3_agn_plot_logNlogS.py " + env + ' ' + ftyp
+print(command_plots_2)
+os.system(command_plots_2)
 

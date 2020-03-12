@@ -77,8 +77,6 @@ for aexp_str in all_aexp[::-1]:
 	# import all pathes
 	path_2_CLU_catalog = os.path.join(test_dir, env + '_eRO_CLU.fit')
 	path_2_CLU_SAT_catalog = os.path.join(test_dir, 'fits', baseName + '_galaxiesAroundClusters.fit')
-	#path_2_CLU_SAT_catalog = os.path.join(test_dir, env + '_eRO_CLU_SAT.fit')
-	#path_2_CLU_SAT_RS_catalog = os.path.join(test_dir, env + '_eRO_CLU_SAT_RS.fit')
 	# opens mock catalogs
 
 	# galaxies

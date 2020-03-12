@@ -66,8 +66,6 @@ is_writing_images = sys.argv[3] # 'yes'
 z_snap = 1./float(baseName.split('_')[1])-1.
 aexp_str = str(int(float(baseName.split('_')[1])*1e5)).zfill(6)
 print(env, baseName,z_snap)
-make_figure = True
-make_figure = False
 
 # no need fo bias, it is already calibrated in the data
 b_HS = 1.0 # 0.8
@@ -204,17 +202,17 @@ def calc_lx(prof,kt,m5,z):
 	Compute the X-ray luminosity in the profile
 	to be extended to 3x r500c
 	"""
-	ez2=cosmo.efunc(z)**2
+	ez2 = cosmo.efunc(z)**2
 	rhoc = cosmo.critical_density(z).value
 	r500 = n.power(m5*msun/4.*3./n.pi/500./rhoc,1./3.)
-	resfact=n.sqrt(kt/10.0)*n.power(ez2,3./2.)
-	prof_em=prof*resfact # emission integral
-	tlambda=n.interp(kt,coolfunc[:,0],coolfunc[:,1]) # cooling function
-	dx=n.empty(len(xgrid_ext))
+	resfact = n.sqrt(kt/10.0)*n.power(ez2,3./2.)
+	prof_em = prof * resfact # emission integral
+	tlambda = n.interp(kt,coolfunc[:,0],coolfunc[:,1]) # cooling function
+	dx = n.empty(len(xgrid_ext))
 	dx[0]=xgrid_ext[0]
 	dx[1:len(xgrid_ext)]=(n.roll(xgrid_ext,-1)-xgrid_ext)[:len(xgrid_ext)-1]
 	#print(prof_em*xgrid_ext*r500**2*2.*n.pi*tlambda*Mpc*dx)
-	lxcum=n.cumsum(prof_em*xgrid_ext*r500**2*2.*n.pi*tlambda*Mpc*dx) # riemann integral
+	lxcum = n.cumsum(prof_em*xgrid_ext*r500**2*2.*n.pi*tlambda*Mpc*dx) # riemann integral
 	lx_500=n.interp(1.,xgrid_ext,lxcum) # evaluated at R500
 	return lx_500
 
@@ -335,7 +333,7 @@ detected = (CLU_FX_soft > 10**(flux_limit+0.4)) # to get 300,000 over the full s
 	#coolness[sel] = jj+1
 
 dir_2_SMPT_image = os.path.join(os.environ[env], "cat_CLU_SIMPUT", 'cluster_images')
-dir_2_SMPT_image = os.path.join(os.environ[env], "cat_CLU_SIMPUT", 'cluster_images_13_02_2020')
+#dir_2_SMPT_image = os.path.join(os.environ[env], "cat_CLU_SIMPUT", 'cluster_images_13_02_2020')
 if os.path.isdir(dir_2_SMPT_image) == False:
     os.system('mkdir -p ' + dir_2_SMPT_image)
 

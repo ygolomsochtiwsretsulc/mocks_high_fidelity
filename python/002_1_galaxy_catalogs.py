@@ -19,16 +19,6 @@ Dependencies
 
 import time, os, sys, numpy, scipy, astropy, h5py, astropy_healpix, matplotlib
 
-import numpy as n
-
-print(n.round( 100 * 863   / 40455  ,1))
-print(n.round( 100 * 1482  / 169107 ,1))
-print(n.round( 100 * 986   / 141741 ,1))
-
-print(n.round( 100 * 2072 / 78035  ,1))
-print(n.round( 100 * 4423 / 403351 ,1))
-print(n.round( 100 * 3017 / 332984 ,1))
-
 """
 import sys, os, time, astropy #, h5py
 

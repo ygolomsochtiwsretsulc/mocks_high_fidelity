@@ -38,8 +38,8 @@ print('------------------------------------------------')
 t0 = time.time()
 
 
-env = 'MD10'
-f_sat_pc = int(sys.argv[1]) # 10 # percent
+env = sys.argv[1] # 'MD10'
+f_sat_pc = int(sys.argv[2]) # 10 # percent
 f_sat = f_sat_pc / 100.
 print('f sat', f_sat)
 test_dir = os.path.join(os.environ[env])
@@ -75,7 +75,7 @@ f1 = Table.read( path_2_coordinate_file )
 zz_1 = f1['redshift_R']
 cen = (f1['pid']==-1)
 sat = (cen==False)
-high_z = (zz_1>1.5)
+#high_z = (zz_1>1.5)
 N_galaxies = len(zz_1)
 N_galaxies_cen = len(zz_1[cen])
 N_galaxies_sat = len(zz_1[sat])
@@ -83,7 +83,7 @@ N_galaxies_sat = len(zz_1[sat])
 f_duty = interp1d( n.array([0., 0.75, 1.5, 3.5, 10.1]), n.array([0.1, 0.2, 0.3, 0.3, 0.3]))
 f_duty_realization = f_duty(zz_1)
 active = (n.random.random(size=N_galaxies) <= f_duty_realization)
-active[high_z][:]=True
+#active[high_z][:]=True
 N_agn = len(zz_1[active])
 
 print('native N, cen, sat, f_sat', N_galaxies, N_galaxies_cen, N_galaxies_sat, N_galaxies_sat*1./N_galaxies_cen)

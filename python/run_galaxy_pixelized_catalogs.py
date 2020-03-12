@@ -33,7 +33,7 @@ else:
 
 lss_git_dir = os.path.join(os.environ['GIT_AGN_MOCK'], 'python')
 
-baseNames_all = sorted(n.array([os.path.basename(el)[:-5] for el in n.array(glob.glob(os.path.join(test_dir, ftyp +'_?.?????.fits')))]))
+baseNames_all = sorted(n.array([os.path.basename(el)[:-12] for el in n.array(glob.glob(os.path.join(test_dir, ftyp +'_?.?????_galaxy.fits')))]))
 
 z_array = n.array([1. / float(eel.split('_')[1]) - 1 for eel in baseNames_all])
 z_sel = (z_array < z_max) & (z_array >= z_min)
