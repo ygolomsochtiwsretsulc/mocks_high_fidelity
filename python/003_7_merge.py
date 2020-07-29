@@ -34,13 +34,13 @@ def get_t123(env):
 	t2 = Table.read(path_2_wide)
 	t3 = Table.read(path_2_ir)     
 	if env=='MD10':
-		area_ero      = lambda t : ( abs(t['g_lat']) > 10 ) & ( t['g_lon'] > 180 ) & ( t['DEC'] < 5 ) & (t['redshift_R']>0.3)
-		area_ero_deep = lambda t : ( abs(t['ecl_lat']) > 80 ) & (t['redshift_R']>0.3)
-		magl_lim       = lambda t, mag_lim : (t['MAG'] < mag_lim) & (t['redshift_R']>0.3)
+		area_ero      = lambda t : ( abs(t['g_lat']) > 10 ) & ( t['g_lon'] > 180 ) & ( t['DEC'] < 20 ) & (t['REDSHIFT_ESTIMATE']>0.3)
+		area_ero_deep = lambda t : ( abs(t['ecl_lat']) > 80 ) & (t['REDSHIFT_ESTIMATE']>0.3)
+		magl_lim       = lambda t, mag_lim : (t['MAG'] < mag_lim) & (t['REDSHIFT_ESTIMATE']>0.3)
 	if env=='MD04':
-		area_ero      = lambda t : ( abs(t['g_lat']) > 10 ) & ( t['g_lon'] > 180 ) & ( t['DEC'] < 5 ) & (t['redshift_R']<=0.3)
-		area_ero_deep = lambda t : ( abs(t['ecl_lat']) > 80 ) & (t['redshift_R']<=0.3)
-		magl_lim       = lambda t, mag_lim : (t['MAG'] < mag_lim) & (t['redshift_R']<=0.3)
+		area_ero      = lambda t : ( abs(t['g_lat']) > 10 ) & ( t['g_lon'] > 180 ) & ( t['DEC'] < 20 ) & (t['REDSHIFT_ESTIMATE']<=0.3)
+		area_ero_deep = lambda t : ( abs(t['ecl_lat']) > 80 ) & (t['REDSHIFT_ESTIMATE']<=0.3)
+		magl_lim       = lambda t, mag_lim : (t['MAG'] < mag_lim) & (t['REDSHIFT_ESTIMATE']<=0.3)
 		
 	s1 = magl_lim(t1, 23.4) & area_ero( t1 ) & area_ero_deep( t1 ) 
 	print('t1 DEEP', nl(s1))
@@ -59,9 +59,39 @@ def get_t123(env):
 	test['MAG_TYPE'][:]="SDSS_r_AB"
 	return test
 
-t_md04 = get_t123('MD04')
-t_md10 = get_t123('MD10')
-table_S6 = vstack((t_md04, t_md10))
+
+def get_md10(env):
+	print(env)
+	path_2_deep = os.path.join(os.environ[env], 'AGN_DEEP_4MOST.fits')
+	path_2_wide = os.path.join(os.environ[env], 'AGN_WIDE_4MOST.fits')
+	path_2_ir   = os.path.join(os.environ[env], 'AGN_IR_4MOST.fits')
+	t1 = Table.read(path_2_deep)   
+	t2 = Table.read(path_2_wide)
+	t3 = Table.read(path_2_ir)     
+	area_ero      = lambda t : ( abs(t['g_lat']) > 10 ) & ( t['g_lon'] > 180 ) & ( t['DEC'] < 20 ) 
+	area_ero_deep = lambda t : ( abs(t['ecl_lat']) > 80 ) 
+	magl_lim       = lambda t, mag_lim : (t['MAG'] < mag_lim) 
+		
+	s1 = magl_lim(t1, 23.4) & area_ero( t1 ) & area_ero_deep( t1 ) 
+	print('t1 DEEP', nl(s1))
+	s2 = magl_lim(t2, 22.8) & area_ero( t2 )
+	print('t2 WIDE', nl(s2))
+	s3 = magl_lim(t3, 22.8) & area_ero( t3 )
+	print('t3 IR', nl(s3))
+
+	t1_b = Table(t1[s1])
+	t2_b = Table(t2[s2])
+	t3_b = Table(t3[s3])
+	
+	test = vstack((t1_b, t2_b, t3_b))
+	test['MAG_TYPE'][:]="SDSS_r_AB"
+	return test
+
+#t_md04 = get_t123('MD04')
+#t_md10 = get_t123('MD10')
+#table_S6 = vstack((t_md04, t_md10))
+
+table_S6 = get_md10('MD10')
 
 table_S6.write (path_2_output , overwrite=True)
 

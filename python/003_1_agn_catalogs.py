@@ -27,7 +27,6 @@ import sys, os, time
 import astropy.units as u
 from astropy.cosmology import FlatLambdaCDM
 import astropy.io.fits as fits
-from astropy.table import Table, Column
 #import h5py
 import numpy as n
 print('CREATES FITS FILES')
@@ -39,7 +38,7 @@ t0 = time.time()
 # import all pathes
 
 env = sys.argv[1]  # 'MD04'
-baseName = sys.argv[2]  # "sat_0.62840"
+baseName =  sys.argv[2]  # "sat_0.62840"
 print(env, baseName)
 
 test_dir = os.path.join(os.environ[env], 'fits')
@@ -80,61 +79,30 @@ if env[:4] == "UNIT" : # == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "
 	L_box = 1000.0 / h
 	cosmo = cosmoUNIT
 
-f3 = fits.open(path_2_agn_file)
-FX_hard = f3[1].data["FX_hard"]
-FX_soft = f3[1].data["FX_soft"]
-FX_soft_attenuated = f3[1].data["FX_soft_attenuated"]
-LX_hard = f3[1].data["LX_hard"]
-LX_soft = f3[1].data["LX_soft"]
-SDSS_r_AB = f3[1].data["SDSS_r_AB"]
-SDSS_r_AB_attenuated = f3[1].data["SDSS_r_AB_attenuated"]
-agn_type = f3[1].data["agn_type"]
-ids_active = f3[1].data["ids_active"]
-logNH = f3[1].data["logNH"]
-random = f3[1].data["random"]
-f3.close()
+f3 = fits.open(path_2_agn_file)[1].data
+ids_active = f3["ids_active"]
 print('agn file opened', time.time() - t0)
 
-f1 = fits.open(path_2_light_cone)
-Mvir = f1[1].data['Mvir'][ids_active] / h
-M500c = f1[1].data['M500c'][ids_active] / h
-halo_id = f1[1].data['id'][ids_active]
-halo_host_id = f1[1].data['pid'][ids_active]
-f1.close()
+f0 = fits.open(path_2_light_cone)[1].data[ids_active]
 print('halo file opened', time.time() - t0)
 
-f1 = fits.open(path_2_galaxy_file)
-galaxy_stellar_mass = f1[1].data['SMHMR_mass'][ids_active]
-galaxy_star_formation_rate = f1[1].data['star_formation_rate'][ids_active]
-galaxy_LX_hard = f1[1].data['LX_hard'][ids_active]
-galaxy_mag_r = f1[1].data['mag_r'][ids_active]
-f1.close()
+f1 = fits.open(path_2_galaxy_file)[1].data[ids_active]
 print('galaxy file opened', time.time() - t0)
 
-f2 = fits.open(path_2_coordinate_file)
-ra = f2[1].data['ra'][ids_active]
-dec = f2[1].data['dec'][ids_active]
-zzr = f2[1].data['redshift_R'][ids_active]
-zzs = f2[1].data['redshift_S'][ids_active]
-dL_cm = f2[1].data['dL'][ids_active]
-galactic_NH = f2[1].data['nH'][ids_active]
-galactic_ebv = f2[1].data['ebv'][ids_active]
-g_lat = f2[1].data['g_lat'][ids_active]
-g_lon = f2[1].data['g_lon'][ids_active]
-ecl_lat = f2[1].data['ecl_lat'][ids_active]
-ecl_lon = f2[1].data['ecl_lon'][ids_active]
-N_galaxies = len(zzr)
-f2.close()
+f2 = fits.open(path_2_coordinate_file)[1].data[ids_active]
+ra = f2['ra']
+dec = f2['dec']
 print('coordinate file opened', time.time() - t0)
 
+# eROSITA flux limit
 pix_ids = healpy.ang2pix(
     512,
     n.pi /
     2. -
-    g_lat *
+    f2['g_lat'] *
     n.pi /
     180.,
-    g_lon *
+    f2['g_lon'] *
     n.pi /
     180.,
     nest=True)
@@ -145,7 +113,7 @@ print('flux limit file opened', time.time() - t0)
 
 # selection function here :
 # ( FX_soft_attenuated > 10**(flux_limit[pix_ids]-2) ) & ( SDSS_r_AB_attenuated < 26.5 )
-sf1 = (FX_soft_attenuated > 0)
+sf1 = (f3['FX_soft_attenuated'] > 0)
 print('selection function applied', time.time() - t0)
 
 HEALPIX_8 = healpy.ang2pix(8, n.pi/2. - dec*n.pi/180. , ra*n.pi/180. , nest=True)
@@ -159,41 +127,29 @@ for HEALPIX_8_id in n.arange(healpy.nside2npix(8)):
 		##
 		# Coordinates
 		##
-		t.add_column(Column(name="ra", format='D', unit='degree', data=ra[sf])) 
-		t.add_column(Column(name="dec", format='D', unit='degree', data=dec[sf])) 
-		t.add_column(Column(name="g_lat", format='D', unit='degree', data=g_lat[sf])) 
-		t.add_column(Column(name="g_lon", format='D', unit='degree', data=g_lon[sf])) 
-		t.add_column(Column(name="ecl_lat", format='D', unit='degree', data=ecl_lat[sf])) 
-		t.add_column(Column(name="ecl_lon", format='D', unit='degree', data=ecl_lon[sf]))            # distances
-		# extinction maps
-		# Galaxy properties
-		t.add_column(Column(name="redshift_R", format='D', unit='real space', data=zzr[sf])) 
-		t.add_column(Column(name="redshift_S", format='D', unit='redshift space', data=zzs[sf])) 
-		t.add_column(Column(name="dL_cm", format='D', unit='cm', data=dL_cm[sf])) 
-		t.add_column(Column(name="galactic_NH", format='D', unit='cm-2', data=galactic_NH[sf])) 
-		t.add_column(Column(name="galactic_ebv", format='D', unit='mag', data=galactic_ebv[sf])) 
-		t.add_column(Column(name="galaxy_stellar_mass", format='D', unit='log10(M/[M_sun])', data=galaxy_stellar_mass[sf])) 
-		t.add_column(Column(name="galaxy_star_formation_rate", format='D', unit='log10(SFR/[M_sun/year])', data=galaxy_star_formation_rate[sf])) 
-		t.add_column(Column(name="galaxy_LX_hard", format='D', unit='log10(LX (2-10keV)/[erg/s])', data=galaxy_LX_hard[sf]))            # Dark matter halo
-		t.add_column(Column(name="galaxy_mag_r", format='D', unit='mag', data=galaxy_mag_r[sf])) 
+		for col_name, unit_val in zip(f2.columns.names, f2.columns.units):
+			t.add_column(Column(name=col_name, data=f2[col_name][sf], unit=unit_val,dtype=n.float32 ) )
 		##
-		# Dark matter halo
-		##                                                                                           
-		t.add_column(Column(name="HALO_M500c", format='D', unit='log10(M/[M_sun])', data=n.log10(M500c[sf])))
-		t.add_column(Column(name="HALO_Mvir", format='D', unit='log10(M/[M_sun])', data=n.log10(Mvir[sf])))
-		t.add_column(Column(name="HALO_halo_id", format='K', unit='', data=halo_id[sf]))
-		t.add_column(Column(name="HALO_pid", format='K', unit='', data=halo_host_id[sf])) 
+		# Galaxy
 		##
-		# AGN properties
+		for col_name, unit_val in zip(f1.columns.names, f1.columns.units):
+			t.add_column(Column(name='galaxy_'+col_name, data=f1[col_name][sf], unit=unit_val, dtype=n.float32 ) )
 		##
-		t.add_column(Column(name="AGN_LX_soft", format='D', unit='log10(Luminosity/[erg/s] 0.5-2 keV)', data=LX_soft[sf]))
-		t.add_column(Column(name="AGN_FX_soft", format='D', unit='Flux/[erg/cm2/s] 0.5-2 keV', data=FX_soft_attenuated[sf])) 
-		t.add_column(Column(name="AGN_LX_hard", format='D', unit='log10(Luminosity/[erg/s] 2-10 keV)', data=LX_hard[sf])) 
-		t.add_column(Column(name="AGN_FX_hard", format='D', unit='Flux/[erg/cm2/s] 2-10 keV', data=FX_hard[sf])) 
-		t.add_column(Column(name="AGN_SDSS_r_magnitude", format='D', unit='mag', data=SDSS_r_AB_attenuated[sf])) 
-		t.add_column(Column(name="AGN_nH", format='D', unit='log10(nH/[cm-2])', data=logNH[sf]))
-		t.add_column(Column(name="AGN_random_number", format='D', unit='', data=random[sf])) 
-		t.add_column(Column(name="AGN_type", format='D', unit='X/opt type: 11, 12, 21, 22', data=agn_type[sf]))
-		#print('fits columnes created', time.time()-t0)
+		# HALO
+		##
+		for col_name, unit_val in zip(f0.columns.names, f0.columns.units):
+			if col_name == 'Mvir' or col_name == 'M200c' or col_name == 'M500c':
+				t.add_column(Column(name='HALO_'+col_name, data=f0[col_name][sf]/h, unit=unit_val, dtype=n.float32 ) )
+			elif col_name == 'id' or col_name == 'pid' :
+				t.add_column(Column(name='HALO_'+col_name, data=f0[col_name][sf], unit=unit_val, dtype=n.int64 ) )
+			else:
+				t.add_column(Column(name='HALO_'+col_name, data=f0[col_name][sf], unit=unit_val, dtype=n.float32 ) )
+		##
+		# AGN
+		##
+		for col_name, unit_val in zip(f3.columns.names, f3.columns.units):
+			t.add_column(Column(name=col_name, data=f3[col_name][sf], unit=unit_val,dtype=n.float32 ) )
+
+		# writes
 		t.write(path_2_eRO_catalog, overwrite=True)
-		print('written', path_2_eRO_catalog, time.time() - t0)
+

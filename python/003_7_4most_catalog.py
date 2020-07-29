@@ -51,7 +51,9 @@ FX_LIM = flux_lim_data[1].data['flux_limit_SNR3']
 
 area_per_cat = healpy.nside2pixarea(8, degrees=True)
 N_pixels = healpy.nside2npix(8)
-for HEALPIX_id in n.arange(N_pixels):
+N_subsurvey = {'AGN_WIDE':1, 'AGN_DEEP':2, 'AGN_IR':3, 'QSO':4, 'LyA':5 }
+
+def compute_pixel(HEALPIX_id):
 	#HEALPIX_id = 350
 	print(HEALPIX_id)
 	path_2_eRO_all_catalog = os.path.join(dir_2_eRO_all, str(HEALPIX_id).zfill(6) + '.fit')
@@ -92,7 +94,7 @@ for HEALPIX_id in n.arange(N_pixels):
 	# type 2 AGN
 	T2_all = (hd_all[1].data['AGN_type'] == 22) | (hd_all[1].data['AGN_type'] == 21)
 	# wise selection
-	wise_def_all = (hd_all[1].data['WISE-W1'] < 26) & (hd_all[1].data['WISE-W1_err'] < 1) & (hd_all[1].data['WISE-W1'] < 19 ) # 18.85)
+	wise_def_all = (hd_all[1].data['WISE-W1'] < 26) & (hd_all[1].data['WISE-W1_err'] < 1) & (hd_all[1].data['WISE-W1'] < 18 ) # 18.85)
 	# IR sample, not detected in X-ray i.e. additional targets
 	agn_ir_all =   (T2_all) & (opt_all) & (wise_def_all) # ( detected_all == False) &
 	# area selection
@@ -120,9 +122,9 @@ for HEALPIX_id in n.arange(N_pixels):
 	# S6, AGN_IR 
 	AGN_IR_all = ( is_optIR_all ) 
 	# S8, QSO
-	QSO_all = ( is_optT11_all ) & ( hd_all[1].data['redshift_R'] < 2.2 )
+	QSO_all = ( is_optT11_all ) & (hd_all[1].data['HSC-r'] < 22.5 ) & ( hd_all[1].data['redshift_R'] >=0.9 ) & ( hd_all[1].data['redshift_R'] < 2.2 )
 	# S8, Lya
-	LyA_all = ( is_optT11_all ) & ( hd_all[1].data['redshift_R'] >= 2.2 ) 
+	LyA_all = ( is_optT11_all ) & (hd_all[1].data['HSC-r'] < 22.5 ) & ( hd_all[1].data['redshift_R'] >= 2.2 ) 
 	# assign target bits
 	survbit_all[AGN_WIDE_all] += 2**bitlist['AGN_WIDE']
 	#
@@ -153,7 +155,7 @@ for HEALPIX_id in n.arange(N_pixels):
 		N_obj = len(ra_array)
 		if N_obj>0:
 			N1 = n.arange(N_obj)
-			id_list = HEALPIX_id*1e8 + N1
+			id_list = N_subsurvey[subsurvey]*1e10 + HEALPIX_id*1e6 + N1
 			NAME = n.array([ str(int(el)).zfill(11) for el in id_list ])
 			t_survey.add_column(Column(name='NAME', data=NAME, unit=''))
 			t_survey.add_column(Column(name='RA', data=ra_array, unit='deg'))
@@ -311,27 +313,40 @@ for HEALPIX_id in n.arange(N_pixels):
 			return 0.
 
 	subsurvey = 'AGN_WIDE'
+	print(subsurvey)
 	t_out = get_table(subsurvey)
 	if t_out != 0:
 		t_out.write (path_2_AGN_WIDE_catalog  , overwrite=True)
+		print(subsurvey, 'N/deg2', len(t_out['RA'])/area_per_cat)
 
 	subsurvey = 'AGN_DEEP'
+	print(subsurvey)
 	t_out = get_table(subsurvey)
 	if t_out != 0:
 		t_out.write (path_2_AGN_DEEP_catalog  , overwrite=True)
+		print(subsurvey, 'N/deg2', len(t_out['RA'])/area_per_cat)
 
 	subsurvey = 'AGN_IR'
+	print(subsurvey)
 	t_out = get_table(subsurvey)
 	if t_out != 0:
 		t_out.write (path_2_AGN_IR_catalog  , overwrite=True)
+		print(subsurvey, 'N/deg2', len(t_out['RA'])/area_per_cat)
 
 	subsurvey = 'QSO'
+	print(subsurvey)
 	t_out = get_table(subsurvey)
 	if t_out != 0:
 		t_out.write (path_2_QSO_catalog  , overwrite=True)
+		print(subsurvey, 'N/deg2', len(t_out['RA'])/area_per_cat)
 
 	subsurvey = 'LyA'
+	print(subsurvey)
 	t_out = get_table(subsurvey)
 	if t_out != 0:
 		t_out.write (path_2_LyA_catalog  , overwrite=True)
+		print(subsurvey, 'N/deg2', len(t_out['RA'])/area_per_cat)
 
+
+for HEALPIX_id in n.arange(N_pixels):
+	compute_pixel(HEALPIX_id)

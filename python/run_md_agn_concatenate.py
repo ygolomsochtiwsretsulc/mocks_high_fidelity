@@ -1,9 +1,3 @@
-"""
-export GIT_AGN_MOCK='/home/comparat/software/lss_mock_dev/'
-export GIT_XPAINT='/home/comparat/software/XSB_Painting'
-
-
-"""
 import glob
 import sys
 from astropy_healpix import healpy
@@ -27,7 +21,6 @@ else:
     z_min = 0.0
     z_max = 6.1
 
-x_paint_git_dir = os.path.join(os.environ['GIT_XPAINT'])
 lss_git_dir = os.path.join(os.environ['GIT_AGN_MOCK'], 'python')
 
 baseNames_all = sorted(

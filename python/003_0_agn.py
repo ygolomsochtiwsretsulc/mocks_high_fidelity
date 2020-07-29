@@ -165,24 +165,15 @@ print('volume', vol, 'Mpc3')
 print('opens galaxy file ', time.time() - t0)
 f3 = fits.open(path_2_galaxy_file)
 mass = f3[1].data['SMHMR_mass']  # log of the stellar mass
+mass[mass<0] = 3
 f3.close()
 
 print('computes duty cycle ', time.time() - t0)
 # duty cycle measured from Georgakakis 2017
-f_duty = interp1d(
-    n.array([0., 0.75, 2., 3.5, 10.1]),
-    ##n.array([0.1, 0.2, 0.25, 0.25, 0.25])
-    n.array([0.1, 0.2, 0.3, 0.3, 0.3])
-)
-
-#if a_snap > 0.40:
-# all halos are written in the light cone at low redshift
+f_duty = interp1d(n.array([0., 0.75, 2., 3.5, 10.1]), n.array([0.1, 0.2, 0.3, 0.3, 0.3]))
 f_duty_realization = f_duty(zz)
-#if a_snap < 0.40:
-# only 30% of halos are written in the light cone at high redshifts
-#f_duty_realization = f_duty(zz) / 0.3
 
-active = (n.random.random(size=N_galaxies) <= f_duty_realization)
+active = (n.random.random(size=N_galaxies) <= f_duty_realization) & (mass > 6)
 # ids to map to galaxy and halo files
 ids_active = n.arange(N_galaxies)[active]
 
@@ -200,8 +191,7 @@ print('computes LX with HAM ', time.time() - t0)
 def kz_h(z): return 10**(-4.03 - 0.19 * (1 + z))
 
 
-def Ls_h(z): return 10**(44.84 - n.log10(((1 + 2.0) / (1 + z))
-                                         ** 3.87 + ((1 + 2.0) / (1 + z))**(-2.12)))
+def Ls_h(z): return 10**(44.84 - n.log10(((1 + 2.0) / (1 + z))** 3.87 + ((1 + 2.0) / (1 + z))**(-2.12)))
 
 
 def phi_h(L, z): return kz_h(z) / ((L / Ls_h(z))**0.48 + (L / Ls_h(z))**2.27)
@@ -361,7 +351,7 @@ percent_observed_itp = interp1d(
 		obscuration_itp_H_H(z_mean, 26.)[0])))
 percent_observed_H_H = percent_observed_itp(logNH)
 
-lx_obs_frame_2_10 = n.log10(10**lx * percent_observed_H_H)
+lx_obs_frame_2_10 = lx + n.log10(percent_observed_H_H)
 fx_2_10 = 10**(lx_obs_frame_2_10) / (4 * n.pi * (dl_cm)**2.) # / h**3
 #print('fx_2_10', fx_2_10, time.time() - t0)
 #print('lx_obs_frame_2_10', lx_obs_frame_2_10, time.time() - t0)
@@ -384,7 +374,7 @@ percent_observed_itp = interp1d(
 
 percent_observed_H_S = percent_observed_itp(logNH)
 
-lx_05_20 = n.log10(10**lx * percent_observed_H_S)
+lx_05_20 = lx + n.log10(percent_observed_H_S)
 fx_05_20 = 10**lx_05_20 / (4 * n.pi * (dl_cm)**2.)
 
 ## hard X-ray 2-10 keV rest-frame ==>> 0.5-2 obs frame

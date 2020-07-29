@@ -47,23 +47,6 @@ if the variable 'make_figure' is set to True, then figures will be created in th
 $GIT_AGN_MOCK/figures/$environmentVAR/galaxy/
 It makes relevant histograms and scatter plots for all columns present in the new file.
 
-cd /data39s/simulation_2/MD/MD_1.0Gpc/UniverseMachine
-rsync -avz joco@draco01.mpcdf.mpg.de:~/ptmp_joco/simulations/MD_1.0Gpc/UniverseMachine/sfr_catalog_0.7* .
-
-cd /data39s/simulation_2/MD/MD_1.0Gpc/UniverseMachine
-rsync -avz joco@draco01.mpcdf.mpg.de:~/ptmp_joco/simulations/MD_1.0Gpc/UniverseMachine/sfr_catalog_0.8* .
-
-cd /data39s/simulation_2/MD/MD_1.0Gpc/UniverseMachine
-rsync -avz joco@draco01.mpcdf.mpg.de:~/ptmp_joco/simulations/MD_1.0Gpc/UniverseMachine/sfr_catalog_0.9* .
-
-cd /data39s/simulation_2/MD/MD_1.0Gpc/UniverseMachine
-rsync -avz joco@draco01.mpcdf.mpg.de:~/ptmp_joco/simulations/MD_1.0Gpc/UniverseMachine/sfr_catalog_1* .
-
-wget http://behroozi.users.hpc.arizona.edu/UniverseMachine/DR1/SMDPL_SFR/sfr_catalog_0.700300.bin .
-
-cd $MD04/UniverseMachine
-rsync -avz joco@draco01.mpcdf.mpg.de:~/ptmp_joco/simulations/MD_0.4Gpc/UniverseMachine/sfr_catalog_* .
-
 """
 import sys, os, scipy
 from scipy.special import erf
@@ -79,56 +62,12 @@ print('------------------------------------------------')
 print('------------------------------------------------')
 t0 = time.time()
 
-dtype_UM = n.dtype(
-	dtype=
-	[('id', 'i8'),('descid','i8'),('upid','i8'),
-	('flags', 'i4'), ('uparent_dist', 'f4'),
-	('pos', 'f4', (6)), ('vmp', 'f4'), ('lvmp', 'f4'),
-	('mp', 'f4'), ('m', 'f4'), ('v', 'f4'), ('r', 'f4'),
-	('rank1', 'f4'), ('rank2', 'f4'), ('ra', 'f4'),
-	('rarank', 'f4'), ('A_UV', 'f4'), ('sm', 'f4'), 
-	('icl', 'f4'), ('sfr', 'f4'), ('obs_sm', 'f4'), 
-	('obs_sfr', 'f4'), ('obs_uv', 'f4'), ('empty', 'f4')],
-	align=True)
-
-# ID: Unique halo ID
-# DescID: ID of descendant halo (or -1 at z=0).
-# UPID: -1 for central halos, otherwise, ID of largest parent halo
-# Flags: Ignore
-# Uparent_Dist: Ignore
-# pos[6]: (X,Y,Z,VX,VY,VZ)
-# X Y Z: halo position (comoving Mpc/h)
-# VX VY VZ: halo velocity (physical peculiar km/s)
-# M: Halo mass (Bryan & Norman 1998 virial mass, Msun/h)
-# V: Halo vmax (physical km/s)
-# MP: Halo peak historical mass (BN98 vir, Msun/h)
-# VMP: Halo vmax at the time when peak mass was reached.
-# R: Halo radius (BN98 vir, comoving kpc/h)
-# Rank1: halo rank in Delta_vmax (see UniverseMachine paper)
-# Rank2, RA, RARank: Ignore
-# A_UV: UV attenuation (mag)
-# SM: True stellar mass (Msun)
-# ICL: True intracluster stellar mass (Msun)
-# SFR: True star formation rate (Msun/yr)
-# Obs_SM: observed stellar mass, including random & systematic errors (Msun)
-# Obs_SFR: observed SFR, including random & systematic errors (Msun/yr)
-# Obs_UV: Observed UV Magnitude (M_1500 AB)
-
 
 env = sys.argv[1]  # 'MD04'
 baseName = sys.argv[2]  # "sat_0.62840"
-aexp_str = baseName.split('_')[1]
-print(env, baseName, aexp_str)
+print(env, baseName)
 make_figure = True
 make_figure = False
-
-
-def get_a(baseName):
-    alp = baseName.split('_')[1]
-    print('a=', alp)
-    return float(alp)
-
-a_snap = get_a(baseName)
 
 # import all pathes
 test_dir = os.path.join(os.environ[env], 'fits')
@@ -136,7 +75,13 @@ test_dir = os.path.join(os.environ[env], 'fits')
 path_2_light_cone = os.path.join(test_dir, baseName + '.fits')
 path_2_coordinate_file = os.path.join(test_dir, baseName + '_coordinates.fits')
 path_2_galaxy_file = os.path.join(test_dir, baseName + '_galaxy.fits')
-path_2_universeMachine_file = os.path.join(os.environ[env], 'UniverseMachine', 'sfr_catalog_' + aexp_str + '0.bin' )
+
+def get_a(baseName):
+    alp = baseName.split('_')[1]
+    print('a=', alp)
+    return float(alp)
+
+a_snap = get_a(baseName)
 
 if a_snap < 0.40:
     fraction = 0.3
@@ -163,7 +108,6 @@ if env[:4] == "UNIT" : # == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "
 
 print('opens light cone ')
 f1 = fits.open(path_2_light_cone)
-f1_id = f1[1].data['id']
 Mvir = f1[1].data['Mvir'] / h
 log_vmax = n.log10(f1[1].data['vmax'])
 N_obj = len(Mvir)
@@ -175,69 +119,36 @@ zz = f2[1].data['redshift_R']
 N_halos = len(zz)
 f2.close()
 
-print('opens Universe Machine ')
-um_galaxies = n.fromfile(path_2_universeMachine_file, dtype = dtype_UM)
-
-# A_UV    : UV attenuation (mag)
-# SM      : True stellar mass (Msun)
-# ICL     : True intracluster stellar mass (Msun)
-# SFR     : True star formation rate (Msun/yr)
-# Obs_SM  : observed stellar mass, including random & systematic errors (Msun)
-# Obs_SFR : observed SFR, including random & systematic errors (Msun/yr)
-# Obs_UV  : Observed UV Magnitude (M_1500 AB)
-
-snap_id = um_galaxies['id']
-A_UV    = um_galaxies['A_UV']    
-SM      = um_galaxies['sm']      
-ICL     = um_galaxies['icl']     
-SFR     = um_galaxies['sfr']     
-Obs_SM  = um_galaxies['obs_sm']  
-Obs_SFR = um_galaxies['obs_sfr'] 
-Obs_UV  = um_galaxies['obs_uv']  
-
-print('matches IDs')
-snap_id_sortIDX = n.argsort(snap_id)
-
-# link DM halo ids and UM ids
-uniq_ids = n.unique(f1_id)#.astype('int32')) 
-
-out = n.searchsorted(snap_id[snap_id_sortIDX], uniq_ids)
-# 1st verification: must be true everywhere
-print( len(snap_id[snap_id_sortIDX[out]]), len((snap_id[snap_id_sortIDX[out]]==uniq_ids).nonzero()[0]), snap_id[snap_id_sortIDX[out]]==uniq_ids )
-# extract the indexes ?
-
-id_map = {}
-for ii,jj in zip(uniq_ids, snap_id_sortIDX[out]):
-	id_map[ii]=jj
-
-id_2_UM = n.array([id_map[el] for el in f1_id])
-
-UM_snap_id = snap_id[id_2_UM]
-# 2nd verification: must be true everywhere
-print( len(f1_id), len((f1_id==UM_snap_id).nonzero()[0]), f1_id==UM_snap_id )
-UM_A_UV    = A_UV   [id_2_UM]
-UM_SM      = SM     [id_2_UM]
-UM_ICL     = ICL    [id_2_UM]
-UM_SFR     = SFR    [id_2_UM]
-UM_Obs_UV  = Obs_UV [id_2_UM]
-mass       = Obs_SM [id_2_UM]
-sfr        = Obs_SFR[id_2_UM]
-
-#N_galaxies = len(zz)
-#volume = (cosmo.comoving_volume(n.max(zz)) - cosmo.comoving_volume(n.min(zz))).value
-#print(volume)
+N_galaxies = len(zz)
+volume = (
+    cosmo.comoving_volume(
+        n.max(zz)) -
+    cosmo.comoving_volume(
+        n.min(zz))).value
+print(volume)
 
 # STELLAR MASS
 # Equations 1 of Comparat et al. 2019
 
-# def meanSM(Mh, z): return n.log10(Mh * 2. * (0.0351 - 0.0247 * z / (1. + z)) / ((Mh / (10**(11.79 + 1.5 * z / (1. + z))))** (- 0.9 + 0.5 * z / (1. + z)) + (Mh / (10**(11.79 + 1.5 * z / (1. + z))))**(0.67 + 0.2 * z / (1. + z))))
+def meanSM(Mh, z): return n.log10(Mh * 2. * (0.0351 - 0.0247 * z / (1. + z)) / ((Mh / (10**(11.79 + 1.5 * z / (1. + z))))** (- 0.9 + 0.5 * z / (1. + z)) + (Mh / (10**(11.79 + 1.5 * z / (1. + z))))**(0.67 + 0.2 * z / (1. + z))))
 
-#mean_SM = meanSM(Mvir, zz)
-#rds = norm.rvs(loc=0, scale=0.15, size=N_halos)
-#mass = mean_SM + rds  # fun(mean_SM)
+
+mean_SM = meanSM(Mvir, zz)
+rds = norm.rvs(loc=0, scale=0.15, size=N_halos)
+mass = mean_SM + rds  # fun(mean_SM)
 print('masses', mass[:10], time.time() - t0)
 
+# STAR FORMATION RATE (valid only for star forming galaxies !)
+sfr = n.zeros_like(zz)
+# whitaker et al 2012, Eq. 1,2,3.
+mean_SFR = (0.70 - 0.13 * zz) * (mass - 10.5) + 0.38 + 1.14 * zz - 0.19 * zz**2.
+rds2 = norm.rvs(loc=0, scale=0.34, size=N_halos)
+log_sfr = mean_SFR + rds2
+print('log sfr', log_sfr[:10], time.time() - t0)
+
 # quiescent fraction fitted on COSMOS, Ilbert et al. 2013 v2 catalogue
+
+
 def scatter_Qf(z): return - 0.45 * (1 + z) + 1.54
 
 
@@ -250,57 +161,11 @@ def fraction_Qf(mass, z): return 0.5 + 0.5 * \
 
 rds_Qf = n.random.random(N_obj)
 
-frac = fraction_Qf(n.log10(mass), zz)
+frac = fraction_Qf(mass, zz)
 frac[ zz > 2 ] = 0.
 SF = (rds_Qf > frac)
 QU = (SF == False)
 
-# Hard X-ray emission, after Aird et al. 2018
-def galaxy_lx(redshift, mass, sfr):
-	return 10**(28.81) * (1 + redshift)**(3.9) * mass + \
-        10**(39.5) * (1 + redshift)**(0.67) * sfr**(0.86)
-
-
-gal_LX = galaxy_lx(zz, mass, sfr)
-print('gal_LX', gal_LX[:10])
-
-t = Table()
-t.add_column(Column(name='SMHMR_mass', data=n.log10(mass), unit='log10(Msun)'))
-t.add_column(Column(name='star_formation_rate', data=n.log10(sfr), unit='log10(Msun/yr)'))
-t.add_column(Column(name='is_quiescent', data=QU, unit=''))
-t.add_column(Column(name='LX_hard', data=n.log10(gal_LX), unit='log10(erg/s)'))
-t.add_column(Column(name='mag_abs_r', data=n.zeros_like(mass), unit='mag'))
-t.add_column(Column(name='mag_r', data=n.zeros_like(mass), unit='mag'))
-
-t.add_column(Column(name='UM_A_UV'       , data = UM_A_UV   , unit='mag'))   
-t.add_column(Column(name='UM_True_SM'    , data = UM_SM     , unit='Msun'))     
-t.add_column(Column(name='UM_ICL_mass'   , data = UM_ICL    , unit='Msun'))    
-t.add_column(Column(name='UM_True_SFR'   , data = UM_SFR    , unit='Msun/yr'))    
-t.add_column(Column(name='UM_Obs_UV'     , data = UM_Obs_UV , unit='mag')) 
-
-# A_UV: UV attenuation (mag)
-# SM: True stellar mass (Msun)
-# ICL: True intracluster stellar mass (Msun)
-# SFR: True star formation rate (Msun/yr)
-# Obs_SM: observed stellar mass, including random & systematic errors (Msun)
-# Obs_SFR: observed SFR, including random & systematic errors (Msun/yr)
-# Obs_UV: Observed UV Magnitude (M_1500 AB)
-
-
-t.write(path_2_galaxy_file, overwrite=True)
-print('done', time.time() - t0, 's')
-
-"""
-# STAR FORMATION RATE (valid only for star forming galaxies !)
-sfr = n.zeros_like(zz)
-# whitaker et al 2012, Eq. 1,2,3.
-mean_SFR = (0.70 - 0.13 * zz) * (mass - 10.5) + 0.38 + 1.14 * zz - 0.19 * zz**2.
-rds2 = norm.rvs(loc=0, scale=0.34, size=N_halos)
-log_sfr = mean_SFR + rds2
-print('log sfr', log_sfr[:10], time.time() - t0)
-"""
-
-"""
 # mass-SFR sequence for the quiescent
 sfr_Q = n.zeros_like(zz)
 
@@ -327,7 +192,17 @@ print('N QU, log SFR[:10]', len(log_sfr[QU]),
       log_sfr[QU][:10], time.time() - t0)
 print('N SF, log SFR[:10]', len(log_sfr[SF]),
       log_sfr[SF][:10], time.time() - t0)
-"""
+
+# Hard X-ray emission, after Aird et al. 2018
+
+
+def galaxy_lx(redshift, mass, sfr):
+	return 10**(28.81) * (1 + redshift)**(3.9) * mass + \
+        10**(39.5) * (1 + redshift)**(0.67) * sfr**(0.86)
+
+
+gal_LX = galaxy_lx(zz, 10**mass, 10**log_sfr)
+print('gal_LX', gal_LX[:10])
 
 """
 # galaxy LF abundance matching to Loveday et al. 2016
@@ -390,7 +265,17 @@ dm_exp = -2.5*n.log10(f_14_exp(radius))
 fiber_mag = rmag + dm_exp
 """
 
-"""
+t = Table()
+t.add_column(Column(name='SMHMR_mass', data=mass, unit='log10(Msun)'))
+t.add_column(Column(name='star_formation_rate', data=log_sfr, unit='log10(Msun/yr)'))
+t.add_column(Column(name='is_quiescent', data=QU, unit=''))
+t.add_column(Column(name='LX_hard', data=n.log10(gal_LX), unit='log10(erg/s)'))
+t.add_column(Column(name='mag_abs_r', data=n.zeros_like(mass), unit='mag'))
+t.add_column(Column(name='mag_r', data=n.zeros_like(mass), unit='mag'))
+
+t.write(path_2_galaxy_file, overwrite=True)
+print('done', time.time() - t0, 's')
+
 ### Option: FIGURES ###
 if make_figure:
 	import matplotlib
@@ -583,4 +468,3 @@ if make_figure:
 	p.grid()
 	p.savefig(fig_out)
 	p.clf()
-"""

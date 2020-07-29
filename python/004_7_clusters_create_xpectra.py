@@ -26,6 +26,7 @@ import xspec
 import time, os, sys, glob, numpy, astropy, scipy, matplotlib
 
 """
+import xspec
 import sys
 import os
 import time
@@ -43,14 +44,18 @@ t0 = time.time()
 env = sys.argv[1]  # 'MD04'
 
 # simulation setup
-if env == "MD10" or env == "MD04":
+if env[:2] == "MD" : # env == "MD04" or env == "MD40" or env == "MD10" or env == "MD25"
+    from astropy.cosmology import FlatLambdaCDM
+    import astropy.units as u
     cosmoMD = FlatLambdaCDM(
         H0=67.77 * u.km / u.s / u.Mpc,
         Om0=0.307115)  # , Ob0=0.048206)
     h = 0.6777
     L_box = 1000.0 / h
     cosmo = cosmoMD
-if env == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "UNIT_fA2_DIR":
+if env[:4] == "UNIT" : # == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "UNIT_fA2_DIR":
+    from astropy.cosmology import FlatLambdaCDM
+    import astropy.units as u
     cosmoUNIT = FlatLambdaCDM(H0=67.74 * u.km / u.s / u.Mpc, Om0=0.308900)
     h = 0.6774
     L_box = 1000.0 / h
@@ -68,9 +73,13 @@ if os.path.isdir(dir_2_eRO_all) == False:
 
 
 # NOW links to the grid of SPECTRA
-
-kt_arr = n.array([0.2, 0.5, 1.0, 2.0, 4.0, 8.0, 10.0])
-z_arr = n.hstack((n.array([0., 0.05]), n.arange(0.1, 1.6, 0.1)))
+# 0.01 bins for athena
+# 0.05 bins for athena
+# 0.2 bins for erosita
+# kt_arr = n.array([0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.5, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])
+# z_arr = n.hstack((n.array([0., 0.05]), n.arange(0.1, 4., 0.1)))
+kt_arr = 10**n.arange(-1,1.3,0.01)
+z_arr = n.hstack((n.array([0., 0.01]), 10**n.arange(n.log10(0.02), n.log10(4.), 0.01)))
 
 kt_arrays, z_arrays = n.meshgrid(kt_arr, z_arr)
 
@@ -80,7 +89,8 @@ z_array = n.hstack((z_arrays))
 xspec.Xset.cosmo = str(cosmo.H0.value) + " " + str(cosmo.Ode0)
 
 metal_abundance = 0.3
-d_kev = 0.05
+d_kev = 0.01
+#kevs = 10**n.arange(-1., n.log10(50), d_kev)
 norm1 = 1.
 
 
@@ -113,8 +123,8 @@ def get_spectrum(
 
 def create_fits_file_spectrum(outfile, energies, flux_density):
     n_values = str(len(energies))
-    print energies.shape, flux_density.shape
-    print n.array([energies], dtype='float')
+    print( energies.shape, flux_density.shape)
+    print( n.array([energies], dtype='float'))
     col1 = fits.Column(
         name='ENERGY',
         unit='keV',
@@ -139,11 +149,9 @@ def create_fits_file_spectrum(outfile, energies, flux_density):
 
 
 for shell_id, (temperature, redshift) in enumerate(zip(kt_array, z_array)):
-    energies, y, nP, dE = get_spectrum(
-        temperature, redshift, metal_abundance=metal_abundance, norm1=norm1, d_kev=d_kev)
+    energies, y, nP, dE = get_spectrum(temperature, redshift, metal_abundance=metal_abundance, norm1=norm1, d_kev=d_kev)
     average_flux = y / dE
     # writes
-    out_name = os.path.join(dir_2_eRO_all, 'cluster_spectrum_10kT_' + str(int(
-        temperature * 10)).zfill(4) + '_100z_' + str(int(redshift * 100)).zfill(4) + '.fits')
-    print out_name
+    out_name = os.path.join(dir_2_eRO_all, 'cluster_spectrum_10000kT_' + str(int(temperature * 10000)).zfill(7) + '_10000z_' + str(int(redshift * 10000)).zfill(7) + '.fits')
+    print( out_name )
     create_fits_file_spectrum(out_name, energies, average_flux)

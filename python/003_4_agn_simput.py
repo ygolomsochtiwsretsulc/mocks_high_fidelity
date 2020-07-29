@@ -41,6 +41,7 @@ env = sys.argv[1]  # 'MD04'
 #f_sat = float(sys.argv[2])  # 0.2
 #laptop = sys.argv[3]
 print(sys.argv) # env, f_sat) #, laptop)
+FX_LIM_value_cen = float(sys.argv[2]) # 2e-17
 
 stilts_cmd = 'stilts'
 
@@ -48,8 +49,10 @@ root_dir = os.path.join(os.environ[env])
 
 dir_2_eRO_all = os.path.join(root_dir, "cat_AGN_all")
 #dir_2_eRO_sat = os.path.join(root_dir, "cat_AGN_sat")
-
-dir_2_SMPT = os.path.join(root_dir, "cat_AGN_SIMPUT")
+if FX_LIM_value_cen>=9e-18:
+	dir_2_SMPT = os.path.join(root_dir, "cat_AGN_SIMPUT")
+else:
+	dir_2_SMPT = os.path.join(root_dir, "cat_AGN_SIMPUT_deep")
 
 if os.path.isdir(dir_2_SMPT) == False:
     os.system('mkdir -p ' + dir_2_SMPT)
@@ -92,8 +95,7 @@ for HEALPIX_id in n.arange(N_pixels):
 	# cen
 	#hp512cen = healpy.ang2pix(NSIDE512, n.pi /2. -agn_hdus_i[1].data['g_lat'] *n.pi /180., agn_hdus_i[1].data['g_lon']*n.pi /180., nest=True)
 	#FX_LIM_value_cen = 10**(FX_LIM[hp512cen]-2)
-	FX_LIM_value_cen = 2e-17 
-	detected_all = (hd_all[1].data['AGN_FX_soft'] > FX_LIM_value_cen)
+	detected_all = (hd_all[1].data['FX_soft_attenuated'] > FX_LIM_value_cen)
 	# sat
 	#hp512sat = healpy.ang2pix(
 		#NSIDE512,
@@ -102,7 +104,7 @@ for HEALPIX_id in n.arange(N_pixels):
 		#nest=True,
 		#lonlat=True)
 	#FX_LIM_value_sat = 10**FX_LIM[hp512sat]
-	#detected_sat = (hd_sat[1].data['AGN_FX_soft'] > FX_LIM_value_sat)
+	#detected_sat = (hd_sat[1].data['FX_soft_attenuated'] > FX_LIM_value_sat)
 
 	# overall selection of central and satellites
 	sel_all = (detected_all) #  (rd_all < 1 - f_sat) &
@@ -113,7 +115,7 @@ for HEALPIX_id in n.arange(N_pixels):
 	data_indexes = indexes_all[sel_all] # n.hstack((indexes_all[sel_all], indexes_sat[sel_sat]))
 	# indexes_all
 	# NH
-	data_nh = hd_all[1].data['AGN_Nh'][sel_all] # n.hstack((hd_all[1].data['AGN_Nh'][sel_all], hd_sat[1].data['AGN_Nh'][sel_sat]))
+	data_nh = hd_all[1].data['logNH'][sel_all] # n.hstack((hd_all[1].data['AGN_Nh'][sel_all], hd_sat[1].data['AGN_Nh'][sel_sat]))
 	data_nh = (data_nh * 5).astype('int') / 5.
 	data_nh[data_nh < 20.] = 20.0
 	data_nh[data_nh > 26.] = 26.0
@@ -127,7 +129,7 @@ for HEALPIX_id in n.arange(N_pixels):
 	n_total = int(512e6)  # /(1.1*N_pixels))
 	n_allowed = (n_total / n_e_bins).astype('int')[::-1] - 100
 
-	FX_array = hd_all[1].data['AGN_FX_soft'][sel_all] # n.hstack(        (hd_all[1].data['AGN_FX_soft'][sel_all],         hd_sat[1].data['AGN_FX_soft'][sel_sat]))
+	FX_array = hd_all[1].data['FX_soft_attenuated'][sel_all] # n.hstack(        (hd_all[1].data['FX_soft_attenuated'][sel_all],         hd_sat[1].data['FX_soft_attenuated'][sel_sat]))
 
 	fbins = n.arange(-n.log10(FX_array).max() - 0.1, -
 						n.log10(FX_array).min() + 0.1, 0.01)
@@ -145,8 +147,7 @@ for HEALPIX_id in n.arange(N_pixels):
 
 	data_n_e_b = (n.ones(len(data_z)) * n_e_bins[-1]).astype('int')
 
-	for jj, (f_min, f_max) in enumerate(
-			zip(FX_boundaries[:-1], FX_boundaries[1:])):
+	for jj, (f_min, f_max) in enumerate(zip(FX_boundaries[:-1], FX_boundaries[1:])):
 		selection = (n.log10(FX_array) <= f_min) & (n.log10(FX_array) >= f_max)
 		n_e_val = n_e_bins[::-1][jj]
 		data_n_e_b[selection] = n_e_val
@@ -201,8 +202,10 @@ for HEALPIX_id in n.arange(N_pixels):
 		os.system("rm " + path_2_SMPT_catalog)
 	outf.writeto(path_2_SMPT_catalog, overwrite=True)
 	print(path_2_SMPT_catalog, 'written', time.time() - t0)
-
-	for neb in n_e_bins[::-1][:1]:
+	
+	nebmin_to_nmax = {1024: 1, 512: 2, 256: 3}
+	nebmin_to_nmax_val = nebmin_to_nmax[n.min(data_n_e_b)]
+	for neb in n_e_bins[::-1][:nebmin_to_nmax_val]:
 		path_2_SMPT_catalog_slice = os.path.join(
 			dir_2_SMPT,
 			'SIMPUT_' +

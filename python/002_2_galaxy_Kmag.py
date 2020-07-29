@@ -44,7 +44,8 @@ t0 = time.time()
 # import all pathes
 
 env = sys.argv[1]  # 'MD04'
-print(env)
+HEALPIX_id = int(sys.argv[2])
+print(env, HEALPIX_id)
 
 root_dir = os.path.join(os.environ[env])
 plotDir = os.path.join(os.environ['GIT_AGN_MOCK'], 'data', 'logMs-MK-fits')
@@ -148,18 +149,19 @@ def add_kmag(HEALPIX_id):
 
 	t_gal = Table.read(path_2_GAL)
 	if 'K_mag_abs' not in t_gal.columns:
-		t_gal.add_column(Column(name='K_mag_abs', data=n.zeros_like(t_gal['galaxy_stellar_mass'].data), unit='mag'))
+		t_gal.add_column(Column(name='K_mag_abs', data=n.zeros_like(t_gal['galaxy_SMHMR_mass'].data), unit='mag'))
 
 	for zmin, zmax, p_b in zip(z0, z1, b0):
 		#print(zmin, zmax, p_b)
 		s_gal  = (t_gal['redshift_R']>=zmin)  & (t_gal['redshift_R']<=zmax) 
 		mag = lambda x : fun( x, p_b)
-		t_gal ['K_mag_abs'][s_gal]  = mag(t_gal ['galaxy_stellar_mass'][s_gal])
+		t_gal ['K_mag_abs'][s_gal]  = mag(t_gal ['galaxy_SMHMR_mass'][s_gal])
 
 	t_gal ['K_mag_abs']+=norm.rvs(loc=0, scale=0.15, size=len(t_gal['redshift_R']))
 	t_gal.write  (path_2_GAL   , overwrite=True)
 
-N_pixels = healpy.nside2npix(8)
-for HEALPIX_id in n.arange(N_pixels):
-	print(HEALPIX_id, time.time()-t0)
-	add_kmag(HEALPIX_id)
+#N_pixels = healpy.nside2npix(8)
+#for HEALPIX_id in n.arange(N_pixels):
+
+print(HEALPIX_id, time.time()-t0)
+add_kmag(HEALPIX_id)

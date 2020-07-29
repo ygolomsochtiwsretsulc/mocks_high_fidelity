@@ -1,9 +1,3 @@
-"""
-export GIT_AGN_MOCK='/home/comparat/software/lss_mock_dev/'
-export GIT_XPAINT='/home/comparat/software/XSB_Painting'
-
-
-"""
 import glob
 import sys
 import os
@@ -12,15 +6,12 @@ import time
 t0 = time.time()
 
 env =  sys.argv[1]  # 'MD10'
-ftyp =  sys.argv[2]  # 'all' or 'sat'
+ftyp = 'all' # or 'sat'
 
 test_dir = os.path.join(os.environ[env], 'fits')
 
 z_min = 0.0
-if env == 'MD04':
-	z_max = 0.45
-else:
-	z_max = 6.1
+z_max = 6.1
 
 lss_git_dir = os.path.join(os.environ['GIT_AGN_MOCK'], 'python')
 lss_fig_git_dir = os.path.join(os.environ['GIT_AGN_MOCK'], 'python', 'figures')
@@ -57,15 +48,15 @@ def run_all_gal(env, baseName):
 	path_2_galaxy_file = os.path.join(test_dir, baseName + '_galaxy.fits')
 	os.chdir(lss_git_dir)
 	if os.path.isfile(path_2_coordinate_file)==False:
-		print('coordinates + galaxies', env, baseName, time.time() - t0)
+		#print('coordinates + galaxies', env, baseName, time.time() - t0)
 		# Adds sky coordinates + redshift distances
 		command = "python3 001_coordinates.py " + env + ' ' + baseName
-		print(command)
+		print("nohup "+command+" > logs/"+env+'_'+baseName+'001_0_coord.log'+" &")
 		os.system(command)
 	if os.path.isfile(path_2_galaxy_file)==False:
 		# Adds galaxy properties
 		command = "python3 002_0_galaxy.py " + env + ' ' + baseName
-		print(command)
+		print("nohup "+command+" > logs/"+env+'_'+baseName+'002_0_galaxy.log'+" &")
 		os.system(command)
 
 def run_both(env, baseName):
@@ -76,6 +67,17 @@ def run_both(env, baseName):
 	print(command)
 	os.system(command)		# Adds galaxy properties
 	command = "python3 002_0_galaxy.py " + env + ' ' + baseName
+	print(command)
+	os.system(command)
+
+def run_both_galaxy_v0(env, baseName):
+	os.chdir(lss_git_dir)
+	print('coordinates + galaxies', env, baseName, time.time() - t0)
+	# Adds sky coordinates + redshift distances
+	command = "python3 001_coordinates.py " + env + ' ' + baseName
+	print(command)
+	os.system(command)		# Adds galaxy properties
+	command = "python3 002_0_galaxy_v0.py " + env + ' ' + baseName
 	print(command)
 	os.system(command)
 	
@@ -95,8 +97,8 @@ def plot_stellar_mass(env, baseName):
 	os.system(command)
 
 for bn in baseNames[::-1]:
-	print(env, bn)
-	#run_all_coord(env, bn)
-	run_all_gal(env, bn)
+	#print(env, bn)
+	run_both_galaxy_v0(env, bn)
+	#run_all_gal(env, bn)
 	#run_gal_only(env, bn)
 	#plot_stellar_mass(env, bn)

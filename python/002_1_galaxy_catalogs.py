@@ -73,39 +73,39 @@ if env[:4] == "UNIT" : # == "UNIT_fA1_DIR" or env == "UNIT_fA1i_DIR" or env == "
     cosmo = cosmoUNIT
 
 
-f1 = fits.open(path_2_light_cone)
-Mvir = f1[1].data['Mvir'] / h
-M500c = f1[1].data['M500c'] / h
-halo_id = f1[1].data['id']
+f0 = fits.open(path_2_light_cone)
+#Mvir = f0[1].data['Mvir'] / h
+#M500c = f0[1].data['M500c'] / h
+#halo_id = f0[1].data['id']
 #if os.path.basename(path_2_light_cone)[:3] == 'sat':
-halo_host_id = f1[1].data['pid']
+#halo_host_id = f0[1].data['pid']
 #else:
 #	halo_host_id = -n.ones_like(halo_id).astype('int')
-f1.close()
+#f0.close()
 print('halo file opened', time.time() - t0)
 
 f1 = fits.open(path_2_galaxy_file)
-galaxy_stellar_mass = f1[1].data['SMHMR_mass']
-galaxy_star_formation_rate = f1[1].data['star_formation_rate']
-galaxy_LX_hard = f1[1].data['LX_hard']
-galaxy_mag_r = f1[1].data['mag_r']
-f1.close()
+#galaxy_stellar_mass = f1[1].data['SMHMR_mass']
+#galaxy_star_formation_rate = f1[1].data['star_formation_rate']
+#galaxy_LX_hard = f1[1].data['LX_hard']
+#galaxy_mag_r = f1[1].data['mag_r']
+#f1.close()
 print('galaxy file opened', time.time() - t0)
 
 f2 = fits.open(path_2_coordinate_file)
 ra = f2[1].data['ra']
 dec = f2[1].data['dec']
-zzr = f2[1].data['redshift_R']
-zzs = f2[1].data['redshift_S']
-dL_cm = f2[1].data['dL']
-galactic_NH = f2[1].data['nH']
-galactic_ebv = f2[1].data['ebv']
-g_lat = f2[1].data['g_lat']
-g_lon = f2[1].data['g_lon']
-ecl_lat = f2[1].data['ecl_lat']
-ecl_lon = f2[1].data['ecl_lon']
-N_galaxies = len(zzr)
-f2.close()
+#zzr = f2[1].data['redshift_R']
+#zzs = f2[1].data['redshift_S']
+#dL_cm = f2[1].data['dL']
+#galactic_NH = f2[1].data['nH']
+#galactic_ebv = f2[1].data['ebv']
+#g_lat = f2[1].data['g_lat']
+#g_lon = f2[1].data['g_lon']
+#ecl_lat = f2[1].data['ecl_lat']
+#ecl_lon = f2[1].data['ecl_lon']
+#N_galaxies = len(zzr)
+#f2.close()
 print('coordinate file opened', time.time() - t0)
 
 HEALPIX_8 = healpy.ang2pix(8, n.pi/2. - dec*n.pi/180. , ra*n.pi/180. , nest=True)
@@ -122,32 +122,23 @@ for HEALPIX_8_id in n.arange(healpy.nside2npix(8)):
 		##
 		# Coordinates
 		##
-		t.add_column(Column(name="ra", format='D', unit='deg', data=ra[sf])) 
-		t.add_column(Column(name="dec", format='D', unit='deg', data=dec[sf])) 
-		t.add_column(Column(name="g_lat", format='D', unit='deg', data=g_lat[sf])) 
-		t.add_column(Column(name="g_lon", format='D', unit='deg', data=g_lon[sf])) 
-		t.add_column(Column(name="ecl_lat", format='D', unit='deg', data=ecl_lat[sf])) 
-		t.add_column(Column(name="ecl_lon", format='D', unit='deg', data=ecl_lon[sf]))   
+		for col_name, unit_val in zip(f2[1].data.columns.names, f2[1].data.columns.units):
+			t.add_column(Column(name=col_name, data=f2[1].data[col_name][sf], unit=unit_val,dtype=n.float32 ) )
 		##
-		# distances
-		# extinction maps
-		# Galaxy properties
+		# Galaxy
 		##
-		t.add_column(Column(name="redshift_R", format='D', unit='real space', data=zzr[sf])) 
-		t.add_column(Column(name="redshift_S", format='D', unit='redshift space', data=zzs[sf])) 
-		t.add_column(Column(name="dL_cm", format='D', unit='cm', data=dL_cm[sf]))
-		t.add_column(Column(name="galactic_NH", format='D', unit='cm-2', data=galactic_NH[sf]))
-		t.add_column(Column(name="galactic_ebv", format='D', unit='mag', data=galactic_ebv[sf]))
-		t.add_column(Column(name="galaxy_stellar_mass", format='D', unit='log10(M/[M_sun])', data=galaxy_stellar_mass[sf])) 
-		t.add_column(Column(name="galaxy_star_formation_rate", format='D', unit='log10(SFR/[M_sun/year])', data=galaxy_star_formation_rate[sf]))
-		t.add_column(Column(name="galaxy_LX_hard", format='D', unit='log10(LX (2-10keV)/[erg/s])', data=galaxy_LX_hard[sf])) 
-		t.add_column(Column(name="galaxy_mag_r", format='D', unit='mag', data=galaxy_mag_r[sf])) 
+		for col_name, unit_val in zip(f1[1].data.columns.names, f1[1].data.columns.units):
+			t.add_column(Column(name='galaxy_'+col_name, data=f1[1].data[col_name][sf], unit=unit_val, dtype=n.float32 ) )
 		##
-		# Dark matter halo
-		##                                                                                           
-		t.add_column(Column(name="HALO_M500c", format='D', unit='log10(M/[M_sun])', data=n.log10(M500c[sf]) )) 
-		t.add_column(Column(name="HALO_Mvir", format='D', unit='log10(M/[M_sun])', data=n.log10(Mvir[sf]))) 
-		t.add_column(Column(name="HALO_halo_id", format='K', unit='', data=halo_id[sf]))
-		t.add_column(Column(name="HALO_pid", format='K', unit='', data=halo_host_id[sf]))
+		# HALO
+		##
+		for col_name, unit_val in zip(f0[1].data.columns.names, f0[1].data.columns.units):
+			if col_name == 'Mvir' or col_name == 'M200c' or col_name == 'M500c':
+				t.add_column(Column(name='HALO_'+col_name, data=f0[1].data[col_name][sf]/h, unit=unit_val, dtype=n.float32 ) )
+			elif col_name == 'id' or col_name == 'pid' :
+				t.add_column(Column(name='HALO_'+col_name, data=f0[1].data[col_name][sf], unit=unit_val, dtype=n.int64 ) )
+			else:
+				t.add_column(Column(name='HALO_'+col_name, data=f0[1].data[col_name][sf], unit=unit_val, dtype=n.float32 ) )
 		# writes
 		t.write(path_2_eRO_catalog, overwrite=True)
+
