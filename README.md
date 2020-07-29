@@ -5,19 +5,23 @@ Creation of high fidelity eROSITA mock catalogs (AGN, clusters and galaxies). Pi
 
 ### Code 
 
-python3: time, os, sys, numpy, scipy, astropy, h5py, extinction, dustmaps, matplotlib, astropy_healpix, healpy, sklearn
+Dependencies:
+ * python3: time, os, sys, numpy, scipy, astropy, h5py, extinction, dustmaps, matplotlib, astropy_healpix, healpy, sklearn
+ * stilts/topcat
+ * gawk 
+ 
+directory `DM_LC' 
+ * from halo lists, creates the light cone shells over the full sky 
+ 
+directory `python' contains a pipeline split in four main steps: 
+ * 001: coordinates
+ * 002: galaxy properties
+ * 003: AGN properties
+ * 004: cluster properties
 
-stilts/topcat
-
+Follow readme files to understand the order of execution. 
+ 
 ### Files 
-
-sdss depth maps available here: http://risa.stanford.edu/redmapper/
-to be placed or linked in 
-data/sdss_depth/
-sdss_dr8_nodered_nside2048_g_model_10sigma.fits.gz  
-sdss_dr8_nodered_nside2048_i_model_10sigma.fits.gz  
-sdss_dr8_nodered_nside2048_r_model_10sigma.fits.gz  
-sdss_dr8_nodered_nside2048_z_model_10sigma.fits.gz
 
 erosita flux limit map available here: http://www.mpe.mpg.de/~comparat/eROSITA_AGN_mock/catalogs/erosita/flux_limits.fits
 to be placed or linked in data/erosita/flux_limits.fits
@@ -35,31 +39,5 @@ UNIT :
 
 The generated mock catalogs are available here :
 
-http://www.mpe.mpg.de/~comparat/MultiDark/MD10/
-
-Two figures illustrate the multiple tracers in the redshift vs stellar mass or fiber magnitude:
-
-figures/fibermagnitude-redshift.png  
-
-figures/stellarMass-redshift.png
-
-The MASK_BIT column is defined as follows :
-
- 'des': 0,
- 'kidss': 1,
- 'kidsn': 2,
- 'atlassgcnotdes': 3,
- 'atlasngc': 4,
- 'kabs': 5,
- 'vhsb10': 6,
- 'vhsb15': 7,
- 'vhsb20': 8,
- 'vhsb20clean': 9,
- 'desi': 10,
- 'erosita': 11,
- 'waveswide': 12,
- 'euclid': 13,
- 's8elg': 14,
- 's8': 15
-
+http://www.mpe.mpg.de/~comparat/MultiDark/MDPL2/
 
