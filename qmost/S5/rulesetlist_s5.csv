@@ -1,3 +1,0 @@
-RULESET_NAME;REQ_VALUE;EXPRESSION
-RedGAL;1.0;(Elliptical >= 3.)
-ClusBCG;1.0;(Elliptical >= 10.)
